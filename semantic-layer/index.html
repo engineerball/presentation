@@ -345,72 +345,213 @@
         </div>
       </section>
 
-      <!-- Slide 15: Example - dbt metrics -->
+      <!-- Slide 15: dbt+BigQuery — Data Models -->
       <section id="example-dbt">
-        <h2>Example: dbt Semantic Layer (dbt metrics)</h2>
+        <h2>Case Study: E-Commerce with dbt + BigQuery</h2>
         <div class="content">
-          <p class="text-muted">YAML-based metric definitions in your dbt project — version-controlled alongside models:</p>
-          <pre><code># dbt_project/models/metrics/revenue.yml
-metrics:
-  - name: monthly_recurring_revenue
-    label: Monthly Recurring Revenue
-    description: Sum of recurring subscription revenue for active contracts
-    filter: "{{ Dimension('contracts.is_active') }} = true"
+          <p class="text-muted">Scenario: An e-commerce company uses BigQuery as warehouse, dbt for transformations. They need consistent metrics across Looker (marketing), Excel (finance), and a customer-facing dashboard.</p>
+          <h3 style="font-size:22pt;margin-top:18px;">Step 1: dbt Models in BigQuery</h3>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:10px;">
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-table"></i> <code>fct_orders</code></p>
+              <table style="font-size:12pt;"><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+              <tr><td><code>order_id</code></td><td>STRING</td></tr>
+              <tr><td><code>customer_id</code></td><td>STRING</td></tr>
+              <tr><td><code>order_date</code></td><td>DATE</td></tr>
+              <tr><td><code>order_total</code></td><td>NUMERIC</td></tr>
+              <tr><td><code>payment_status</code></td><td>STRING</td></tr>
+              <tr><td><code>country</code></td><td>STRING</td></tr>
+              </tbody></table>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-table"></i> <code>fct_subscriptions</code></p>
+              <table style="font-size:12pt;"><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+              <tr><td><code>subscription_id</code></td><td>STRING</td></tr>
+              <tr><td><code>customer_id</code></td><td>STRING</td></tr>
+              <tr><td><code>mrr_month</code></td><td>DATE</td></tr>
+              <tr><td><code>mrr_amount</code></td><td>NUMERIC</td></tr>
+              <tr><td><code>subscription_status</code></td><td>STRING</td></tr>
+              <tr><td><code>plan_type</code></td><td>STRING</td></tr>
+              </tbody></table>
+            </div>
+          </div>
+          <p class="text-muted text-small mt-1">One row per order / one row per customer-month. Clean analytics-ready tables from raw staging.</p>
+        </div>
+      </section>
+
+      <!-- Slide 16: Semantic Models YAML -->
+      <section id="semantic-models">
+        <h2>Step 2: Define Semantic Models</h2>
+        <div class="content">
+          <p class="text-muted">Map BigQuery tables to business entities with measures and dimensions:</p>
+          <pre><code># models/marts/ecommerce_metrics.yml
+version: 2
+
+semantic_models:
+  - name: orders
+    description: "E-commerce order transactions."
+    model: ref('fct_orders')
+    defaults:
+      agg_time_dimension: order_date
+
+    measures:
+      - name: order_total
+        agg: sum
+        expr: order_total
+      - name: completed_orders
+        agg: count
+        expr: order_id
+        filters:
+          - field: payment_status
+            operator: '='
+            value: "'completed'"
+
+    dimensions:
+      - name: order_date
+        type: time
+        type_params: { time_granularity: day }
+      - name: customer_id, country
+        type: categorical</code></pre>
+          <p class="text-muted text-small mt-1">The semantic model maps physical BigQuery columns → business measures + dimensions. Filters (e.g., "completed only") are baked in.</p>
+        </div>
+      </section>
+
+      <!-- Slide 17: Metrics YAML -->
+      <section id="metrics-definition">
+        <h2>Step 3: Define the Metrics</h2>
+        <div class="content">
+          <p class="text-muted">Reusable, version-controlled metric definitions — the single source of truth:</p>
+          <pre><code>metrics:
+  - name: total_revenue
+    label: "Total Revenue"
+    description: "Sum of all completed order amounts."
     type: simple
     type_params:
-      measure: contract_revenue
-    time_granularity: month
+      measure: order_total
 
-  - name: mrr_yoy_growth
-    label: MRR YoY Growth
-    description: % change in MRR compared to the same month last year
-    type: derived
+  - name: average_order_value
+    label: "AOV"
+    description: "Average value of a completed order."
+    type: ratio
     type_params:
-      expression: "{{ Metric('monthly_recurring_revenue') }} / {{ Metric('monthly_recurring_revenue', previous=True) }} - 1"</code></pre>
+      numerator: order_total
+      denominator: completed_orders
+
+  - name: monthly_recurring_revenue
+    label: "MRR"
+    description: "Total active subscription MRR."
+    type: simple
+    type_params:
+      measure: mrr_amount
+    filters:
+      - field: subscription_status
+        operator: '='
+        value: "'active'"</code></pre>
           <div class="success-box mt-1">
-            <p class="text-small"><strong>CI/CD integration:</strong> dbt test → dbt build → metric validation PR — same workflow as data transformations.</p>
+            <p class="text-small"><strong>Three metric types:</strong> <code>simple</code> (direct aggregation), <code>ratio</code> (numerator / denominator), <code>derived</code> (expression combining other metrics)</p>
           </div>
         </div>
       </section>
 
-      <!-- Slide 16: Example - Cube.js -->
-      <section id="example-cube">
-        <h2>Example: Cube.js (YAML / TypeScript)</h2>
-        <div class="content">
-          <p class="text-muted">Headless semantic layer — defines data model, pre-aggregations, and serves all consumers via REST/GraphQL:</p>
-          <pre><code># schema/Orders.yaml
-cubes:
-  Orders:
-    sql: SELECT * FROM orders
+      <!-- Slide 18: Query Flow -->
+      <section id="bq-query-flow">
+        <h2>Step 4: How It Works — From Request to BigQuery</h2>
+        <div class="content mt-1">
+          <p class="text-muted">Business user asks: <strong>"Total Revenue by country, last quarter"</strong> via Looker:</p>
+          <div class="step mt-2"><span class="step-num">1</span>
+            <div class="step-text"><strong>Looker sends request</strong> to dbt SL API (GraphQL / JDBC):<br><code style="color:var(--primary-color);">get_metrics(metrics=['total_revenue'], group_by=['country'], where="order_date &gt;= '2026-01-01'")</code></div>
+          </div>
+          <div class="step"><span class="step-num">2</span>
+            <div class="step-text"><strong>MetricFlow compiles</strong> → resolves <code>total_revenue</code> → sum(order_total) from <code>fct_orders</code>, adds WHERE payment_status = 'completed'</div>
+          </div>
+          <div class="step"><span class="step-num">3</span>
+            <div class="step-text"><strong>Generates optimized BigQuery SQL:</strong></div>
+          </div>
+          <pre style="margin-top:8px;"><code>SELECT country, SUM(order_total) AS total_revenue
+FROM `project.dataset.fct_orders`
+WHERE payment_status = 'completed'
+  AND order_date &gt;= '2026-01-01'
+GROUP BY country</code></pre>
+          <div class="step"><span class="step-num">4</span>
+            <div class="step-text"><strong>BigQuery executes</strong> → leverages partition pruning on <code>order_date</code>, returns results to Looker</div>
+          </div>
+        </div>
+      </section>
 
-    measures:
-      total_revenue:
-        sql: "{amount}"
-        type: sum
-      recurring_revenue:
-        sql: "{amount}"
-        type: sum
-        filters:
-          - sql: "{contract_type} = 'recurring'"
+      <!-- Slide 19: Multi-tool consumption -->
+      <section id="multi-tool">
+        <h2>One Definition, Many Consumers</h2>
+        <div class="content mt-1">
+          <p class="text-muted">The same <code>total_revenue</code> metric, queried from different tools — identical result every time:</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px;">
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-chart-pie"></i> Looker (Marketing)</p>
+              <p class="text-small text-muted">Revenue by campaign, channel, and geo — auto-generated charts</p>
+              <p class="text-small" style="color:var(--text-color);"><code>dbt SL → GraphQL → Looker</code></p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-file-excel"></i> Excel (Finance)</p>
+              <p class="text-small text-muted">Monthly revenue trend with YoY comparison — pivot tables</p>
+              <p class="text-small" style="color:var(--text-color);"><code>dbt SL → JDBC → Excel connector</code></p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-globe"></i> Customer Dashboard</p>
+              <p class="text-small text-muted">Total order count + revenue per customer — REST API</p>
+              <p class="text-small" style="color:var(--text-color);"><code>dbt SL → REST API → Next.js app</code></p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-robot"></i> AI Chatbot</p>
+              <p class="text-small text-muted">"What was our revenue last Q?" → grounded metric → no hallucination</p>
+              <p class="text-small" style="color:var(--text-color);"><code>LLM → dbt SL API → governed answer</code></p>
+            </div>
+          </div>
+          <div class="highlight-box mt-2">
+            <p class="text-small"><i class="fa-solid fa-check-double"></i>&nbsp; Same metric, same number, every time — regardless of tool. This is the entire point of the semantic layer.</p>
+          </div>
+        </div>
+      </section>
 
-    dimensions:
-      status: { sql: "status", type: string }
-      created_at: { sql: "created_at", type: time }
-
-    preAggregations:
-      main:
-        type: rollup
-        measureReferences: [total_revenue]
-        dimensionReferences: [status]
-        timeDimensionReference: created_at
-        granularity: month</code></pre>
-          <p class="text-muted text-small mt-1">Pre-aggregations defined declaratively — Cube pre-computes and refreshes them automatically.</p>
+      <!-- Slide 20: Pre-aggregation -->
+      <section id="example-preagg">
+        <h2>Pre-aggregation in Production</h2>
+        <div class="content mt-1">
+          <p class="text-muted">With 50M+ orders, scanning <code>fct_orders</code> for every query is too expensive. Pre-aggregate common patterns:</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:12px;">
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-asterisk"></i> Pre-agg #1: Revenue by Month × Country</p>
+              <pre style="margin:8px 0;"><code>CREATE TABLE mart_agg.revenue_month_country
+AS
+SELECT
+  DATE_TRUNC(order_date, MONTH) AS order_month,
+  country,
+  SUM(order_total) AS revenue,
+  COUNT(order_id) AS order_count
+FROM `dataset.fct_orders`
+WHERE payment_status = 'completed'
+GROUP BY 1, 2</code></pre>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-gauge"></i> Impact</p>
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px;">
+                <div class="stat-box">
+                  <span class="stat-number text-small" style="color:var(--danger-color);font-size:16pt;">50M rows</span>
+                  <span class="stat-label">Without pre-agg<br>→ ~15s, ~$0.50/query</span>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-number text-small" style="color:var(--success-color);font-size:16pt;">3.6K rows</span>
+                  <span class="stat-label">With pre-agg (3y × 200 countries)<br>→ &lt;100ms, ~$0.01/query</span>
+                </div>
+              </div>
+              <p class="text-small text-muted mt-1"><strong>30-50x cost reduction</strong> for common queries</p>
+            </div>
+          </div>
+          <p class="text-muted text-small mt-1"><strong>dbt SL / MetricFlow</strong> automatically selects the smallest matching pre-aggregation via "aggregate awareness" — no manual query routing needed.</p>
         </div>
       </section>
 
       <!-- ==================== SECTION 3: ENGINEERING MECHANICS ==================== -->
 
-      <!-- Slide 17: Section Divider - Engineering -->
+      <!-- Slide 21: Section Divider - Engineering -->
       <section class="section-divider" id="section-engineering">
         <div class="text-center">
           <h2><i class="fa-solid fa-gears"></i> Engineering Mechanics</h2>
