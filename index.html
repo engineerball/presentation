@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Semantic Layer — Deep Dive for Data Engineers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ==================== SECTION 1: INTRO ==================== -->
+
+      <!-- Slide 1: Title -->
+      <section class="section-divider" id="title-slide">
+        <div class="text-center">
+          <p class="text-lg text-teal" style="text-transform:uppercase;letter-spacing:3pt;font-weight:700;">
+            <i class="fa-solid fa-layer-group"></i>&nbsp;&nbsp;Data Engineering Deep Dive
+          </p>
+          <h1 style="font-size:60pt;font-weight:800;margin:10px 0;">The Semantic Layer</h1>
+          <p class="title-subtitle">Single Source of Truth for Business Metrics<br>in the Age of AI</p>
+          <p class="title-meta">2026 &mdash; From BI to Platform-Native to Agentic Analytics</p>
+        </div>
+      </section>
+
+      <!-- Slide 2: Agenda -->
+      <section id="agenda">
+        <h2>Agenda</h2>
+        <div class="content">
+          <p class="text-muted">We'll cover why semantic layers exist, how they work under the hood, and why they matter for data engineers building modern data platforms.</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px;">
+            <div>
+              <h3 style="font-size:22pt;color:var(--secondary-color);">&#x2460; Problem Space</h3>
+              <p class="text-small text-muted">What is it? Why metric drift? Why now?</p>
+              <h3 style="font-size:22pt;color:var(--secondary-color);margin-top:14px;">&#x2461; Architecture</h3>
+              <p class="text-small text-muted">Layers, components, query path, patterns</p>
+            </div>
+            <div>
+              <h3 style="font-size:22pt;color:var(--secondary-color);">&#x2462; Engineering Mechanics</h3>
+              <p class="text-small text-muted">Pre-aggregation, caching, optimization, monitoring</p>
+              <h3 style="font-size:22pt;color:var(--secondary-color);margin-top:14px;">&#x2463; AI, Governance &#38; Next Steps</h3>
+              <p class="text-small text-muted">LLM integration, implementation, roadmap</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: What is a Semantic Layer? -->
+      <section id="what-is">
+        <h2>What is a Semantic Layer?</h2>
+        <div class="highlight-box">
+          <p class="text-lg">
+            A <strong>virtual translation layer</strong> between the physical data warehouse and data consumers — BI tools, AI agents, notebooks, custom apps. Instead of writing SQL against raw tables, consumers query <em>business concepts</em>.
+          </p>
+        </div>
+        <div class="content mt-2">
+          <div style="display:grid;grid-template-columns:1fr 20px 1fr;gap:10px;align-items:center;">
+            <div class="diagram-box" style="border-color:var(--danger-color);">
+              <p><i class="fa-solid fa-database"></i> Physical</p>
+              <p class="small">Tables, columns, joins, data types</p>
+            </div>
+            <p style="text-align:center;color:var(--primary-color);font-weight:700;font-size:22pt;">→</p>
+            <div class="diagram-box" style="border-color:var(--primary-color);">
+              <p><i class="fa-solid fa-cubes-stacked"></i> Semantic</p>
+              <p class="small">Entities, metrics, dimensions, filters</p>
+            </div>
+          </div>
+          <blockquote>
+            "A semantic layer lies between business users and the database, letting them compose queries in the concepts they understand."
+            <cite>— Julian Hyde</cite>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Slide 4: Physical vs Semantic -->
+      <section id="physical-vs-semantic">
+        <h2>Physical vs Semantic — The Mindset Shift</h2>
+        <div class="content">
+          <table>
+            <thead><tr><th>Physical Layer</th><th>Semantic (Logical) Layer</th></tr></thead>
+            <tbody>
+              <tr><td>Datasets / tables</td><td><strong>Aggregations</strong> over fact tables</td></tr>
+              <tr><td>Columns with technical names</td><td><strong>Metrics</strong> with business definitions</td></tr>
+              <tr><td>Foreign key joins</td><td><strong>Relationships</strong> with declared cardinality</td></tr>
+              <tr><td>SQL query strings</td><td><strong>Logical queries</strong> → auto-rewritten to SQL</td></tr>
+              <tr><td>Schema changes break everything</td><td><strong>Versioned</strong> model definitions (Git)</td></tr>
+            </tbody>
+          </table>
+          <div class="success-box mt-2">
+            <p class="text-small"><strong>Key insight:</strong> Ad-hoc queries need <em>semantic flexibility</em>. Change granularity daily→weekly→monthly, add a region, roll up to country — all instantly. A semantic layer handles this on-the-fly <strong>without ETL jobs</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Why Metric Drift Happens -->
+      <section id="metric-drift">
+        <h2>The Problem: Metric Drift</h2>
+        <div class="warning-box">
+          <p class="text-lg text-gold"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp; <strong>Metric drift</strong>: the same KPI produces different values depending on which tool you ask</p>
+        </div>
+        <div class="content mt-2">
+          <p class="text-muted">Root cause: business logic embedded inside individual BI tools instead of centralized</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px;">
+            <div class="card" style="border-left:4px solid var(--danger-color);">
+              <p class="card-title"><i class="fa-solid fa-bug"></i> Anti-Pattern</p>
+              <ul class="text-small">
+                <li>"Revenue" defined in DAX <em>and</em> LookML <em>and</em> dbt</li>
+                <li>Active user = 7-day in Sales, 30-day in Marketing</li>
+                <li>Churn calculation hardcoded in dashboards</li>
+                <li>Every tool reinvents governance</li>
+              </ul>
+            </div>
+            <div class="card" style="border-left:4px solid var(--success-color);">
+              <p class="card-title"><i class="fa-solid fa-check"></i> Solution</p>
+              <ul class="text-small">
+                <li>Define metrics <strong>once</strong> in a version-controlled model</li>
+                <li>Version-controlled, peer-reviewed definitions</li>
+                <li>Single source queried by all downstream tools</li>
+                <li>Governance travels with the asset</li>
+              </ul>
+            </div>
+          </div>
+          <p class="text-muted text-center text-small mt-1">"The correct answer depends on where you ask the question" — this is unacceptable at scale</p>
+        </div>
+      </section>
+
+      <!-- Slide 6: Core Components -->
+      <section id="core-components">
+        <h2>Six Core Components</h2>
+        <div class="content">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-cube text-teal"></i> Dimensions</p>
+              <p class="text-small"><em>Who, what, where, when</em> — categorical &amp; temporal axes for slicing data</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-chart-line text-teal"></i> Measures</p>
+              <p class="text-small">Computed business functions — sums, counts, ratios, rolling windows; <em>grain-independent</em></p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-link text-teal"></i> Relationships</p>
+              <p class="text-small">Declared joins enriching fact tables; supports star and snowflake schemas</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-filter text-teal"></i> Filters</p>
+              <p class="text-small">Business rules baked into metric definitions — "active clients only", "last 90 days"</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-shield-halved text-teal"></i> Governance</p>
+              <p class="text-small">Ownership, descriptions, certification, lineage, row/column-level security</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-bolt text-teal"></i> Performance</p>
+              <p class="text-small">Pre-aggregation, intelligent caching, smart routing to pre-computed results</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SECTION 2: ARCHITECTURE ==================== -->
+
+      <!-- Slide 7: Section Divider - Architecture -->
+      <section class="section-divider" id="section-architecture">
+        <div class="text-center">
+          <h2><i class="fa-solid fa-object-group"></i> Architecture</h2>
+          <p class="text-muted text-xl mt-2">High-level design, query flow, and modeling patterns</p>
+        </div>
+      </section>
+
+      <!-- Slide 8: High-Level Architecture -->
+      <section id="architecture-overview">
+        <h2>High-Level Architecture</h2>
+        <div class="content mt-2">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:center;">
+            <div class="diagram-box" style="border-color:var(--muted-color);">
+              <p><i class="fa-solid fa-database"></i> Data Sources</p>
+              <p class="small text-small text-muted">Warehouse, Lake, DB, APIs<br>DBT → Staging &amp; marts</p>
+            </div>
+            <div class="diagram-box" style="border-color:var(--primary-color);">
+              <p style="font-size:20pt;"><i class="fa-solid fa-layer-group"></i><br>Semantic Layer Engine</p>
+              <p class="small text-small text-muted" style="margin-top:6px;">Model parser → Query compiler → Optimizer → API</p>
+            </div>
+            <div class="diagram-box" style="border-color:var(--secondary-color);">
+              <p><i class="fa-solid fa-mobile-screen"></i> Consumers</p>
+              <p class="small text-small text-muted">BI, AI Agents, Notebooks,<br>Custom apps, REST/GraphQL/SQL</p>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:14px;">
+            <div class="diagram-box" style="border-color:#37474F;display:inline-block;background:#111D33;width:fit-content;">
+              <p><i class="fa-brands fa-git-alt"></i> Model Definitions (Git)</p>
+              <p class="small text-small text-muted">YAML / LookML / dbt / JSON — version-controlled, peer-reviewed</p>
+            </div>
+          </div>
+          <p class="footnote text-center mt-2"><strong>Query path:</strong> Consumer request → Semantic API → Query compiler (joins, filters, aggregations) → Optimized SQL pushdown to warehouse → Result → Cache for next time</p>
+        </div>
+      </section>
+
+      <!-- Slide 9: Query Resolution Flow -->
+      <section id="query-flow">
+        <h2>Query Resolution Flow</h2>
+        <div class="content mt-2">
+          <div class="step"><span class="step-num">1</span>
+            <div class="step-text"><strong>Consumer sends logical query</strong> (e.g., "MRR by region, last quarter") via REST / GraphQL / SQL</div>
+          </div>
+          <div class="step"><span class="step-num">2</span>
+            <div class="step-text"><strong>Model parser</strong> resolves metric names to physical columns, dims to tables, applies declared joins and filters from model definition</div>
+          </div>
+          <div class="step"><span class="step-num">3</span>
+            <div class="step-text"><strong>Query compiler</strong> generates optimized SQL — selects appropriate pre-aggregations if available, determines grain, applies date filters</div>
+          </div>
+          <div class="step"><span class="step-num">4</span>
+            <div class="step-text"><strong>Optimizer</strong> checks aggregate cache — if a matching materialized result exists, returns it; otherwise pushes down to warehouse</div>
+          </div>
+          <div class="step"><span class="step-num">5</span>
+            <div class="step-text"><strong>Result delivery</strong> — returns structured result with metadata (metric definitions, certification status, lineage)</div>
+          </div>
+        </div>
+        <div class="highlight-box mt-2">
+          <p class="text-small"><i class="fa-solid fa-rotate"></i>&nbsp; <strong>Aggregate awareness:</strong> the engine intercepts every query, matches it against pre-built materialized aggregates, and rewrites to use the smallest/fastest pre-computed table</p>
+        </div>
+      </section>
+
+      <!-- Slide 10: Five Eras of Semantic Layers -->
+      <section id="history">
+        <h2>Five Eras of Semantic Layers</h2>
+        <div class="content mt-2">
+          <table>
+            <thead><tr><th>Period</th><th>Technology</th><th>Paradigm</th><th>Limitation</th></tr></thead>
+            <tbody>
+              <tr><td><span class="text-gold">1990s</span></td><td>MicroStrategy, BusinessObjects</td><td>First commercial semantics</td><td>Vendor-locked, IT-heavy</td></tr>
+              <tr><td><span class="text-gold">Late 90s</span></td><td>OLAP cubes (Essbase, MS AS)</td><td>Pre-computed multidimensional cubes</td><td>Rigid, expensive, slow updates</td></tr>
+              <tr><td><span class="text-gold">2000s</span></td><td><em>Enterprise BI</em> (IT-managed)</td><td>Centralized data models</td><td>Bottleneck on IT; no self-service</td></tr>
+              <tr><td><span class="text-gold">2012+</span></td><td>LookML (Looker)</td><td><strong>"Semantics as code"</strong> — Git-versioned</td><td>Still BI-tool-bound; proprietary</td></tr>
+              <tr><td><span class="text-teal"><strong>Now (2025-26)</strong></span></td><td>Headless APIs + Platform-Native</td><td><strong>Decoupled, tool-agnostic, AI-ready</strong></td><td>Organizational adoption challenge</td></tr>
+            </tbody>
+          </table>
+          <p class="text-muted text-small mt-1">Snowflake added Autopilot (AI-generated semantic views) in 2026. Databricks Unity Catalog Metric Views now native.</p>
+        </div>
+      </section>
+
+      <!-- Slide 11: Three Modern Types -->
+      <section id="three-types">
+        <h2>Three Modern Semantic Layer Types</h2>
+        <div class="content mt-2">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+            <div class="card" style="border-top:4px solid var(--primary-color);">
+              <p class="card-title"><i class="fa-solid fa-file-code"></i> Metrics-as-Code</p>
+              <p class="text-small">Portable declarative format (YAML/SQL) compiled to SQL by a dedicated engine. Git-versioned, CI/CD-friendly.</p>
+              <p class="text-muted text-small mt-1"><strong style="color:var(--text-color);">Tools:</strong> dbt SL (MetricFlow), MetriQL</p>
+            </div>
+            <div class="card" style="border-top:4px solid var(--secondary-color);">
+              <p class="card-title"><i class="fa-solid fa-plug"></i> Headless / Universal</p>
+              <p class="text-small">Standalone API service sitting between the warehouse and all consumers. Decoupled from any specific BI tool.</p>
+              <p class="text-muted text-small mt-1"><strong style="color:var(--text-color);">Tools:</strong> Cube, AtScale</p>
+            </div>
+            <div class="card" style="border-top:4px solid var(--success-color);">
+              <p class="card-title"><i class="fa-solid fa-database"></i> Platform-Native</p>
+              <p class="text-small">Semantics co-located with governance inside the data platform. Inherits access controls, lineages automatically.</p>
+              <p class="text-muted text-small mt-1"><strong style="color:var(--text-color);">Tools:</strong> Databricks UC, Snowflake</p>
+            </div>
+          </div>
+          <div class="highlight-box mt-2">
+            <p class="text-small"><strong>Trend:</strong> Snowflake (Semantic Views + Autopilot 2026) and Databricks (UC Metric Views) are pushing platform-native as the dominant pattern for enterprises that already use one platform.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 12: Traditional vs Platform-Native -->
+      <section id="traditional-vs-modern">
+        <h2>Traditional vs Platform-Native</h2>
+        <div class="content mt-1">
+          <table>
+            <thead><tr><th></th><th style="color:var(--danger-color);">Traditional (Tool-Bound)</th><th style="color:var(--success-color);">Platform-Native / Headless</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Location</strong></td><td>Inside BI tools (DAX, LookML)</td><td>Within data platform alongside data</td></tr>
+              <tr><td><strong>Governance</strong></td><td>Reinvented per tool; fragmented</td><td>Inherited; automatic policy propagation</td></tr>
+              <tr><td><strong>AI Readiness</strong></td><td>Not designed for LLMs</td><td>Synonyms, explanations, guardrails</td></tr>
+              <tr><td><strong>Reuse</strong></td><td>Proprietary DSL lock-in</td><td>SQL + open APIs (REST, GraphQL, JDBC)</td></tr>
+              <tr><td><strong>Performance</strong></td><td>Per-tool caching silos</td><td>Shared pre-aggregation across all consumers</td></tr>
+              <tr><td><strong>Versioning</strong></td><td>Manual, ad hoc</td><td>Git-versioned; CI/CD deployment</td></tr>
+              <tr><td><strong>Lineage</strong></td><td>Rarely visible</td><td>Automatic impact analysis</td></tr>
+            </tbody>
+          </table>
+          <p class="warning-box text-small mt-2" style="padding:12px;">Root cause of failure: "the correct answer depends on where you ask the question"</p>
+        </div>
+      </section>
+
+      <!-- Slide 13: Core-Edge Architecture -->
+      <section id="core-edge">
+        <h2>Core-Edge Architecture Pattern</h2>
+        <div class="content mt-2">
+          <p class="text-muted">For large organizations: manage the tension between <em>stability</em> and <em>agility</em> with a split architecture.</p>
+          <div style="display:grid;grid-template-columns:1fr 60px 1fr;gap:12px;align-items:center;margin-top:18px;">
+            <div class="diagram-box" style="border-color:var(--primary-color);">
+              <p><i class="fa-solid fa-crown"></i> Core</p>
+              <p class="small text-small text-muted" style="margin-top:8px;">
+                ▸ Authoritative metrics<br>
+                ▸ Certified measures<br>
+                ▸ Enterprise-wide policies<br>
+                ▸ Slow-changing, peer-reviewed<br>
+                ▸ High stability, formal promotion
+              </p>
+            </div>
+            <div class="text-center text-teal text-2xl" style="font-weight:700;"><i class="fa-solid fa-arrows-left-right"></i></div>
+            <div class="diagram-box" style="border-color:var(--secondary-color);">
+              <p><i class="fa-solid fa-flask"></i> Edge</p>
+              <p class="small text-small text-muted" style="margin-top:8px;">
+                ▸ Team-specific knowledge<br>
+                ▸ Local synonyms<br>
+                ▸ Experimental metrics<br>
+                ▸ Fast-moving iterations<br>
+                ▸ Promotion pathway to core
+              </p>
+            </div>
+          </div>
+          <blockquote class="mt-2">
+            "Author anywhere, govern centrally; learn locally, promote globally"
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Slide 14: Modeling Languages Comparison -->
+      <section id="modeling-langs">
+        <h2>Modeling Languages & Formats</h2>
+        <div class="content">
+          <p class="text-muted mb-1">Each semantic layer defines its own modeling syntax. Data engineers pick based on platform, team skills, and governance needs.</p>
+          <table>
+            <thead><tr><th>Format</th><th>Engine</th><th>Syntax</th><th>Key Feature</th></tr></thead>
+            <tbody>
+              <tr><td><code>dbt metrics</code></td><td>MetricFlow</td><td>YAML + Jinja</td><td>Git-native, compiles to SQL</td></tr>
+              <tr><td><code>LookML</code></td><td>Looker</td><td>Proprietary DSL</td><td>Explore-based, drill-down</td></tr>
+              <tr><td><code>Cube.js</code></td><td>Cube</td><td>YAML or TypeScript</td><td>Headless API, REST/GraphQL</td></tr>
+              <tr><td><code>MetriQL</code></td><td>MetriQL</td><td>YAML (dbt-compatible)</td><td>Lightweight, lakehouse-friendly</td></tr>
+              <tr><td><code>Malloy</code></td><td>Google</td><td>New DSL above SQL</td><td>Analytical type system, composability</td></tr>
+              <tr><td><code>AtScale MDX</code></td><td>AtScale</td><td>MDX-like</td><td>Pre-aggregation at scale</td></tr>
+            </tbody>
+          </table>
+          <div class="highlight-box mt-2">
+            <p class="text-small"><i class="fa-solid fa-scale-balanced"></i>&nbsp; <strong>Trade-off:</strong> YAML-based formats (dbt, MetriQL) integrate with data engineering workflows. DSLs (LookML, Malloy) offer expressiveness but lock-in. Platform-native types inherit governance automatically.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 15: Example - dbt metrics -->
+      <section id="example-dbt">
+        <h2>Example: dbt Semantic Layer (dbt metrics)</h2>
+        <div class="content">
+          <p class="text-muted">YAML-based metric definitions in your dbt project — version-controlled alongside models:</p>
+          <pre><code># dbt_project/models/metrics/revenue.yml
+metrics:
+  - name: monthly_recurring_revenue
+    label: Monthly Recurring Revenue
+    description: Sum of recurring subscription revenue for active contracts
+    filter: "{{ Dimension('contracts.is_active') }} = true"
+    type: simple
+    type_params:
+      measure: contract_revenue
+    time_granularity: month
+
+  - name: mrr_yoy_growth
+    label: MRR YoY Growth
+    description: % change in MRR compared to the same month last year
+    type: derived
+    type_params:
+      expression: "{{ Metric('monthly_recurring_revenue') }} / {{ Metric('monthly_recurring_revenue', previous=True) }} - 1"</code></pre>
+          <div class="success-box mt-1">
+            <p class="text-small"><strong>CI/CD integration:</strong> dbt test → dbt build → metric validation PR — same workflow as data transformations.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 16: Example - Cube.js -->
+      <section id="example-cube">
+        <h2>Example: Cube.js (YAML / TypeScript)</h2>
+        <div class="content">
+          <p class="text-muted">Headless semantic layer — defines data model, pre-aggregations, and serves all consumers via REST/GraphQL:</p>
+          <pre><code># schema/Orders.yaml
+cubes:
+  Orders:
+    sql: SELECT * FROM orders
+
+    measures:
+      total_revenue:
+        sql: "{amount}"
+        type: sum
+      recurring_revenue:
+        sql: "{amount}"
+        type: sum
+        filters:
+          - sql: "{contract_type} = 'recurring'"
+
+    dimensions:
+      status: { sql: "status", type: string }
+      created_at: { sql: "created_at", type: time }
+
+    preAggregations:
+      main:
+        type: rollup
+        measureReferences: [total_revenue]
+        dimensionReferences: [status]
+        timeDimensionReference: created_at
+        granularity: month</code></pre>
+          <p class="text-muted text-small mt-1">Pre-aggregations defined declaratively — Cube pre-computes and refreshes them automatically.</p>
+        </div>
+      </section>
+
+      <!-- ==================== SECTION 3: ENGINEERING MECHANICS ==================== -->
+
+      <!-- Slide 17: Section Divider - Engineering -->
+      <section class="section-divider" id="section-engineering">
+        <div class="text-center">
+          <h2><i class="fa-solid fa-gears"></i> Engineering Mechanics</h2>
+          <p class="text-muted text-xl mt-2">Pre-aggregation, caching, query optimization, monitoring</p>
+        </div>
+      </section>
+
+      <!-- Slide 18: Pre-Aggregation Deep Dive -->
+      <section id="pre-agg">
+        <h2>Pre-Aggregation Deep Dive</h2>
+        <div class="content mt-2">
+          <p class="text-muted">Pre-aggregation is the #1 performance optimization. Materialize expensive queries upfront, answer from cached aggregates.</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px;">
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-layer-group"></i> Rollup Aggregations</p>
+              <p class="text-small">Pre-computed GROUP BY on common dimension combinations.<br><code style="color:var(--primary-color);">rollup(measure, dim1, dim2, time_dim → month)</code></p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-cubes"></i> OLAP Cube Pre-computation</p>
+              <p class="text-small">Multi-dimensional cubes — every cell is pre-calculated. AtScale generates optimal cube sets.</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-table"></i> Materialized Views</p>
+              <p class="text-small">Warehouse-native materialized views. Auto-refresh scheduled. Pushdown-compatible with query rewrite.</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-brain"></i> Smart Pre-Aggregation Selection</p>
+              <p class="text-small">Engine analyzes: query patterns, data volume, refresh frequency, storage budget. Generates optimal set automatically.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 19: Aggregate Awareness -->
+      <section id="aggregate-awareness">
+        <h2>Aggregate Awareness</h2>
+        <div class="content mt-2">
+          <p class="text-muted">The semantic layer intercepts every query and determines: <em>"Can I answer this from a pre-built aggregate instead of scanning raw data?"</em></p>
+          <div class="step mt-2"><span class="step-num">1</span>
+            <div class="step-text"><strong>Query arrives:</strong> "Revenue by month, region = 'EU'" — needs aggregation over millions of rows</div>
+          </div>
+          <div class="step"><span class="step-num">2</span>
+            <div class="step-text"><strong>Aggregate matching:</strong> Engine scans catalog of pre-aggregations — finds a rollup covering <code>revenue × month × region</code></div>
+          </div>
+          <div class="step"><span class="step-num">3</span>
+            <div class="step-text"><strong>Rewrite:</strong> Query is rewritten against the <strong>smallest matching aggregate</strong> — from scanning 50M rows to 5K rows</div>
+          </div>
+          <div class="step"><span class="step-num">4</span>
+            <div class="step-text"><strong>Execute:</strong> Runs against the materialized aggregate table → sub-100ms response</div>
+          </div>
+          <div class="highlight-box mt-2">
+            <p class="text-small"><strong>Coverage problem:</strong> The "rollup lattice" grows exponentially with dimensions. Smart engines use heuristics: top-N query patterns, cardinality ratios, refresh cost — to generate a <em>minimal sufficient set</em> of pre-aggregations.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 20: Caching Strategies -->
+      <section id="caching">
+        <h2>Caching Strategies</h2>
+        <div class="content mt-2">
+          <table>
+            <thead><tr><th>Layer</th><th>What</th><th>TTL</th><th>Use Case</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Result cache</strong></td><td>Fully computed query results</td><td>Minutes-hours</td><td>Identical query reuse (e.g., dashboard refresh)</td></tr>
+              <tr><td><strong>Aggregate cache</strong></td><td>Materialized pre-aggregations</td><td>Hours-days (scheduled refresh)</td><td>Rollup tables in warehouse or in-memory</td></tr>
+              <tr><td><strong>Query plan cache</strong></td><td>Compiled SQL generation results</td><td>Session-length</td><td>Avoids re-parsing model definitions per query</td></tr>
+              <tr><td><strong>Semantic cache (AI)</strong></td><td>Similar meaning → same result</td><td>Hours</td><td>Different NL queries, same semantic intent</td></tr>
+              <tr><td><strong>Metadata cache</strong></td><td>Model definitions, join graphs, cert status</td><td>Until model PR merges</td><td>Every query needs model context</td></tr>
+            </tbody>
+          </table>
+          <div class="highlight-box mt-2">
+            <p class="text-small"><i class="fa-solid fa-chart-pie"></i>&nbsp; <strong>Cost impact:</strong> Organizations report <strong>30-70% compute cost reduction</strong> by routing queries through pre-aggregation + caching vs naive warehouse scans.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 21: Query Pushdown Optimization -->
+      <section id="pushdown">
+        <h2>Query Rewriting & Pushdown Optimization</h2>
+        <div class="content mt-1">
+          <p class="text-muted">The semantic layer rewrites the <em>logical query</em> into optimized SQL, then pushes as much work as possible down to the warehouse.</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:14px;">
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-magnifying-glass"></i> Filter Pushdown</p>
+              <p class="text-small">WHERE clauses pushed into innermost subqueries. Filters from metric definitions automatically applied.</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-calculator"></i> Aggregation Pushdown</p>
+              <p class="text-small">GROUP BY + aggregates executed on warehouse side. Semantic layer only resolves cross-database joins.</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-arrow-down-up-across-line"></i> Join Optimization</p>
+              <p class="text-small">Join graph traversal — picks shortest path, avoids unnecessary joins, uses materialized join tables.</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-database"></i> Dialect Translation</p>
+              <p class="text-small">Single model definition → different SQL dialects (BigQuery, Snowflake, Redshift, Spark SQL) automatically.</p>
+            </div>
+          </div>
+          <p class="text-muted text-small mt-2">Key insight: the semantic layer is a <strong>query compiler</strong> — it takes high-level metric requests and compiles them to low-level SQL, using model definitions as the "type system" and "standard library."</p>
+        </div>
+      </section>
+
+      <!-- Slide 22: Data Modeling Best Practices -->
+      <section id="data-modeling">
+        <h2>Semantic Data Modeling Best Practices</h2>
+        <div class="content mt-1">
+          <p class="text-muted">How data engineers should structure the physical layer <em>below</em> the semantic layer for optimal consumption.</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px;">
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-circle-nodes"></i> Star Schema</p>
+              <p class="text-small">Entity-oriented fact tables with dimension tables. The semantic layer maps to this naturally — one fact table = one cube.</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-tags"></i> Business Names</p>
+              <p class="text-small">AI-friendly dimension and measure names — descriptive, consistent. Avoid technical jargon in exposed metric names.</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-book"></i> Documentation as AI Metadata</p>
+              <p class="text-small">Every metric needs: description, unit, owner, grain, update frequency, certification level. LLMs use this for grounding.</p>
+            </div>
+            <div class="card">
+              <p class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Surrogate Time Dimensions</p>
+              <p class="text-small">Every grain gets a time dimension. Enables time-series analysis, period-over-period, and rolling windows natively.</p>
+            </div>
+          </div>
+          <div class="highlight-box mt-2">
+            <p class="text-small"><strong>DBT + Semantic layer workflow:</strong> staging → intermediate marts (dbt-models.yml) → semantic layer (dbt_metrics.yml) → consumers. Each layer is version-controlled and tested.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 23: Monitoring & Observability -->
+      <section id="monitoring">
+        <h2>Monitoring & Observability</h2>
+        <div class="content mt-1">
+          <p class="text-muted">A production semantic layer needs telemetry across four dimensions:</p>
+          <table>
+            <thead><tr><th>Dimension</th><th>What to Monitor</th><th>Alert if</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Performance</strong></td><td>Query latency (P50, P95, P99), cache hit rate, aggregate coverage</td><td>&gt; 5s P95, cache hit &lt; 80%</td></tr>
+              <tr><td><strong>Cost</strong></td><td>Warehouse compute cost, storage for pre-aggs, query count per consumer</td><td>Compute spike &gt; 2x baseline</td></tr>
+              <tr><td><strong>Freshness</strong></td><td>Staleness of pre-aggregations, model update lag, refresh job failures</td><td>Aggregate stale &gt; scheduled window</td></tr>
+              <tr><td><strong>Usage</strong></td><td>Top queried metrics, consumer access patterns, orphan definitions</td><td>Key metric has 0 queries in 7d</td></tr>
+            </tbody>
+          </table>
+          <div class="highlight-box mt-2">
+            <p class="text-small"><i class="fa-solid fa-bug"></i>&nbsp; <strong>Common failure patterns:</strong> pre-aggregation stale after schema change, metric definition drift across Git branches, cache poisoning from incorrect refresh, query planner selecting sub-optimal aggregate.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 24: Section Divider - AI -->
+      <section class="section-divider" id="section-ai">
+        <div class="text-center">
+          <h2><i class="fa-solid fa-robot"></i> AI &#38; Agentic Analytics</h2>
+          <p class="text-muted text-xl mt-2">Why the semantic layer is critical infrastructure for LLM-driven analytics</p>
+        </div>
+      </section>
+
+      <!-- Slide 25: Dangerously Plausible -->
+      <section id="ai-problem">
+        <h2>"Dangerously Plausible" — The LLM Problem</h2>
+        <div class="warning-box">
+          <p class="text-lg text-gold"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp; Text-to-SQL against raw tables generates coherent-sounding but potentially <strong>incorrect, inconsistent, ungoverned</strong> answers</p>
+        </div>
+        <div class="content mt-2">
+          <div class="step"><span class="step-num">?</span>
+            <div class="step-text"><em>"What was our churn rate last quarter?"</em></div>
+          </div>
+          <p class="text-muted">The LLM must guess:</p>
+          <ul class="text-small mt-1">
+            <li>Which table? Is customer status in <code>users</code> or <code>subscriptions</code>?</li>
+            <li>What is "churn" — cancellation in 30 days? 60 days? Non-renewal?</li>
+            <li>"Last quarter" — calendar Q? Rolling 90d? Fiscal Q?</li>
+            <li>Active vs. cancelled — should trial users count?</li>
+          </ul>
+          <div class="highlight-box mt-2">
+            <p class="text-small"><strong>Without a semantic layer:</strong> The LLM infers all of this from table names and column names. It might be right. It might be confidently wrong. <em>You can't tell.</em></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 26: Semantic Layer as AI Grounding -->
+      <section id="ai-grounding">
+        <h2>Semantic Layer as AI Grounding Infrastructure</h2>
+        <div class="content mt-1">
+          <p class="text-muted">The semantic layer provides the <em>structured business context</em> that LLMs need to generate accurate queries:</p>
+          <div class="step mt-2"><span class="step-num">1</span>
+            <div class="step-text"><strong>Grounding Phase:</strong> Agent reads semantic context — available metrics, definitions, synonyms, governance rules, certification status</div>
+          </div>
+          <div class="step"><span class="step-num">2</span>
+            <div class="step-text"><strong>Execution Phase:</strong> Agent queries through governed metric APIs via REST/GraphQL/SQL — <em>never raw tables</em></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px;">
+            <div class="stat-box">
+              <span class="stat-number" style="font-size:20pt;"><i class="fa-solid fa-language"></i></span>
+              <span class="stat-label">Synonym Mappings<br><span class="text-small">(colloquial → canonical)</span></span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number" style="font-size:20pt;"><i class="fa-solid fa-certificate"></i></span>
+              <span class="stat-label">Certification Signals<br><span class="text-small">(trusted definitions)</span></span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number" style="font-size:20pt;"><i class="fa-solid fa-filter"></i></span>
+              <span class="stat-label">Embedded Filters<br><span class="text-small">+ join logic in metrics</span></span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number" style="font-size:20pt;"><i class="fa-solid fa-lock"></i></span>
+              <span class="stat-label">Access Controls<br><span class="text-small">prevents restricted exposure</span></span>
+            </div>
+          </div>
+          <div class="success-box mt-2">
+            <p class="text-small" style="color:var(--success-color);"><i class="fa-solid fa-arrow-trend-up"></i>&nbsp; Semantic layers are becoming <strong>"data interpretation contracts"</strong> for agents — API-first designs win for AI consumption</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 27: Implementation Roadmap -->
+      <section id="roadmap">
+        <h2>Implementation Roadmap</h2>
+        <div class="content mt-1">
+          <p class="text-muted">Recommended rollout — <strong>avoid big-bang adoption</strong>:</p>
+          <div class="step mt-2"><span class="step-num">1</span>
+            <div class="step-text"><strong>Start small</strong> — one high-stakes metric + key dimensions. Prove value before scaling.</div>
+          </div>
+          <div class="step"><span class="step-num">2</span>
+            <div class="step-text"><strong>Integrate into existing tools</strong> — connect semantic layer to 1-2 existing dashboards. Show "same data, same number" to build trust.</div>
+          </div>
+          <div class="step"><span class="step-num">3</span>
+            <div class="step-text"><strong>Establish governance process</strong> — define metric ownership, certification workflow, peer review for definition changes.</div>
+          </div>
+          <div class="step"><span class="step-num">4</span>
+            <div class="step-text"><strong>Scale to additional domains</strong> — expand metrics catalog, add teams, optimize pre-aggregation strategy.</div>
+          </div>
+          <div class="step"><span class="step-num">5</span>
+            <div class="step-text"><strong>AI integration</strong> — connect AI agents to semantic layer for natural language analytics. Add synonym mapping, grounding metadata.</div>
+          </div>
+          <div class="highlight-box mt-2">
+            <p class="text-small"><i class="fa-solid fa-database"></i>&nbsp; <strong>Physical layer prerequisite:</strong> Ensure data models are clean — staging → intermediate → marts. The semantic layer can only be as good as the physical layer underneath it.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 28: Five Principles -->
+      <section id="five-principles">
+        <h2>Five Implementation Principles</h2>
+        <div class="content mt-2" style="font-size:16pt;">
+          <div class="step"><span class="step-num">1</span>
+            <div class="step-text"><strong>Author Once, Reuse Everywhere</strong><br><span class="text-small text-muted">Platform-native definitions serve every dashboard, notebook, and interface</span></div>
+          </div>
+          <div class="step"><span class="step-num">2</span>
+            <div class="step-text"><strong>Proximity to Governance</strong><br><span class="text-small text-muted">Access controls and traceability travel with the asset, not separately</span></div>
+          </div>
+          <div class="step"><span class="step-num">3</span>
+            <div class="step-text"><strong>Openness by Design</strong><br><span class="text-small text-muted">Prefer standard APIs (REST, JDBC, GraphQL); avoid proprietary DSL lock-in</span></div>
+          </div>
+          <div class="step"><span class="step-num">4</span>
+            <div class="step-text"><strong>One Source for Humans and AI</strong><br><span class="text-small text-muted">Identical metric definitions serve dashboards and conversational agents</span></div>
+          </div>
+          <div class="step"><span class="step-num">5</span>
+            <div class="step-text"><strong>Semantics as Code</strong><br><span class="text-small text-muted">Version control, CI/CD pipelines, formal review and deployment</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 29: Closing -->
+      <section class="section-divider" id="closing">
+        <div class="text-center">
+          <h2 style="font-size:42pt;font-weight:800;color:var(--secondary-color);border:none;">
+            "Define once, use everywhere."
+          </h2>
+          <p class="text-muted text-2xl mt-2" style="font-size:20pt;">
+            The semantic layer is not optional at scale — it's the foundation for<br>
+            <em style="color:var(--primary-color)">trustworthy analytics</em> <strong>and</strong> <em style="color:var(--primary-color)">reliable AI</em>.
+          </p>
+          <div style="margin-top:30px;">
+            <span class="badge">Metrics</span>
+            <span class="badge teal">Dimensions</span>
+            <span class="badge gold">Governance</span>
+            <span class="badge">AI-Ready</span>
+            <span class="badge teal">Platform-Native</span>
+            <span class="badge gray">Semantics as Code</span>
+          </div>
+          <p class="text-muted mt-3" style="font-size:13pt;">Sources: Databricks · dbt Labs · Cube · DuckDB Tutorial · AtScale · Google</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: true,
+      hash: true,
+      transition: 'slide',
+      center: false,
+    });
+  </script>
+</body>
+</html>
