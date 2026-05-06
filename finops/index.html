@@ -96,7 +96,35 @@
         </div>
       </section>
 
-      <!-- SLIDE 4: ไม่ใช่แค่ลดงบ -->
+      <!-- SLIDE 4: สถิติ Cloud Spending -->
+      <section id="cloud-stats">
+        <h2><i class="fa-solid fa-chart-line text-primary"></i>&nbsp;&nbsp;Cloud Spending Reality 2026</h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <div class="stat text-center">
+              <p class="text-3xl font-bold text-primary">40%</p>
+              <p class="text-sm">ของ cloud spend ที่ <strong>wasted</strong> โดยเฉลี่ย (Flexera 2026)</p>
+            </div>
+            <div class="stat text-center">
+              <p class="text-3xl font-bold text-orange">$17.6B</p>
+              <p class="text-sm">เม็ดเงิน cloud ที่เสียไปต่อปี จาก <strong>idle resources</strong></p>
+            </div>
+            <div class="stat text-center">
+              <p class="text-3xl font-bold text-green">20-36%</p>
+              <p class="text-sm">ประหยัดได้ทันทีด้วย <strong>rightsizing + CUDs</strong></p>
+            </div>
+          </div>
+          <div class="highlight-box mt-2">
+            <p class="text-sm"><i class="fa-solid fa-info-circle text-primary"></i>&nbsp; <strong>ปัญหาไม่ใช่ spend สูง — ปัญหาคือ spend ที่ไม่เห็น value</strong><br>
+            <span class="text-muted">บริษัทที่มี FinOps mature สูง มี cloud spend ต่อ revenue <strong>ต่ำกว่า</strong> บริษัทที่ยังไม่ทำ 30%+</span></p>
+          </div>
+          <div class="orange-box mt-1">
+            <p class="text-sm text-muted"><strong>ตัวอย่างจริง:</strong> Startup หนึ่งใช้ GKE cluster 50 nodes ค่าเดือนละ ~$12K แต่ CPU utilization เฉลี่ยแค่ 15% — ถ้า rightsizing เหลือ 15 nodes จะประหยัดได้ ~$8.4K/เดือน</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Value Over Cost -->
       <section id="value-over-cost">
         <h2><i class="fa-solid fa-scale-balanced text-green"></i>&nbsp;&nbsp;FinOps ≠ ลดงบ แต่คือ Value</h2>
         <div class="content">
@@ -123,232 +151,794 @@
         </div>
       </section>
 
-      <!-- SECTION DIVIDER: หลักการพื้นฐาน -->
+      <!-- SLIDE 6: ตัวอย่าง Unit Economics -->
+      <section id="unit-economics-example">
+        <h2><i class="fa-solid fa-calculator text-primary"></i>&nbsp;&nbsp;ตัวอย่าง: Unit Economics ในทางปฏิบัติ</h2>
+        <div class="content">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Company A (ไม่มี FinOps)</th>
+                <th>Company B (มี FinOps)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Monthly Cloud Bill</strong></td>
+                <td style="color: var(--muted-color);">$500,000</td>
+                <td style="color: var(--muted-color);">$500,000</td>
+              </tr>
+              <tr>
+                <td><strong>Active Customers</strong></td>
+                <td>1,000,000</td>
+                <td>1,000,000</td>
+              </tr>
+              <tr style="background: #D5F5E3 !important;">
+                <td><strong>Cost per Customer</strong></td>
+                <td style="color: var(--secondary-color) !important; font-weight: 700;">$0.50 <i class="fa-solid fa-xmark text-orange"></i></td>
+                <td style="color: var(--green-color) !important; font-weight: 700;">$0.17 <i class="fa-solid fa-check text-green"></i></td>
+              </tr>
+              <tr>
+                <td><strong>Monthly Transactions</strong></td>
+                <td>10M</td>
+                <td>10M (เหมือนกัน)</td>
+              </tr>
+              <tr style="background: #D5F5E3 !important;">
+                <td><strong>Cost per Transaction</strong></td>
+                <td style="color: var(--secondary-color) !important; font-weight: 700;">$0.05</td>
+                <td style="color: var(--green-color) !important; font-weight: 700;">$0.017</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="green-box mt-1">
+            <p class="text-sm"><strong>Company B ทำอย่างไร?</strong> — ใช้ CUDs 3 ปี (-40%), rightsizing GKE (-30%), idle resource cleanup (-15%), auto-scaling tuned (-10%)<br>
+            <span class="text-muted">Bill เท่ากัน 6 เดือนที่แล้ว — แล้ว FinOps ลดไป <strong>66%</strong></span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION DIVIDER: 6 หลักการ -->
       <section id="divider-principles" class="section-divider" data-state="is-section-divider" data-background-color="#1B3A5C">
         <h1 style="color: #FFFFFF; font-size: 46pt;">
-          <i class="fa-solid fa-compass"></i>&nbsp;&nbsp;หลักการ &amp; Operating Model
+          <i class="fa-solid fa-compass"></i>&nbsp;&nbsp;6 หลักการ FinOps
         </h1>
-        <p style="font-size: 18pt; color: #AED6F1;">6 North Star Principles · Center + Decentralized · 5 Phases</p>
+        <p style="font-size: 18pt; color: #AED6F1;">North Star Principles · ทุกการตัดสินใจยึดหลักนี้</p>
       </section>
 
-      <!-- SLIDE 6.1: 6 หลักการ -->
-      <section>
-        <section id="six-principles">
-          <h2><i class="fa-solid fa-star text-gold"></i>&nbsp;&nbsp;6 หลักการ FinOps</h2>
-          <div class="content">
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-              <div class="card">
-                <p class="text-lg text-primary font-bold" style="margin-bottom: 4px;">1. <i class="fa-solid fa-users"></i>&nbsp; ทุกคนร่วมมือกัน</p>
-                <p class="text-sm">Finance, Eng, Product — ทำงานร่วมกัน ไม่ใช่คนละทีม</p>
-              </div>
-              <div class="card">
-                <p class="text-lg text-primary font-bold" style="margin-bottom: 4px;">2. <i class="fa-solid fa-bullseye"></i>&nbsp; Business value ขับเคลื่อน</p>
-                <p class="text-sm">Unit economics &gt; ยอดรวม  — ตัดสินใจจาก value ที่ได้</p>
-              </div>
-              <div class="card">
-                <p class="text-lg text-primary font-bold" style="margin-bottom: 4px;">3. <i class="fa-solid fa-hand-holding-hand"></i>&nbsp; ทุกคนเป็นเจ้าของ</p>
-                <p class="text-sm">ทีม Eng รับผิดชอบ cost ของตัวเอง ตั้งแต่ design ถึง deploy</p>
-              </div>
-              <div class="card">
-                <p class="text-lg text-primary font-bold" style="margin-bottom: 4px;">4. <i class="fa-solid fa-eye"></i>&nbsp; ข้อมูลชัด เปิดทุกคนเห็น</p>
-                <p class="text-sm">Cost visibility แบบ real-time ทุกคนเข้าถึงข้อมูลชุดเดียวกัน</p>
-              </div>
-              <div class="card">
-                <p class="text-lg text-primary font-bold" style="margin-bottom: 4px;">5. <i class="fa-solid fa-shield-halved"></i>&nbsp; Centralized Enablement</p>
-                <p class="text-sm">ทีมกลางทำ rate opt, best practice — ไม่ใช่ทำ optimization ให้</p>
-              </div>
-              <div class="card">
-                <p class="text-lg text-primary font-bold" style="margin-bottom: 4px;">6. <i class="fa-solid fa-arrows-rotate"></i>&nbsp; ใช้ข้อดี Variable Cost</p>
-                <p class="text-sm">Cloud = จ่ายตามใช้ agile, ไม่ใช่ fixed budget แบบเดิม</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- SLIDE 6.2: Operating Model -->
-        <section id="operating-model">
-          <h2><i class="fa-solid fa-sitemap text-primary"></i>&nbsp;&nbsp;Operating Model</h2>
-          <div class="content">
-            <div class="diagram-center">
-              <div class="flow-row">
-                <div class="flow-box" style="background: #D5F5E3; color: var(--green-color); min-width: 220px;">
-                  <i class="fa-solid fa-building"></i> ทีมกลาง FinOps
-                  <br><span style="font-size: 10pt;">Rate opt, Best practice</span>
-                </div>
-                <span class="flow-arrow">⟷ ช่วยเหลือ ⟷</span>
-                <div class="flow-box" style="min-width: 220px;">
-                  <i class="fa-solid fa-code"></i> ทีม Eng แต่ละทีม
-                  <br><span style="font-size: 10pt;">Usage opt, Arch decision</span>
-                </div>
-              </div>
-            </div>
-            <div class="highlight-box mt-1">
-              <p class="text-sm"><strong>🧠 Centralized Enablement + Decentralized Execution</strong></p>
-              <p class="text-sm text-muted">ทีม FinOps กลาง <strong style="color: var(--primary-color);">ไม่ควร</strong> ทำ optimization ให้ทุกทีม — ควรเป็น <span class="text-primary font-bold">enabler</span> ให้ทีม Eng ทำเอง</p>
-            </div>
-            <div class="orange-box mt-1">
-              <p class="text-sm"><i class="fa-solid fa-triangle-exclamation text-orange"></i>&nbsp; <strong>Anti-pattern!</strong> ทีม FinOps กลางทำ optimization ให้ทุกทีม → กลายเป็น bottleneck</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- SLIDE 6.3: Framework -->
-        <section id="finops-framework-cards">
-          <h2><i class="fa-solid fa-cubes text-primary"></i>&nbsp;&nbsp;FinOps Framework</h2>
-          <div class="content">
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
-              <div class="persona">
-                <p style="font-size: 22pt;"><i class="fa-solid fa-users text-primary"></i></p>
-                <p class="text-primary font-bold">Principles</p>
-                <p class="text-xs text-muted">6 หลักทางที่นำทางทุกการตัดสินใจ</p>
-              </div>
-              <div class="persona">
-                <p style="font-size: 22pt;"><i class="fa-solid fa-user-tag text-green"></i></p>
-                <p class="text-green font-bold">Personas</p>
-                <p class="text-xs text-muted">บทบาทของผู้มีส่วนได้ส่วนเสียแต่ละคน</p>
-              </div>
-              <div class="persona">
-                <p style="font-size: 22pt;"><i class="fa-solid fa-route text-orange"></i></p>
-                <p class="text-orange font-bold">Phases</p>
-                <p class="text-xs text-muted">Inform → Optimize → Operate</p>
-              </div>
-              <div class="persona">
-                <p style="font-size: 22pt;"><i class="fa-solid fa-layer-group text-gold"></i></p>
-                <p class="text-primary font-bold">Maturity</p>
-                <p class="text-xs text-muted">Crawl → Walk → Run — วัดระดับองค์กร</p>
-              </div>
-              <div class="persona">
-                <p style="font-size: 22pt;"><i class="fa-solid fa-chart-pie text-primary"></i></p>
-                <p class="text-primary font-bold">Domains</p>
-                <p class="text-xs text-muted">พื้นที่กิจกรรม — Cost Allocation, Perf Mgmt, etc.</p>
-              </div>
-              <div class="persona">
-                <p style="font-size: 22pt;"><i class="fa-solid fa-crosshairs text-green"></i></p>
-                <p class="text-green font-bold">Capabilities</p>
-                <p class="text-xs text-muted">ความสามารถเฉพาะในแต่ละ domain</p>
-              </div>
-            </div>
-            <div class="green-box mt-1">
-              <p class="text-sm text-muted"><i class="fa-solid fa-info-circle text-green"></i>&nbsp; FinOps Foundation (finops.org) — องค์กรไม่แสวงหาผลกำไรที่ดูแลมาตรฐาน FinOps ทั่วโลก</p>
-            </div>
-          </div>
-        </section>
-      </section>
-
-      <!-- SLIDE 7: 3 Phases -->
-      <section id="three-phases">
-        <h2><i class="fa-solid fa-road text-primary"></i>&nbsp;&nbsp;3 Phases: Inform → Optimize → Operate</h2>
+      <!-- SLIDE 7: หลักการ 1-2 -->
+      <section id="principles-1-2">
+        <h2><i class="fa-solid fa-star text-gold"></i>&nbsp;&nbsp;หลักการที่ 1-2: Collaboration + Value</h2>
         <div class="content">
-          <div class="diagram-center" style="margin-bottom: 12px;">
-            <div class="flow-row">
-              <div class="flow-box" style="min-width: 180px; font-size: 16pt;"><i class="fa-solid fa-eye"></i>&nbsp; 1. Inform</div>
-              <span class="flow-arrow">→</span>
-              <div class="flow-box green" style="min-width: 180px; font-size: 16pt;"><i class="fa-solid fa-gear"></i>&nbsp; 2. Optimize</div>
-              <span class="flow-arrow">→</span>
-              <div class="flow-box orange" style="min-width: 180px; font-size: 16pt;"><i class="fa-solid fa-infinity"></i>&nbsp; 3. Operate</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+            <div class="card" style="border-top: 4px solid var(--primary-color);">
+              <p class="text-lg text-primary font-bold" style="margin-bottom: 8px;">1. <i class="fa-solid fa-users"></i>&nbsp; ทีมต้องร่วมมือกัน</p>
+              <p class="text-sm">Finance, Eng, Product, Leadership — ทำงานร่วมกันในระดับที่เหมาะสม</p>
+              <p class="text-sm text-muted">ตัวอย่าง: <strong>สัปดาห์ละ meeting</strong> 30 min ระหว่าง FinOps + Tech Lead + PM เพื่อ review cost trend</p>
+              <div class="highlight-box mt-1">
+                <p class="text-xs">🤝 <strong>ไม่ร่วมมือ =</strong> Eng รู้แต่ spec ไม่รู้ราคา | Finance รู้แต่ราคา ไม่รู้ spec</p>
+              </div>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--green-color);">
+              <p class="text-lg text-green font-bold" style="margin-bottom: 8px;">2. <i class="fa-solid fa-bullseye"></i>&nbsp; Business value ขับเคลื่อน</p>
+              <p class="text-sm">Unit economics &gt; aggregate spend — ตัดสินใจจาก value ที่ได้</p>
+              <p class="text-sm text-muted">ตัวอย่าง: <strong>ตัดสินใจย้ายจาก on-demand → CUDs</strong> เพราะเห็น trade-off cost vs flexibility</p>
+              <div class="green-box mt-1">
+                <p class="text-xs">🎯 <strong>มี value = </strong>เพิ่ม spend ได้ ถ้าได้ business value มากกว่าที่จ่าย</p>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: หลักการ 3-4 -->
+      <section id="principles-3-4">
+        <h2><i class="fa-solid fa-star text-gold"></i>&nbsp;&nbsp;หลักการที่ 3-4: Ownership + Data</h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+            <div class="card" style="border-top: 4px solid var(--secondary-color);">
+              <p class="text-lg text-orange font-bold" style="margin-bottom: 8px;">3. <i class="fa-solid fa-hand-holding-hand"></i>&nbsp; ทุกคนเป็นเจ้าของ</p>
+              <p class="text-sm">ทีม Eng รับผิดชอบ cost ของตัวเอง ตั้งแต่ design → deploy → operate</p>
+              <p class="text-sm text-muted">ตัวอย่าง: <strong>ทุก Pull Request</strong> มี cost impact review ถ้าเปลี่ยน architecture</p>
+              <div class="orange-box mt-1">
+                <p class="text-xs">🙋 <strong>Anti-pattern:</strong> "cost ไม่ใช่เรื่องฉัน — finance manage ให้"</p>
+              </div>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--primary-color);">
+              <p class="text-lg text-primary font-bold" style="margin-bottom: 8px;">4. <i class="fa-solid fa-eye"></i>&nbsp; ข้อมูลชัด เปิดทุกคน</p>
+              <p class="text-sm">Cost visibility แบบ real-time ทุกคนเข้าถึงข้อมูลชุดเดียวกัน</p>
+              <p class="text-sm text-muted">ตัวอย่าง: <strong>Dashboard กลาง</strong> ที่ทุกทีมเข้าดูได้ — ไม่เก็บ cost ไว้คนเดียว</p>
+              <div class="highlight-box mt-1">
+                <p class="text-xs">📈 <strong>Fast feedback loop</strong> = พฤติกรรมเปลี่ยนเร็วขึ้น เห็น cost ทันที ไม่ใช่สิ้นเดือน</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: หลักการ 5-6 -->
+      <section id="principles-5-6">
+        <h2><i class="fa-solid fa-star text-gold"></i>&nbsp;&nbsp;หลักการที่ 5-6: Central Enablement + Variable Cost</h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+            <div class="card" style="border-top: 4px solid var(--primary-color);">
+              <p class="text-lg text-primary font-bold" style="margin-bottom: 8px;">5. <i class="fa-solid fa-shield-halved"></i>&nbsp; Centralized Enablement</p>
+              <p class="text-sm">ทีม FinOps กลาง — ทำ rate opt, best practice — <strong>ไม่ใช่ทำ optimization ให้ทุกทีม</strong></p>
+              <p class="text-sm text-muted">ตัวอย่าง: ทีมกลาง <strong>negotiate enterprise discount</strong> 30% ให้ทั้ง org — แต่ทีม Eng เลือกขนาด VM เอง</p>
+              <div class="highlight-box mt-1">
+                <p class="text-xs">🛡️ <strong>Economies of scale</strong> — ซื้อ bulk discount ได้เพราะมองทั้ง org</p>
+              </div>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--green-color);">
+              <p class="text-lg text-green font-bold" style="margin-bottom: 8px;">6. <i class="fa-solid fa-arrows-rotate"></i>&nbsp; ใช้ข้อดี Variable Cost</p>
+              <p class="text-sm">Cloud = จ่ายตามใช้ — รับข้อดีนี้ ใช้ agile planning แทน fixed budget</p>
+              <p class="text-sm text-muted">ตัวอย่าง: แทนที่จะจอง <strong>capacity ล่วงหน้า 1 ปี</strong> → ใช้ auto-scaling + spot instances</p>
+              <div class="green-box mt-1">
+                <p class="text-xs">⚡ <strong>Variable ≠ ไม่แน่นอน</strong> — แต่ปรับได้ตาม demand จริง ลด over-provisioning</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: Operating Model -->
+      <section id="operating-model">
+        <h2><i class="fa-solid fa-sitemap text-primary"></i>&nbsp;&nbsp;Operating Model</h2>
+        <div class="content">
+          <div class="diagram-center">
+            <div class="flow-row">
+              <div class="flow-box" style="background: #D5F5E3; color: var(--green-color); min-width: 220px;">
+                <i class="fa-solid fa-building"></i> ทีมกลาง FinOps
+                <br><span style="font-size: 10pt;">Rate opt, Best practice</span>
+              </div>
+              <span class="flow-arrow">⟷ ช่วยเหลือ ⟷</span>
+              <div class="flow-box" style="min-width: 220px;">
+                <i class="fa-solid fa-code"></i> ทีม Eng แต่ละทีม
+                <br><span style="font-size: 10pt;">Usage opt, Arch decision</span>
+              </div>
+            </div>
+          </div>
+          <table class="mt-2">
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>รับผิดชอบ</th>
+                <th>ตัวอย่าง</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Central FinOps</strong></td>
+                <td>Rate opt, exec comm, best practice</td>
+                <td>CUDs, enterprise discount, policy</td>
+              </tr>
+              <tr>
+                <td><strong>Engineering Teams</strong></td>
+                <td>Usage opt, arch decisions, cost metric</td>
+                <td>Rightsize VM, tune auto-scaling</td>
+              </tr>
+              <tr>
+                <td><strong>Data Platform</strong></td>
+                <td>Real-time visibility, FOCUS-aligned data</td>
+                <td>Dashboard, forecasting, benchmarking</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="orange-box mt-1">
+            <p class="text-sm"><i class="fa-solid fa-triangle-exclamation text-orange"></i>&nbsp; <strong>Anti-pattern!</strong> ทีม FinOps กลางทำ optimization ให้ทุกทีม → กลายเป็น bottleneck</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: FinOps Framework Components -->
+      <section id="finops-framework-cards">
+        <h2><i class="fa-solid fa-cubes text-primary"></i>&nbsp;&nbsp;FinOps Framework Components</h2>
+        <div class="content">
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            <div class="persona">
+              <p style="font-size: 22pt;"><i class="fa-solid fa-users text-primary"></i></p>
+              <p class="text-primary font-bold">Principles</p>
+              <p class="text-xs text-muted">6 หลักทางที่นำทาง</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 22pt;"><i class="fa-solid fa-user-tag text-green"></i></p>
+              <p class="text-green font-bold">Personas</p>
+              <p class="text-xs text-muted">บทบาทแต่ละคน</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 22pt;"><i class="fa-solid fa-route text-orange"></i></p>
+              <p class="text-orange font-bold">Phases</p>
+              <p class="text-xs text-muted">Inform → Optimize → Operate</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 22pt;"><i class="fa-solid fa-layer-group text-gold"></i></p>
+              <p class="text-primary font-bold">Maturity</p>
+              <p class="text-xs text-muted">Crawl → Walk → Run</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 22pt;"><i class="fa-solid fa-chart-pie text-primary"></i></p>
+              <p class="text-primary font-bold">Domains</p>
+              <p class="text-xs text-muted">Cost Alloc, Perf Mgmt</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 22pt;"><i class="fa-solid fa-crosshairs text-green"></i></p>
+              <p class="text-green font-bold">Capabilities</p>
+              <p class="text-xs text-muted">Functional areas</p>
+            </div>
+          </div>
+          <div class="green-box mt-2">
+            <p class="text-sm text-muted"><i class="fa-solid fa-info-circle text-green"></i>&nbsp; <strong>FinOps Foundation</strong> (finops.org) — องค์กรไม่แสวงหาผลกำไรที่ดูแลมาตรฐาน FinOps ทั่วโลก</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: Personas -->
+      <section id="personas">
+        <h2><i class="fa-solid fa-user-group text-primary"></i>&nbsp;&nbsp;FinOps Personas — ใครทำอะไร?</h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            <div class="persona">
+              <p style="font-size: 28pt;">💼</p>
+              <p class="text-primary font-bold">Executives</p>
+              <p class="text-xs text-muted">CFO, CTO, CIO</p>
+              <p class="text-sm mt-1">กำหนดทิศทาง, approve budget, ตั้งเป้าหมาย unit economics</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 28pt;">👨‍💻</p>
+              <p class="text-green font-bold">Engineers</p>
+              <p class="text-xs text-muted">Dev, SRE, Ops</p>
+              <p class="text-sm mt-1">Optimize usage, right-size, เลือก architecture ที่ cost-effective</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 28pt;">📊</p>
+              <p class="text-orange font-bold">Finance</p>
+              <p class="text-xs text-muted">FP&amp;A, Procurement</p>
+              <p class="text-sm mt-1">Forecast, budget allocation, negotiate discount &amp; CUDs</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 28pt;">🎯</p>
+              <p class="text-primary font-bold">Product Owners</p>
+              <p class="text-xs text-muted">PM, Business Lead</p>
+              <p class="text-sm mt-1">权衡 cost vs value, set pricing strategy, feature ROI</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 28pt;">🏗️</p>
+              <p class="text-green font-bold">FinOps Practitioner</p>
+              <p class="text-xs text-muted">Central team</p>
+              <p class="text-sm mt-1">Enable best practices, rate optimization, executive reporting</p>
+            </div>
+            <div class="persona">
+              <p style="font-size: 28pt;">📈</p>
+              <p class="text-orange font-bold">Cloud Center of Excellence</p>
+              <p class="text-xs text-muted">CCoE</p>
+              <p class="text-sm mt-1">Best practice, governance, policy, training programs</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: Maturity Model -->
+      <section id="maturity-model">
+        <h2><i class="fa-solid fa-road text-primary"></i>&nbsp;&nbsp;Maturity Model: Crawl → Walk → Run</h2>
+        <div class="content">
+          <div class="tline">
+            <span class="tline-badge">Crawl</span>
+            <p class="text-sm"><strong>เริ่มต้น — เห็นภาพ</strong> — ตั้ง labels, dashboard เบื้องต้น, หา quick wins</p>
+          </div>
+          <p class="text-sm text-muted" style="margin-left: 80px;">ตัวอย่าง: สร้าง GCP project ทุกโปรเจกต์, ตั้ง label <code>team</code>, <code>env</code> ดู bill 2 ครั้ง/เดือน, หา idle VM 5 ตัวแรกที่ปิดได้</p>
+          <div class="tline" style="margin-top: 12px;">
+            <span class="tline-badge" style="background: var(--green-color);">Walk</span>
+            <p class="text-sm"><strong>ทำเป็นระบบ — ปรับปรุง</strong> — มี process, automate monitoring, มี KPI cost per unit</p>
+          </div>
+          <p class="text-sm text-muted" style="margin-left: 80px;">ตัวอย่าง: ทุกทีมมี cost dashboard ตัวเอง, monthly review meeting, set budgets + alerts 80%, CUDs ครอบคลุม 70% spend</p>
+          <div class="tline" style="margin-top: 12px;">
+            <span class="tline-badge" style="background: var(--secondary-color);">Run</span>
+            <p class="text-sm"><strong>เป็นนิสัย — วัด value</strong> — cost เป็น first-class metric, automate optimization, unit economics-driven</p>
+          </div>
+          <p class="text-sm text-muted" style="margin-left: 80px;">ตัวอย่าง: CI/CD pipeline มี cost check gate, auto-scaling tuned real-time, cost per transaction KPI, FinOps score 90%+</p>
+          <div class="gold-box mt-1">
+            <p class="text-sm"><i class="fa-solid fa-lightbulb text-gold"></i>&nbsp; <strong>อย่าข้ามขั้น:</strong> Crawl ก่อนแล้วค่อย Walk — การข้ามขั้นอาจทำให้ data ไม่ได้มาตรฐาน วัดผลไม่ได้</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 14: Phase 1 - Inform -->
+      <section id="phase-inform">
+        <h2><i class="fa-solid fa-eye text-primary"></i>&nbsp;&nbsp;Phase 1: Inform — "รู้"</h2>
+        <div class="content">
+          <p class="text-md">ก่อนจะ optimize ได้ — <strong>เราต้องรู้ก่อนว่าเงินไปไหน</strong></p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
             <div class="card">
-              <p class="text-primary font-bold"><i class="fa-solid fa-magnifying-glass"></i>&nbsp; Inform (รู้)</p>
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-tags"></i>&nbsp; Cost Allocation</p>
+              <p class="text-sm">Labels/Tags ทุก resource — project, team, env, app</p>
+              <p class="text-sm text-muted">ตัวอย่าง: <code>team:backend</code> <code>env:prod</code> <code>app:payment-svc</code></p>
+            </div>
+            <div class="card">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-chart-bar"></i>&nbsp; Reporting &amp; Dashboards</p>
+              <p class="text-sm">Dashboard real-time — ทุกทีมเห็น cost ของตัวเอง</p>
+              <p class="text-sm text-muted">ตัวอย่าง: GCP Billing Export → BigQuery → LookerStudio</p>
+            </div>
+            <div class="card">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-share-nodes"></i>&nbsp; Shared Cost Handling</p>
+              <p class="text-sm">จัดสรร shared cost แบบ fair — network, logging, monitoring</p>
+              <p class="text-sm text-muted">ตัวอย่าง: แบ่งตาม % usage, pro-rated by team</p>
+            </div>
+            <div class="card">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-chart-line"></i>&nbsp; Forecasting</p>
+              <p class="text-sm">ทำนาย budget ล่วงหน้า — ตั้ง budget alerts</p>
+              <p class="text-sm text-muted">ตัวอย่าง: alert เมื่อ cost เกิน 80% ของ budget เดือนนี้</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 15: Labeling Strategy Example -->
+      <section id="labeling-example">
+        <h2><i class="fa-solid fa-tags text-primary"></i>&nbsp;&nbsp;ตัวอย่าง: Labeling Strategy ที่ดี</h2>
+        <div class="content">
+          <table>
+            <thead>
+              <tr>
+                <th>Label Key</th>
+                <th>ตัวอย่าง Values</th>
+                <th>ทำไมต้องมี</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>team</code></td>
+                <td><code>backend</code>, <code>frontend</code>, <code>data-eng</code></td>
+                <td>รู้ว่าทีมไหนใช้ cloud เท่าไร</td>
+              </tr>
+              <tr>
+                <td><code>env</code></td>
+                <td><code>dev</code>, <code>staging</code>, <code>prod</code></td>
+                <td>แยก cost prod (ห้ามปิด)与非prod (ปิดได้)</td>
+              </tr>
+              <tr>
+                <td><code>app</code></td>
+                <td><code>payment-svc</code>, <code>auth-api</code></td>
+                <td>track cost per application</td>
+              </tr>
+              <tr>
+                <td><code>cost-center</code></td>
+                <td><code>cc-1001</code>, <code>cc-2002</code></td>
+                <td>ตรงกับ finance accounting</td>
+              </tr>
+              <tr>
+                <td><code>data-classification</code></td>
+                <td><code>public</code>, <code>internal</code>, <code>confidential</code></td>
+                <td>security + compliance</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="orange-box mt-2">
+            <p class="text-sm"><i class="fa-solid fa-triangle-exclamation text-orange"></i>&nbsp; <strong>Common pitfall:</strong> Untagged resources — ไม่มี label = ไม่มีใครรับผิดชอบ = <strong>ค่าใช้จ่ายที่ลอยอยู่</strong></p>
+          </div>
+          <div class="green-box mt-1">
+            <p class="text-sm"><i class="fa-solid fa-check-circle text-green"></i>&nbsp; <strong>Best practice:</strong> ใช้ Organization Policy บังคับ — สร้าง resource ถ้าไม่มี label หลัก → reject</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 16: Phase 2 - Optimize -->
+      <section id="phase-optimize">
+        <h2><i class="fa-solid fa-gear text-green"></i>&nbsp;&nbsp;Phase 2: Optimize — "ปรับ"</h2>
+        <div class="content">
+          <div class="diagram-center">
+            <div class="flow-row">
+              <div class="flow-box green" style="min-width: 180px; font-size: 14pt;"><i class="fa-solid fa-box"></i>&nbsp; Product</div>
+              <span class="flow-arrow">+</span>
+              <div class="flow-box" style="min-width: 180px; font-size: 14pt;"><i class="fa-solid fa-dollar-sign"></i>&nbsp; Pricing</div>
+              <span class="flow-arrow">+</span>
+              <div class="flow-box orange" style="min-width: 180px; font-size: 14pt;"><i class="fa-solid fa-shield"></i>&nbsp; Guardrails</div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px;">
+            <div class="card">
+              <p class="text-green font-bold"><i class="fa-solid fa-box"></i>&nbsp; Product Efficiency</p>
               <ul class="text-sm">
-                <li>จัดสรร cost ด้วย Labels/Tags</li>
-                <li>รายงานต้นทุนแบบ real-time</li>
-                <li>Shared cost handling</li>
-                <li>Forecast ล่วงหน้า</li>
+                <li style="color: var(--text-color)!important;"><strong>Right-sizing:</strong> ลด spec VM ที่เกินความจำเป็น</li>
+                <li style="color: var(--text-color)!important;"><strong>Refactoring:</strong> เปลี่ยน architecture ให้ประหยัด</li>
+                <li style="color: var(--text-color)!important;"><strong>Idle removal:</strong> ปิด VM, DB, IP ไม่ใช้</li>
               </ul>
             </div>
-            <div class="card" style="border-top: 3px solid var(--green-color);">
-              <p class="text-green font-bold"><i class="fa-solid fa-gears"></i>&nbsp; Optimize (ปรับ)</p>
+            <div class="card" style="border-left: 3px solid var(--primary-color);">
+              <p class="text-primary font-bold"><i class="fa-solid fa-dollar-sign"></i>&nbsp; Pricing Optimization</p>
               <ul class="text-sm">
-                <li style="color: var(--primary-color)!important;"><strong style="color: var(--text-color)!important;">Product:</strong> Rightsize, Refactor, Idle removal</li>
-                <li style="color: var(--primary-color)!important;"><strong style="color: var(--text-color)!important;">Pricing:</strong> CUDs, Preemptible VMs</li>
-                <li style="color: var(--primary-color)!important;"><strong style="color: var(--text-color)!important;">Guardrails:</strong> Budgets, Quotas</li>
+                <li style="color: var(--text-color)!important;"><strong>CUDs:</strong> Commit 1/3 ปี -20% ถึง -57%</li>
+                <li style="color: var(--text-color)!important;"><strong>Preemptible:</strong> spot VMs -60% ถึง -91%</li>
+                <li style="color: var(--text-color)!important;"><strong>Sustained discounts:</strong> ใช้เยอะ → ลดอัตโนมัติ</li>
               </ul>
             </div>
-            <div class="card" style="border-top: 3px solid var(--secondary-color);">
-              <p class="text-orange font-bold"><i class="fa-solid fa-recycle"></i>&nbsp; Operate (ทำซ้ำ)</p>
+            <div class="card" style="border-left: 3px solid var(--secondary-color);">
+              <p class="text-orange font-bold"><i class="fa-solid fa-shield"></i>&nbsp; Guardrails</p>
               <ul class="text-sm">
-                <li>Onboarding &amp; Education ทีมใหม่</li>
-                <li>สร้าง Incentive ให้ทีมลด cost</li>
-                <li>วัด Value, สอดคล้องกับ Funding</li>
-                <li>Iterative — ไม่มีวันเสร็จสมบูรณ์</li>
+                <li style="color: var(--text-color)!important;"><strong>Budgets + Alerts:</strong> แจ้งเตือนก่อนเกิน</li>
+                <li style="color: var(--text-color)!important;"><strong>Quotas:</strong> จำกัด max spend per project</li>
+                <li style="color: var(--text-color)!important;"><strong>Policies:</strong> auto-shutdown dev env ตอนกลางคืน</li>
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 8: GCP FinOps Score -->
-      <section id="finops-score">
-        <h2><i class="fa-solid fa-trophy text-gold"></i>&nbsp;&nbsp;GCP FinOps Score &amp; Optimization</h2>
+      <!-- SLIDE 17: ตัวอย่าง Right-sizing -->
+      <section id="rightsizing-example">
+        <h2><i class="fa-solid fa-ruler text-green"></i>&nbsp;&nbsp;ตัวอย่าง: Rightsizing ในชีวิตจริง</h2>
         <div class="content">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
-            <div>
-              <p class="text-xl text-primary font-bold"><i class="fa-solid fa-gauge-high"></i>&nbsp; FinOps Score</p>
-              <p class="text-sm">คะแนนวัด <strong>ระดับความ mature</strong> ของ FinOps ในองค์กร ครอบคลุม 6 มิติ:</p>
-              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px;">
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-chart-bar"></i> Spend Monitoring</p></div>
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-tags"></i> Tagging</p></div>
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-wrench"></i> Optimization</p></div>
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-handshake"></i> Commitments</p></div>
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-bell"></i> Budgets</p></div>
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-robot"></i> Automation</p></div>
+          <p class="text-md">บริษัท A มี GKE cluster 50 nodes — CPU utilization เฉลี่ย <strong style="color: var(--secondary-color);">15%</strong></p>
+          <div class="diagram-center" style="margin: 12px 0;">
+            <div class="flow-row">
+              <div class="flow-box" style="min-width: 200px; font-size: 13pt;">
+                <i class="fa-solid fa-server text-orange"></i> ก่อน: 50 nodes × n2-standard-4<br>
+                <span class="text-sm text-muted">CPU 4 vCPU, RAM 16 GB</span><br>
+                <span class="text-md font-bold text-orange">~$12,000/เดือน</span>
+              </div>
+              <span class="flow-arrow">→ <i class="fa-solid fa-arrow-down text-green"></i></span>
+              <div class="flow-box green" style="min-width: 200px; font-size: 13pt;">
+                <i class="fa-solid fa-server text-green"></i> หลัง: 15 nodes × e2-medium<br>
+                <span class="text-sm text-muted">CPU 2 vCPU, RAM 4 GB</span><br>
+                <span class="text-md font-bold text-green">~$3,600/เดือน</span>
               </div>
             </div>
-            <div>
-              <p class="text-xl text-green font-bold"><i class="fa-solid fa-piggy-bank"></i>&nbsp; Optimization Summary</p>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;">
+            <div class="stat">
+              <p class="text-2xl font-bold text-orange">CPU: 15%</p>
+              <p class="text-sm">Before</p>
+            </div>
+            <div class="stat">
+              <p class="text-2xl font-bold text-green">CPU: 45%</p>
+              <p class="text-sm">After</p>
+            </div>
+            <div class="stat">
+              <p class="text-2xl font-bold text-green">-70%</p>
+              <p class="text-sm">ประหยัด $8.4K/เดือน</p>
+            </div>
+          </div>
+          <div class="highlight-box mt-1">
+            <p class="text-sm"><i class="fa-solid fa-lightbulb text-primary"></i>&nbsp; <strong>Lesson:</strong> 50 nodes ใช้แค่ 15% → หมายความว่า "จ่าย 100% ใช้ 15%" = เสีย $10,200/เดือน โดยเปล่าประโยชน์</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 18: ตัวอย่าง CUDs vs On-demand -->
+      <section id="cuds-example">
+        <h2><i class="fa-solid fa-handshake text-primary"></i>&nbsp;&nbsp;ตัวอย่าง: CUDs vs On-demand</h2>
+        <div class="content">
+          <p class="text-md"><strong>Committed Use Discounts (CUDs)</strong> — สัญญา 1-3 ปี แลกกับ discount สูง</p>
+          <table class="mt-1">
+            <thead>
+              <tr>
+                <th></th>
+                <th>On-Demand</th>
+                <th>CUD 1 ปี</th>
+                <th>CUD 3 ปี</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>n2-standard-4</strong></td>
+                <td>$0.1919/hr</td>
+                <td style="color: var(--green-color)!important; font-weight: 700;">$0.1343/hr <span class="text-green">(-30%)</span></td>
+                <td style="color: var(--green-color)!important; font-weight: 700;">$0.0960/hr <span class="text-green">(-50%)</span></td>
+              </tr>
+              <tr>
+                <td><strong>Monthly (730 hr)</strong></td>
+                <td>$140</td>
+                <td style="color: var(--green-color)!important; font-weight: 700;">$98</td>
+                <td style="color: var(--green-color)!important; font-weight: 700;">$70</td>
+              </tr>
+              <tr>
+                <td><strong>50 Instances</strong></td>
+                <td style="color: var(--secondary-color)!important; font-weight: 700;">$7,000</td>
+                <td style="color: var(--green-color)!important; font-weight: 700;">$4,900</td>
+                <td style="color: var(--green-color)!important; font-weight: 700;">$3,500</td>
+              </tr>
+              <tr>
+                <td><strong>ประหยัด/เดือน</strong></td>
+                <td>—</td>
+                <td><span class="badge green">-$2,100</span></td>
+                <td><span class="badge green">-$3,500</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="orange-box mt-1">
+            <p class="text-sm"><i class="fa-solid fa-exclamation-circle text-orange"></i>&nbsp; <strong>ข้อควรระวัง:</strong> CUDs = commitment! ถ้า traffic ลดลง ต้องจ่ายอยู่ — ใช้เฉพาะ workload ที่ stable</p>
+          </div>
+          <div class="green-box mt-1">
+            <p class="text-sm"><i class="fa-solid fa-check-circle text-green"></i>&nbsp; <strong>Best practice:</strong> Start with 1-year CUDs ครอบคลุม 60-70% baseline → ปลอดภัยกว่า 3-year lock-in โดยยังไม่รู้ trend</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 19: Phase 3 - Operate -->
+      <section id="phase-operate">
+        <h2><i class="fa-solid fa-infinity text-orange"></i>&nbsp;&nbsp;Phase 3: Operate — "ทำซ้ำ"</h2>
+        <div class="content">
+          <div class="highlight-box">
+            <p class="text-md">FinOps <strong>ไม่มีวันเสร็จสมบูรณ์</strong> — ต้องทำซ้ำไปเรื่อยๆ เป็นนิสัย</p>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+            <div class="card">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-door-open"></i>&nbsp; Onboarding &amp; Education</p>
+              <p class="text-sm">ทีมใหม่ต้อง learn FinOps ตั้งแต่ day 1</p>
+              <p class="text-sm text-muted">ตัวอย่าง: <strong>FinOps 101 workshop</strong> ทุกเดือน, FinOps checklist ใน README ทุก repo</p>
+            </div>
+            <div class="card">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-trophy"></i>&nbsp; Incentives &amp; Rewards</p>
+              <p class="text-sm">สร้างแรงจูงใจให้ทีมลด cost</p>
+              <p class="text-sm text-muted">ตัวอย่าง: <strong>Leaderboard</strong> ทีมที่ประหยัดสูงสุด, reward สำหรับ cost innovation</p>
+            </div>
+            <div class="card">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-chart-line"></i>&nbsp; Value Measurement</p>
+              <p class="text-sm">วัด cloud spend เทียบกับ business outcome</p>
+              <p class="text-sm text-muted">ตัวอย่าง: <strong>cost/active-user, cost/transaction</strong> tracked monthly</p>
+            </div>
+            <div class="card">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-money-bill-transfer"></i>&nbsp; Funding Alignment</p>
+              <p class="text-sm">สอดคล้อง cloud budget กับ funding model</p>
+              <p class="text-sm text-muted">ตัวอย่าง: <strong>Internal chargeback</strong> — ทีมจ่ายจาก budget ของตัวเอง</p>
+            </div>
+          </div>
+          <div class="gold-box mt-2">
+            <p class="text-sm"><i class="fa-solid fa-repeat text-gold"></i>&nbsp; <strong>Operate = ทำให้ FinOps เป็น habit ไม่ใช่ project</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 20: Gamification Example -->
+      <section id="gamification-example">
+        <h2><i class="fa-solid fa-gamepad text-gold"></i>&nbsp;&nbsp;ตัวอย่าง: Gamification + Incentive</h2>
+        <div class="content">
+          <p class="text-md">บริษัทหนึ่งสร้าง <strong>FinOps Leaderboard</strong> — ผลคือทุกทีมอยากลด cost เอง!</p>
+          <div class="diagram-center" style="margin: 12px 0;">
+            <div class="flow-row">
+              <div class="flow-box" style="min-width: 140px; font-size: 12pt;">🥇 Team Alpha<br><span class="text-green">-$12K/เดือน</span></div>
+              <span class="flow-arrow"></span>
+              <div class="flow-box green" style="min-width: 140px; font-size: 12pt;">🥈 Team Bravo<br><span class="text-green">-$8K/เดือน</span></div>
+              <span class="flow-arrow"></span>
+              <div class="flow-box gold" style="min-width: 140px; font-size: 12pt;">🥉 Team Charlie<br><span class="text-green">-$5K/เดือน</span></div>
+              <span class="flow-arrow"></span>
+              <div class="flow-box orange" style="min-width: 140px; font-size: 12pt;">📊 Team Delta<br><span class="text-orange">+$2K/เดือน ⚠️</span></div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px;">
+            <div class="card">
+              <p class="text-lg text-green font-bold"><i class="fa-solid fa-star"></i>&nbsp; Reward Ideas</p>
               <ul class="text-sm">
-                <li><strong style="color: var(--green-color)!important;">25+ Recommenders</strong> — GCE, GKE, Cloud SQL, Cloud Run, CUDs</li>
-                <li><strong style="color: var(--green-color)!important;">Wasted Usage</strong> (Preview) — หา resource ที่ underutilized</li>
-                <li><strong style="color: var(--green-color)!important;">Carbon Footprint</strong> (Preview) — GHG emissions จาก cloud</li>
-                <li><strong style="color: var(--green-color)!important;">Peer Benchmarking</strong> — เปรียบเทียบกับองค์กรคล้ายกัน (opt-in)</li>
+                <li>Gift card / team lunch สำหรับทีมประหยัดสูงสุด</li>
+                <li>Badge ใน Slack/Discord — "FinOps Champion"</li>
+                <li>Highlight ใน all-hands meeting ทุก quarter</li>
               </ul>
-              <div class="green-box mt-1">
-                <p class="text-xs"><i class="fa-solid fa-chart-line text-green"></i>&nbsp; คำนวณประหยัดจริง — <strong style="color: var(--text-color);">realized savings</strong> จาก CUDs, right-sizing, idle removal</p>
-              </div>
+            </div>
+            <div class="card">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-list-check"></i>&nbsp; FinOps Checklist</p>
+              <ul class="text-sm">
+                <li>Labels ครบทุก resource ✅</li>
+                <li>Budget + alerts ตั้งแล้ว ✅</li>
+                <li>Idle resources cleaned ✅</li>
+                <li>Right-sized VMs ✅</li>
+                <li>CUD coverage &gt; 60% ✅</li>
+              </ul>
+            </div>
+          </div>
+          <div class="green-box mt-1">
+            <p class="text-sm"><i class="fa-solid fa-heart text-green"></i>&nbsp; <strong>Key:</strong> Blameless culture — Team Delta ไม่โดนด่า แต่ช่วยกันหาว่าทำไม cost พุ่ง</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 21: GCP FinOps Hub -->
+      <section id="gcp-finops-hub">
+        <h2><i class="fa-solid fa-chart-bar text-primary"></i>&nbsp;&nbsp;GCP FinOps Hub Dashboard</h2>
+        <div class="content">
+          <p class="text-md">Google's opinionated implementation — <strong>Inform + Optimize</strong> ในหน้าเดียว</p>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 12px;">
+            <div class="card" style="border-left: 4px solid var(--green-color);">
+              <p class="text-green font-bold"><i class="fa-solid fa-gauge-high"></i>&nbsp; FinOps Score</p>
+              <p class="text-sm">คะแนน maturity 6 มิติ</p>
+              <p class="text-xs text-muted mt-1">Spend Monitoring · Tagging · Optimization · Commitments · Budgets · Automation</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--primary-color);">
+              <p class="text-primary font-bold"><i class="fa-solid fa-piggy-bank"></i>&nbsp; Optimization Summary</p>
+              <p class="text-sm">Realized savings จาก CUDs, right-sizing, idle removal</p>
+              <p class="text-xs text-muted mt-1">Active recommendations, potential savings/month, CUD coverage</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--secondary-color);">
+              <p class="text-orange font-bold"><i class="fa-solid fa-users-viewfinder"></i>&nbsp; Peer Benchmarking</p>
+              <p class="text-sm">เทียบกับอุตสาหกรรม (opt-in, update ทุกวัน)</p>
+              <p class="text-xs text-muted mt-1">รู้ว่า score เราสูง/ต่ำกว่า peer เฉลี่ยเท่าไร</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--gold-color);">
+              <p class="text-primary font-bold"><i class="fa-solid fa-robot"></i>&nbsp; 25+ Recommenders</p>
+              <p class="text-sm">Compute Engine, GKE, Cloud SQL, Cloud Run</p>
+              <p class="text-xs text-muted mt-1">Wasted Usage (Preview) + Carbon Footprint (Preview)</p>
             </div>
           </div>
           <div class="footnote">
-            <i class="fa-solid fa-link text-muted"></i>&nbsp; เข้าถึงที่ <code>console.cloud.google.com/billing/optimize</code> — ต้องมี Billing Account Viewer/Administrator
+            <i class="fa-solid fa-link text-muted"></i>&nbsp; <code>console.cloud.google.com/billing/optimize</code> — ต้องมี Billing Account Viewer/Administrator
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 9: Labels / Tagging -->
-      <section id="labels-tagging">
-        <h2><i class="fa-solid fa-tags text-primary"></i>&nbsp;&nbsp;Labels &amp; Cost Allocation — จุดเริ่มต้นสำคัญ</h2>
+      <!-- SLIDE 22: FinOps Score Detail -->
+      <section id="finops-score-detail">
+        <h2><i class="fa-solid fa-chart-radar text-gold"></i>&nbsp;&nbsp;ตัวอย่าง: FinOps Score 6 มิติ</h2>
         <div class="content">
-          <div class="highlight-box">
-            <p class="text-lg"><i class="fa-solid fa-key"></i>&nbsp; <strong>"ไม่มี label = ไม่มีใครรู้ว่าเงินไปไหน"</strong></p>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
-            <div>
-              <p class="text-md font-bold text-primary">สิ่งที่ต้องมี:</p>
-              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px;">
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-tags"></i> Project</p><span class="text-xs text-muted">ทีม / โปรเจกต์</span></div>
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-layer-group"></i> Environment</p><span class="text-xs text-muted">Dev / Staging / Prod</span></div>
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-building"></i> Business Unit</p><span class="text-xs text-muted">หน่วยงาน / สายงาน</span></div>
-                <div class="stat"><p class="text-sm font-bold text-primary"><i class="fa-solid fa-cube"></i> Application</p><span class="text-xs text-muted">ระบบ / แอพ</span></div>
-              </div>
+          <p class="text-md">คะแนนรวม <strong style="color: var(--green-color);">78/100</strong> — ระดับ <span class="badge green">Walk</span> (กำลังมุ่งสู่ Run)</p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px;">
+            <div class="stat">
+              <p class="text-2xl font-bold text-green">92/100</p>
+              <p class="text-sm">Spend Monitoring</p>
+              <p class="text-xs text-muted">Dashboard ครบ, update ทุกวัน</p>
             </div>
-            <div>
-              <p class="text-md font-bold text-orange">Common Pitfalls:</p>
+            <div class="stat">
+              <p class="text-2xl font-bold text-green">88/100</p>
+              <p class="text-sm">Tagging</p>
+              <p class="text-xs text-muted">95% resources มี labels ครบ</p>
+            </div>
+            <div class="stat">
+              <p class="text-2xl font-bold text-gold">72/100</p>
+              <p class="text-sm">Optimization</p>
+              <p class="text-xs text-muted">Rightsizing ทำแล้ว 50% — อีก 50% รอ</p>
+            </div>
+            <div class="stat">
+              <p class="text-2xl font-bold text-primary">85/100</p>
+              <p class="text-sm">Commitments</p>
+              <p class="text-xs text-muted">CUD coverage 68% — เป้าหมาย 75%</p>
+            </div>
+            <div class="stat">
+              <p class="text-2xl font-bold text-orange">65/100</p>
+              <p class="text-sm">Budgets</p>
+              <p class="text-xs text-muted">มี budget 3 teams จาก 8 — ยังไม่ครบ</p>
+            </div>
+            <div class="stat">
+              <p class="text-2xl font-bold text-orange">50/100</p>
+              <p class="text-sm">Automation</p>
+              <p class="text-xs text-muted">เพิ่งเริ่ม auto-shutdown dev env</p>
+            </div>
+          </div>
+          <div class="highlight-box mt-1">
+            <p class="text-sm"><i class="fa-solid fa-info-circle text-primary"></i>&nbsp; <strong>Quick wins 3 เดือนแรก:</strong> ตั้ง budget alerts ทุกทีม → +20 points Budgets / ตั้ง auto-remediation → +15 points Automation</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 23: Shared Cost Allocation -->
+      <section id="shared-cost">
+        <h2><i class="fa-solid fa-share-nodes text-primary"></i>&nbsp;&nbsp;ตัวอย่าง: จัดสรร Shared Cost</h2>
+        <div class="content">
+          <p class="text-md">Shared resource — network, Cloud Logging, monitoring — ใครจ่าย?</p>
+          <div class="diagram-center" style="margin: 10px 0;">
+            <p class="text-lg text-primary font-bold">Shared Cost เดือนละ $15,000</p>
+            <div class="flow-row">
+              <div class="flow-box" style="font-size: 12pt;">Shared Network: $6K</div>
+              <span class="flow-arrow">+</span>
+              <div class="flow-box green" style="font-size: 12pt;">Cloud Logging: $5K</div>
+              <span class="flow-arrow">+</span>
+              <div class="flow-box orange" style="font-size: 12pt;">Monitoring: $4K</div>
+            </div>
+            <p class="text-sm text-muted mt-1">จัดสรรตาม % total spend ของแต่ละทีม</p>
+          </div>
+          <table class="mt-1">
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>Direct Cost</th>
+                <th>% Total</th>
+                <th>Shared Cost</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Team Alpha</td>
+                <td>$8,000</td>
+                <td>32%</td>
+                <td style="color: var(--secondary-color)!important;">$4,800</td>
+                <td style="font-weight: 700;">$12,800</td>
+              </tr>
+              <tr>
+                <td>Team Bravo</td>
+                <td>$6,000</td>
+                <td>24%</td>
+                <td style="color: var(--secondary-color)!important;">$3,600</td>
+                <td style="font-weight: 700;">$9,600</td>
+              </tr>
+              <tr>
+                <td>Team Charlie</td>
+                <td>$4,000</td>
+                <td>16%</td>
+                <td style="color: var(--secondary-color)!important;">$2,400</td>
+                <td style="font-weight: 700;">$6,400</td>
+              </tr>
+              <tr>
+                <td>Team Delta</td>
+                <td>$7,000</td>
+                <td>28%</td>
+                <td style="color: var(--secondary-color)!important;">$4,200</td>
+                <td style="font-weight: 700;">$11,200</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="green-box mt-1">
+            <p class="text-sm"><i class="fa-solid fa-check text-green"></i>&nbsp; <strong>Fair split:</strong> Team Delta ที่ใช้ network เยอะที่สุด → จ่าย shared cost สูงสุด — รับผิดชอบจาก usage ของตัวเอง</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 24: Budget Alerts Example -->
+      <section id="budget-alerts">
+        <h2><i class="fa-solid fa-bell text-orange"></i>&nbsp;&nbsp;ตัวอย่าง: Budget Alerts + Guardrails</h2>
+        <div class="content">
+          <p class="text-md">ป้องกัน <strong>Bill Shock</strong> — แจ้งเตือนก่อนเงินหมด!</p>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 12px;">
+            <div class="card">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-bell"></i>&nbsp; Alerts — แจ้งเตือน</p>
               <ul class="text-sm">
-                <li>ไม่มี standard naming — แต่ละทีมตั้งคนละแบบ</li>
-                <li>Untagged resources — ไม่รู้ว่าเป็นของใคร</li>
-                <li>Shared cost ไม่ถูกจัดสรร — ค้างเป็น "Unallocated"</li>
-                <li>Labels ไม่ update ตาม project change</li>
+                <li style="color: var(--text-color)!important;"><strong>50%:</strong> หมายเหตุ — "กลางเดือนแล้ว ครึ่ง budget หมดแล้ว"</li>
+                <li style="color: var(--text-color)!important;"><strong>80%:</strong> ⚠️ Warning — ทีมต้อง review ทันที</li>
+                <li style="color: var(--text-color)!important;"><strong>100%:</strong> 🚨 Critical — แจ้ง management พร้อม plan</li>
+                <li style="color: var(--text-color)!important;"><strong>125%:</strong> 🔴 Emergency — auto-quota หรือ freeze ใหม่</li>
+              </ul>
+            </div>
+            <div class="card">
+              <p class="text-lg text-green font-bold"><i class="fa-solid fa-shield-halved"></i>&nbsp; Guardrails — ป้องกัน</p>
+              <ul class="text-sm">
+                <li style="color: var(--text-color)!important;"><strong>Quotas:</strong> จำกัด max VM instances per team</li>
+                <li style="color: var(--text-color)!important;"><strong>Org Policies:</strong> ห้ามสร้าง GPU instances โดยไม่ approve</li>
+                <li style="color: var(--text-color)!important;"><strong>Auto-shutdown:</strong> dev/staging env ปิด 22:00-07:00</li>
+                <li style="color: var(--text-color)!important;"><strong>Approval flows:</strong> spend &gt; $1K/เดือน ต้องมี manager approve</li>
               </ul>
             </div>
           </div>
-          <div class="gold-box mt-1">
-            <p class="text-sm"><i class="fa-solid fa-lightbulb text-gold"></i>&nbsp; <strong>เริ่มต้นดี = เห็นภาพชัด:</strong> กำหนด naming standard, บังคับใช้ policy, monitor % tagged resources</p>
+          <div class="orange-box mt-2">
+            <p class="text-sm"><i class="fa-solid fa-example text-orange"></i>&nbsp; <strong>ตัวอย่าง Incident:</strong> Team Delta ทำ batch job ลูปไม่หยุด → VM 50 instances เปิด 72 ชม. → $15K ใน 3 วัน! Budget alert ที่ 80% แจ้งแล้ว แต่ทีมไม่เห็น → <strong>ต้อง set PagerDuty alert ด้วย</strong></p>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 10: Cultural Principles -->
+      <!-- SLIDE 25: Blameless Postmortem -->
+      <section id="blameless">
+        <h2><i class="fa-solid fa-heart-pulse text-green"></i>&nbsp;&nbsp;ตัวอย่าง: Blameless Postmortem</h2>
+        <div class="content">
+          <p class="text-md">Incident เกิด — ไม่ใช่โทษ แต่เรียนรู้อะไรจากมัน</p>
+          <div class="diagram-center" style="margin: 10px 0;">
+            <div class="flow-row">
+              <div class="flow-box orange" style="min-width: 140px; font-size: 12pt;">🔥 Incidient: $15K<br>batch job loop</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-box" style="min-width: 140px; font-size: 12pt;">🔍 คุยกัน<br>blameless</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-box green" style="min-width: 140px; font-size: 12pt;">✅ Action items<br>prevent recur</div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px;">
+            <div class="card">
+              <p class="text-lg text-orange font-bold"><i class="fa-solid fa-xmark"></i>&nbsp; Blaming Culture</p>
+              <ul class="text-sm">
+                <li>"ใครทำ?!" → คนทำกลัว ไม่รายงาน</li>
+                <li>ปัญหาซ่อน — ครั้งหน้าเกิดอีก</li>
+                <li>วัฒนธรรมไม่ปลอดภัย → innovation ตาย</li>
+              </ul>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--green-color);">
+              <p class="text-lg text-green font-bold"><i class="fa-solid fa-check"></i>&nbsp; Blameless Culture</p>
+              <ul class="text-sm">
+                <li>"ระบบไหนพลาด?" → หา root cause</li>
+                <li>แก้ที่ process — ตั้ง hard quota</li>
+                <li>คนรายงานปัญหา → เรียนรู้ทั้งทีม</li>
+              </ul>
+            </div>
+          </div>
+          <div class="green-box mt-2">
+            <p class="text-sm"><i class="fa-solid fa-wrench text-green"></i>&nbsp; <strong>Action items จาก Incident:</strong> (1) ตั้ง hard quota $5K/project/เดือน (2) PagerDuty alert เมื่อ cost spike >200% ใน 24 ชม. (3) batch job template auto-timeout 4 ชม.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 26: Cultural Principles -->
       <section id="culture">
         <h2><i class="fa-solid fa-heart text-primary"></i>&nbsp;&nbsp;วัฒนธรรมที่ทำให้ FinOps สำเร็จ</h2>
         <div class="content">
@@ -356,36 +946,62 @@
             <div class="card text-center">
               <p style="font-size: 28pt;">🔄</p>
               <p class="text-lg text-primary font-bold">Variable Cost</p>
-              <p class="text-sm text-muted">ยอมรับต้นทุนผันแปร ปรับเปลี่ยนได้ — ไม่ใช่ fixed budget</p>
+              <p class="text-sm text-muted">ยอมรับต้นทุนผันแปร ปรับเปลี่ยนได้</p>
             </div>
             <div class="card text-center">
               <p style="font-size: 28pt;">🤝</p>
               <p class="text-lg text-primary font-bold">Break Silos</p>
-              <p class="text-sm text-muted">Finance + Eng + Product ร่วมมือ — ไม่แยกกันอยู่</p>
+              <p class="text-sm text-muted">Finance + Eng + Product ร่วมมือ</p>
             </div>
             <div class="card text-center">
               <p style="font-size: 28pt;">🔍</p>
               <p class="text-lg text-primary font-bold">Democratize</p>
-              <p class="text-sm text-muted">ข้อมูลเปิดเผยทุกคนเข้าใจ — ไม่มี data gatekeeper</p>
+              <p class="text-sm text-muted">ข้อมูลเปิดเผย — ไม่มี data gatekeeper</p>
             </div>
             <div class="card text-center">
               <p style="font-size: 28pt;">🛡️</p>
               <p class="text-lg text-primary font-bold">Blameless</p>
-              <p class="text-sm text-muted">Cost spike = เรียนรู้, ไม่ใช่โทษ — blameless postmortems</p>
+              <p class="text-sm text-muted">Cost spike = เรียนรู้ ไม่ใช่โทษ</p>
             </div>
             <div class="card text-center">
               <p style="font-size: 28pt;">🎯</p>
               <p class="text-lg text-primary font-bold">Value First</p>
-              <p class="text-sm text-muted">อย่าลด cost อย่างเดียว — ดู value ที่ได้จาก every dollar</p>
+              <p class="text-sm text-muted">อย่าลด cost อย่างเดียว — ดู value</p>
             </div>
             <div class="card text-center">
               <p style="font-size: 28pt;">🚀</p>
               <p class="text-lg text-primary font-bold">Agile Mindset</p>
-              <p class="text-sm text-muted">Iterative improvement — อย่ารอ perfect, เริ่มจาก small wins</p>
+              <p class="text-sm text-muted">Iterative — อย่ารอ perfect, เริ่มเลย</p>
             </div>
           </div>
           <div class="green-box mt-2">
             <p class="text-md text-center text-primary font-bold"><i class="fa-solid fa-quote-left"></i>&nbsp; "Cost ownership อยู่ที่ Edge — ไม่ใช่ทีมกลาง"</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 27: FinOps + Semantic Layer -->
+      <section id="finops-other-concepts">
+        <h2><i class="fa-solid fa-diagram-project text-primary"></i>&nbsp;&nbsp;FinOps เชื่อมโยงกับ Concept อื่น</h2>
+        <div class="content">
+          <p class="text-md">FinOps ไม่ได้แยกเดี่ยว — มันเชื่อมโยงกับ pattern อื่นๆ</p>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 14px;">
+            <div class="card" style="border-left: 4px solid var(--primary-color);">
+              <p class="text-lg text-primary font-bold"><i class="fa-solid fa-code-compare"></i>&nbsp; Harness Engineering</p>
+              <p class="text-sm">FinOps = Guides + Sensors pattern: budgets/policies เป็น <strong>guides</strong>; cost data/alerts เป็น <strong>sensors</strong></p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--green-color);">
+              <p class="text-lg text-green font-bold"><i class="fa-solid fa-cubes-stacked"></i>&nbsp; Semantic Layer</p>
+              <p class="text-sm">Semantic layer = "FinOps สำหรับ business metrics" — ทั้งคู่ทำให้ทุกคนเห็น <strong>ความหมายชุดเดียวกัน</strong></p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--secondary-color);">
+              <p class="text-lg text-orange font-bold"><i class="fa-solid fa-robot"></i>&nbsp; AI Coding Agents</p>
+              <p class="text-sm">Initializer pattern: set constraints/tracking เหมือน FinOps ตั้ง budget/guardrails ให้ทีม Eng</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--gold-color);">
+              <p class="text-lg font-bold" style="color: var(--gold-color)!important;"><i class="fa-solid fa-building-columns"></i>&nbsp; FinOps Foundation</p>
+              <p class="text-sm">Nonprofit ที่ดูแลมาตรฐาน FinOps ระดับโลก — source of principles, personas, maturity model</p>
+            </div>
           </div>
         </div>
       </section>
@@ -398,28 +1014,34 @@
         <p style="font-size: 18pt; color: #AED6F1;">Key Takeaways · เริ่มต้นยังไง · แหล่งข้อมูล</p>
       </section>
 
-      <!-- SLIDE 12: Key Takeaways -->
+      <!-- SLIDE 28: Key Takeaways -->
       <section id="key-takeaways">
         <h2><i class="fa-solid fa-check-double text-green"></i>&nbsp;&nbsp;Key Takeaways</h2>
         <div class="content">
-          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;">
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
             <div class="card" style="border-left: 4px solid var(--primary-color);">
-              <p class="text-md text-primary font-bold">1. FinOps = ไม่ใช่ลดงบ แต่เพิ่มความคุ้มค่า</p>
+              <p class="text-md text-primary font-bold">1. FinOps ≠ ลดงบ → เพิ่ม value ต่อ unit cost</p>
             </div>
             <div class="card" style="border-left: 4px solid var(--green-color);">
               <p class="text-md text-green font-bold">2. ทุกคนเป็นเจ้าของ — ไม่ใช่ทีม FinOps เดียว</p>
             </div>
             <div class="card" style="border-left: 4px solid var(--secondary-color);">
-              <p class="text-md text-orange font-bold">3. Inform → Optimize → Operate — ทำซ้ำไปเรื่อยๆ</p>
+              <p class="text-md text-orange font-bold">3. Inform → Optimize → Operate — ทำซ้ำไม่มีวันเสร็จ</p>
             </div>
             <div class="card" style="border-left: 4px solid var(--gold-color);">
-              <p class="text-md" style="color: var(--gold-color) !important; font-weight: 700;">4. Labels/Tags = จุดเริ่มต้น — ไม่มี = มองไม่เห็น</p>
+              <p class="text-md font-bold" style="color: var(--gold-color)!important;">4. Labels/Tags = จุดเริ่มต้น — ไม่มี = มองไม่เห็น</p>
             </div>
             <div class="card" style="border-left: 4px solid var(--primary-color);">
               <p class="text-md text-primary font-bold">5. Unit economics &gt; Total bill</p>
             </div>
             <div class="card" style="border-left: 4px solid var(--green-color);">
               <p class="text-md text-green font-bold">6. Centralized enablement, decentralized execution</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--secondary-color);">
+              <p class="text-md text-orange font-bold">7. Blameless culture — เรียนรู้ ไม่โทษ</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--primary-color);">
+              <p class="text-md text-primary font-bold">8. Crawl → Walk → Run — อย่าข้ามขั้น</p>
             </div>
           </div>
           <div class="diagram-center mt-2">
@@ -432,16 +1054,17 @@
               <div class="flow-box orange" style="font-size: 12pt;"><i class="fa-solid fa-3"></i> ขยายไปทั้งองค์กร</div>
             </div>
           </div>
-          <div style="margin-top: 16px;">
+          <div style="margin-top: 14px;">
             <span class="badge blue">FinOps</span>
             <span class="badge green">Cloud Cost</span>
             <span class="badge orange">Optimization</span>
             <span class="badge gold">Unit Economics</span>
             <span class="badge blue">GCP</span>
             <span class="badge green">Collaboration</span>
+            <span class="badge orange">Blameless</span>
           </div>
-          <p class="text-muted text-sm footnote" style="position: relative; bottom: 0; margin-top: 12px;">
-            Sources: <a href="https://www.finops.org">FinOps Foundation</a> · GCP FinOps Hub · Google Cloud FinOps Framework · GCP FinOps Hub Docs
+          <p class="text-muted text-sm footnote">
+            Sources: <a href="https://www.finops.org">FinOps Foundation</a> · GCP FinOps Hub · Google Cloud FinOps Framework · <a href="https://finops.org/framework">finops.org/framework</a>
           </p>
         </div>
       </section>
