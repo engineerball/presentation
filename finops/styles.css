@@ -4,14 +4,17 @@
   --background-color: #F5F9FC;
   --section-divider-bg: #1B3A5C;
 
+  /* Ensure content doesn't overflow */
+  --max-content-height: 640px;
+
   --heading-font: "Kanit", "Noto Sans Thai", Helvetica, sans-serif;
   --body-font: "Noto Sans Thai", Helvetica, sans-serif;
-  --base-font-size: 32px;
-  --text-size: 15pt;
-  --h1-size: 46pt;
-  --h2-size: 34pt;
-  --h3-size: 22pt;
-  --footnote-size: 11pt;
+  --base-font-size: 28px;
+  --text-size: 14pt;
+  --h1-size: 38pt;
+  --h2-size: 30pt;
+  --h3-size: 20pt;
+  --footnote-size: 10pt;
 
   --primary-color: #1A5276;
   --secondary-color: #E67E22;
@@ -21,9 +24,9 @@
   --muted-color: #5A6B7B;
   --line-color: #333;
 
-  --slide-padding: 50px;
-  --slide-padding-top: 36px;
-  --content-gap: 24px;
+  --slide-padding: 40px;
+  --slide-padding-top: 30px;
+  --content-gap: 20px;
   --box-radius: 8px;
 }
 
