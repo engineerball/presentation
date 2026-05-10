@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FinOps: การบริหารต้นทุนคลาวด์</title>
+  <title>FinOps บนระบบ Google Cloud Platform</title>
 
   <!-- Reveal.js core -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
@@ -14,880 +14,969 @@
 
   <!-- Custom styles -->
   <link rel="stylesheet" href="styles.css">
-
-  <!-- Chart.js for data visualization -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="reveal">
     <div class="slides">
 
-      <!-- ========== TITLE SLIDE ========== -->
+      <!-- ======================== TITLE ======================== -->
       <section id="title">
-        <div style="font-size: 80pt; color: var(--primary-color); margin-bottom: 20px; text-align: center;">
+        <div style="font-size: 60pt; color: #FFFFFF; margin-bottom: 16px; text-align: center;">
           <i class="fa-solid fa-cloud-bolt"></i>
         </div>
-        <h1>FinOps: การบริหารต้นทุนคลาวด์</h1>
-        <p class="tagline">Cloud Financial Operations — หลักการ, เทคนิค, และ Best Practices</p>
-        <span class="badge"><i class="fa-solid fa-coins"></i>&nbsp;&nbsp;FINOPS TRAINING&nbsp;&nbsp;<i class="fa-solid fa-shield-halved"></i></span>
+        <h1>FinOps บนระบบ Google Cloud Platform</h1>
+        <p class="tagline">การบริหารต้นทุนคลาวด์สำหรับหน่วยงานราชการไทย</p>
+        <span class="badge"><i class="fa-solid fa-clock"></i>&nbsp;&nbsp;3 ชั่วโมง&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;อบรมเชิงปฏิบัติการ</span>
       </section>
 
-      <!-- ========== AGENDA / CONTENTS ========== -->
+      <!-- ======================== AGENDA ======================== -->
       <section id="slide-2">
-        <h2><i class="fa-solid fa-list-check text-primary"></i>&nbsp;&nbsp;เนื้อหาวันนี้</h2>
-        <div class="card">
-          <p class="text-2xl">
-            <strong class="text-primary"><i class="fa-solid fa-cloud"></i>&nbsp; บทที่ 1</strong> — หลักการบริหารต้นทุนคลาวด์<br>
-            <span class="text-muted text-lg">&nbsp; &nbsp; FinOps คืออะไร? ทำไมต้องทำ? 6 หลักการ, Lifecycle, Best Practices</span>
-          </p>
-          <p class="text-2xl">
-            <strong class="text-warning"><i class="fa-solid fa-chart-pie"></i>&nbsp; บทที่ 2</strong> — Cost Allocation และ Budgeting<br>
-            <span class="text-muted text-lg">&nbsp; &nbsp; Tagging, Shared Cost, Forecasts, Budget Alerts, Unit Economics</span>
-          </p>
-          <p class="text-2xl">
-            <strong class="text-success"><i class="fa-solid fa-sliders"></i>&nbsp; บทที่ 3</strong> — Rightsizing Strategies<br>
-            <span class="text-muted text-lg">&nbsp; &nbsp; Compute, Storage, Database, Metrics, Tools, Anti-patterns</span>
-          </p>
+        <h2 style="font-size:30pt"><i class="fa-solid fa-list-check text-primary"></i>&nbsp;&nbsp;วาระการอบรม</h2>
+        <div class="content">
+          <p class="text-2xl" style="margin-bottom: 6px;"><strong>ส่วนที่ 1</strong> — รู้จัก FinOps <span class="text-muted text-sm">(45 นาที)</span></p>
+          <p class="text-2xl" style="margin-bottom: 6px;"><strong>ส่วนที่ 2</strong> — หลักการ FinOps (Cultural Principles) <span class="text-muted text-sm">(30 นาที)</span></p>
+          <p class="text-2xl" style="margin-bottom: 6px;"><strong>ส่วนที่ 3</strong> — FinOps Lifecycle บน GCP <span class="text-muted text-sm">(30 นาที)</span></p>
+          <p class="text-2xl" style="margin-bottom: 6px;"><strong>ส่วนที่ 4</strong> — หลักการบริหารต้นทุนคลาวด์บน GCP <span class="text-muted text-sm">(30 นาที)</span></p>
+          <p class="text-2xl" style="margin-bottom: 6px;"><strong>ส่วนที่ 5</strong> — Cost Allocation และ Budgeting <span class="text-muted text-sm">(30 นาที)</span></p>
+          <p class="text-2xl" style="margin-bottom: 6px;"><strong>ส่วนที่ 6</strong> — Rightsizing Strategies <span class="text-muted text-sm">(30 นาที)</span></p>
+          <p class="text-2xl"><strong>ส่วนที่ 7</strong> — Road Map การนำไปใช้ <span class="text-muted text-sm">(15 นาที)</span></p>
         </div>
       </section>
 
-      <!-- ===================================================================== -->
-      <!-- CHAPTER 1: หลักการบริหารต้นทุนคลาวด์                                    -->
-      <!-- ===================================================================== -->
+      <!-- ================================================================ -->
+      <!-- ส่วนที่ 1 — รู้จัก FinOps                                         -->
+      <!-- ================================================================ -->
       <section id="divider-1" class="section-divider">
-        <p style="font-size: 16pt; color: var(--muted-color); letter-spacing: 4px; margin-bottom: 12px; font-weight: 700;">CHAPTER 1</p>
-        <h1>หลักการบริหารต้นทุนคลาวด์</h1>
-        <p class="subtitle" style="color: var(--muted-color); font-size: 22pt; font-weight: 300;">Cloud Cost Management Principles</p>
+        <p class="chapter-label">ส่วนที่ 1 &mdash; 45 นาที</p>
+        <h1>รู้จัก FinOps</h1>
+        <p class="section-subtitle">FinOps คืออะไร | ใครรับผิดชอบ | เริ่มเมื่อไร</p>
       </section>
 
-      <!-- SLIDE 1.1 — FinOps คืออะไร? -->
-      <section id="slide-4-1">
-        <h2><i class="fa-solid fa-circle-question text-primary"></i>&nbsp;&nbsp;FinOps คืออะไร?</h2>
+      <!-- Slide 1: ทำไมต้องมี FinOps? -->
+      <section id="slide-3-1">
+        <h2><i class="fa-solid fa-circle-question text-primary"></i>&nbsp;&nbsp;ทำไมต้องมี FinOps?</h2>
         <div class="content">
+          <div class="danger-box">
+            <p><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;&nbsp;<strong>ปัญหาที่พบบ่อยในภาครัฐ:</strong> ค่าใช้จ่ายคลาวด์บานปลาย, ไม่มีความโปร่งใส, ทีมต่าง ๆ ไม่รับผิดชอบต่อต้นทุน</p>
+          </div>
 
           <div class="highlight-box">
-            <p><em>"การนำความรับผิดชอบทางการเงินมาใช้กับโมเดลการใช้จ่ายแบบ variable ของคลาวด์ ช่วยให้ทีมต่างๆ ตัดสินใจ trade-off ระหว่าง <strong>ความเร็ว, ต้นทุน, และคุณภาพ</strong> ได้อย่างแม่นยำ"</em></p>
-            <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">— FinOps Foundation</p>
+            <p><strong>Cloud เปลี่ยน Cost Model:</strong><br><span class="tag tag-primary">CAPEX</span> ลงทุนครั้งเดียว &nbsp;→&nbsp; <span class="tag tag-accent">OPEX</span> จ่ายตามการใช้งาน (Pay-as-you-go)</p>
           </div>
 
-          <p class="text-xl" style="margin-bottom: 16px;">
-            <strong class="text-danger"><i class="fa-solid fa-xmark"></i> FinOps ≠</strong>&nbsp; การลดค่าใช้จ่ายให้เหลือน้อยที่สุด<br>
-            <strong class="text-success"><i class="fa-solid fa-check"></i> FinOps =</strong>&nbsp; การได้ <strong>มูลค่าสูงสุด</strong> จากทุกบาทที่จ่าย
-          </p>
+          <p class="text-lg">ความเสี่ยงเมื่อไม่มี FinOps:</p>
+          <ul>
+            <li>"Spend Panic" — บิลมาทีหลัง ไม่รู้ว่า spend ตรงไหน</li>
+            <li>Shadow IT — บริการที่ไม่ได้ติดตาม, ไม่ได้ออกแบบ</li>
+            <li>บิลพุ่งโดยไม่มีคนควบคุมหรือรับผิดชอบ</li>
+          </ul>
 
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-            <div class="stat-box">
-              <span class="stat-number text-success">20%</span>
-              <span class="stat-label">ประหยัดเฉลี่ยที่ย้าย Cloud</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-number text-warning">40%</span>
-              <span class="stat-label">Cloud cost สูญเปล่าโดยเฉลี่ย</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-number text-danger">↑↑↑</span>
-              <span class="stat-label">Cost เพิ่มขึ้นถ้าไม่จัดการ</span>
-            </div>
+          <div class="card" style="margin-top: 12px;">
+            <p><i class="fa-solid fa-chart-line text-primary"></i>&nbsp;&nbsp;<strong>ข้อมูล</strong>: กว่า 70% ขององค์กรที่ migrate ขึ้น cloud โดยไม่มี FinOps พบว่าค่าใช้จ่ายเกิน budget 30-50% ใน 6 เดือนแรก</p>
           </div>
-
         </div>
-        <p class="footnote">Source: FinOps Foundation, McKinsey & Atlassian</p>
       </section>
 
-      <!-- SLIDE 1.2 — 6 FinOps Principles -->
-      <section id="slide-4-2">
-        <h2><i class="fa-solid fa-compass text-primary"></i>&nbsp;&nbsp;6 หลักการ FinOps Framework</h2>
+      <!-- Slide 2: FinOps คืออะไร? -->
+      <section id="slide-3-2">
+        <h2><i class="fa-solid fa-cloud text-primary"></i>&nbsp;&nbsp;FinOps คืออะไร?</h2>
         <div class="content">
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;">
-            <!-- 1 -->
-            <div class="card">
-              <p class="icon-box"><i class="fa-solid fa-people-arrows"></i></p>
-              <h3>1. ทีมต้องร่วมมือกัน</h3>
-              <p>Finance, Engineering, Product ทำงานร่วมกัน</p>
+          <div class="quote-box">
+            <p>"Cloud FinOps is an operational framework and cultural shift that brings technology, finance, and business together to drive financial accountability and accelerate business value realization."</p>
+            <cite>— Google Cloud FinOps Framework</cite>
+          </div>
+
+          <div class="highlight-box">
+            <p><i class="fa-solid fa-lightbulb text-primary"></i>&nbsp;&nbsp;<strong>เปรียบเทียบ FinOps กับ DevOps:</strong> DevOps ทลาย Silo ระหว่าง Dev กับ Ops — FinOps ทำแบบเดียวกันแต่เป็น <strong>Tech + Finance + Business</strong></p>
+          </div>
+
+          <div class="card">
+            <p class="text-2xl text-primary"><i class="fa-solid fa-bullseye"></i>&nbsp;&nbsp;<strong>เป้าหมายหลัก:</strong> Maximize Cloud Value</p>
+            <p style="margin: 6px 0 0 0;">ไม่ใช่แค่ "ลดค่าใช้จ่าย" แต่คือ <strong>"ลงทุนอย่างฉลาด"</strong> เพื่อให้ทุกบาทที่จ่ายสร้างมูลค่าสูงสุด</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: ใครควรรับผิดชอบ? -->
+      <section id="slide-3-3">
+        <h2><i class="fa-solid fa-people-group text-primary"></i>&nbsp;&nbsp;ใครควรรับผิดชอบ FinOps?</h2>
+        <div class="content">
+          <div class="highlight-box">
+            <p><strong>FinOps Central Team</strong> (ทีมกลาง) ทำหน้าที่ <strong>"enable"</strong> ไม่ใช่ "ควบคุม"</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <div class="card" style="text-align: center;">
+              <p class="icon-box"><i class="fa-solid fa-users"></i></p>
+              <h3>People</h3>
+              <p>จัดตั้ง FinOps Team ภายในกรม/หน่วยงาน — กำหนดบทบาทชัดเจน</p>
             </div>
-            <!-- 2 -->
+            <div class="card" style="text-align: center;">
+              <p class="icon-box"><i class="fa-solid fa-gears"></i></p>
+              <h3>Process</h3>
+              <p>กำหนดกระบวนการจัดสรรต้นทุน, ตรวจสอบ, รายงาน</p>
+            </div>
+            <div class="card" style="text-align: center;">
+              <p class="icon-box"><i class="fa-solid fa-laptop-code"></i></p>
+              <h3>Technology</h3>
+              <p>ใช้เครื่องมือ GCP: Billing, BigQuery, Looker Studio</p>
+            </div>
+          </div>
+
+          <div class="warning-box">
+            <p><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;&nbsp;<strong>Anti-pattern ในภาครัฐ:</strong> ทีม FinOps กลายเป็นทีมกลางที่ทำทุกเรื่อง — ไม่มี distributed accountability</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: เมื่อไรควรเริ่ม? -->
+      <section id="slide-3-4">
+        <h2><i class="fa-solid fa-flag text-primary"></i>&nbsp;&nbsp;เมื่อไรควรเริ่มใช้ FinOps?</h2>
+        <div class="content">
+          <div class="highlight-box">
+            <p class="text-2xl"><i class="fa-solid fa-circle-check text-success"></i>&nbsp;&nbsp;<strong>เริ่มตั้งแต่ต้น</strong> — ไม่ใช่รอให้บิลพุ่ง</p>
+          </div>
+
+          <p class="text-lg">ควรเริ่มคู่กับ <strong>Cloud Transformation Program</strong>:</p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
+            <div class="stat-box">
+              <p class="icon-box"><i class="fa-solid fa-shield-halved"></i></p>
+              <p class="text-lg"><strong>Security</strong></p>
+            </div>
+            <div class="stat-box">
+              <p class="icon-box"><i class="fa-solid fa-id-card"></i></p>
+              <p class="text-lg"><strong>IAM</strong></p>
+            </div>
+            <div class="stat-box">
+              <p class="icon-box"><i class="fa-solid fa-coins"></i></p>
+              <p class="text-lg"><strong>FinOps</strong></p>
+            </div>
+          </div>
+
+          <div class="highlight-box">
+            <p><i class="fa-solid fa-rotate"></i>&nbsp;&nbsp;<strong>หลักการ</strong>: Start small → Iterate → Continuously improve — ไม่ต้องรอให้พร้อม 100%</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- ส่วนที่ 2 — หลักการ FinOps (Cultural Principles)                  -->
+      <!-- ================================================================ -->
+      <section id="divider-2" class="section-divider">
+        <p class="chapter-label">ส่วนที่ 2 &mdash; 30 นาที</p>
+        <h1>หลักการ FinOps</h1>
+        <p class="section-subtitle">วัฒนธรรม 6 ประการ (Google Cloud FinOps Getting Started Guide)</p>
+      </section>
+
+      <!-- Slide 5: 6 Principles Overview -->
+      <section id="slide-5-1">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-compass text-primary"></i>&nbsp;&nbsp;6 หลักการวัฒนธรรม FinOps</h2>
+        <div class="content">
+          <p class="text-lg text-muted" style="margin-bottom: 12px;">จาก Google Cloud FinOps Getting Started Guide</p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            <div class="card">
+              <p class="icon-box"><i class="fa-solid fa-temperature-half"></i></p>
+              <h3>1. Variable Nature</h3>
+              <p>Cloud cost ผันแปรตามการใช้งาน</p>
+            </div>
             <div class="card">
               <p class="icon-box"><i class="fa-solid fa-bullseye"></i></p>
-              <h3>2. มูลค่าธุรกิจ > ต้นทุน</h3>
-              <p>Unit economics สำคัญกว่า aggregate spend</p>
+              <h3>2. Business-Value Decision</h3>
+              <p>ตัดสินใจจากคุณค่า ไม่ใช่แค่ราคาถูก</p>
             </div>
-            <!-- 3 -->
             <div class="card">
               <p class="icon-box"><i class="fa-solid fa-user-shield"></i></p>
-              <h3>3. ทุกคนรับผิดชอบการใช้งาน</h3>
-              <p>Engineering owns cost ตั้งแต่ design ถึง ops</p>
+              <h3>3. Accountability</h3>
+              <p>ทุกคนที่ใช้คลาวด์รับผิดชอบต้นทุน</p>
             </div>
-            <!-- 4 -->
+            <div class="card">
+              <p class="icon-box"><i class="fa-solid fa-people-arrows"></i></p>
+              <h3>4. Collaboration</h3>
+              <p>IT + การเงิน + ผู้ใช้ทำงานร่วมกัน</p>
+            </div>
+            <div class="card">
+              <p class="icon-box"><i class="fa-solid fa-hand-holding-heart"></i></p>
+              <h3>5. Blamelessness</h3>
+              <p>หาสาเหตุ ไม่หาคนผิด</p>
+            </div>
             <div class="card">
               <p class="icon-box"><i class="fa-solid fa-database"></i></p>
-              <h3>4. ข้อมูลโปร่งใส ทันเวลา ถูกต้อง</h3>
-              <p>Real-time visibility, fast feedback loops</p>
-            </div>
-            <!-- 5 -->
-            <div class="card">
-              <p class="icon-box"><i class="fa-solid fa-building-columns"></i></p>
-              <h3>5. Centralized Enablement</h3>
-              <p>ทีมกลางดูแล rate optimization, best practices</p>
-            </div>
-            <!-- 6 -->
-            <div class="card">
-              <p class="icon-box"><i class="fa-solid fa-arrows-rotate"></i></p>
-              <h3>6. ใช้ประโยชน์จาก variable cost</h3>
-              <p>Agile planning แทน static budget</p>
+              <h3>6. Democratization of Data</h3>
+              <p>ข้อมูลต้นทุนโปร่งใส เข้าถึงได้</p>
             </div>
           </div>
         </div>
-        <p class="footnote">Source: FinOps Foundation — finops.org/framework/principles</p>
       </section>
 
-      <!-- SLIDE 1.3 — Operating Model -->
-      <section id="slide-4-3">
-        <h2><i class="fa-solid fa-sitemap text-primary"></i>&nbsp;&nbsp;Centralized Enablement + Decentralized Execution</h2>
+      <!-- Slide 6: Variable Nature of Cloud -->
+      <section id="slide-5-2">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-arrows-rotate text-primary"></i>&nbsp;&nbsp;หลักการที่ 1: Variable Nature of Cloud</h2>
         <div class="content">
-
-          <p class="text-xl" style="margin-bottom: 20px;">FinOps ทำงานแบบ <strong>ทีมกลาง enable, ทีมย่อย execute</strong> — ไม่ใช่ทีมกลางทำทุกอย่างเอง</p>
-
-          <table>
-            <tr>
-              <th style="width: 25%;">Layer</th>
-              <th style="width: 45%;">หน้าที่รับผิดชอบ</th>
-              <th style="width: 30%;">ตัวอย่าง</th>
-            </tr>
-            <tr>
-              <td><strong class="text-primary"><i class="fa-solid fa-building"></i>&nbsp; Central FinOps</strong></td>
-              <td>Rate optimization, executive comms, best practices, governance</td>
-              <td>negotiate contract, CUDs</td>
-            </tr>
-            <tr>
-              <td><strong class="text-success"><i class="fa-solid fa-code"></i>&nbsp; Engineering</strong></td>
-              <td>Usage optimization, architecture decisions, cost-aware design</td>
-              <td>rightsizing, refactor code</td>
-            </tr>
-            <tr>
-              <td><strong class="text-warning"><i class="fa-solid fa-chart-line"></i>&nbsp; Data Platform</strong></td>
-              <td>Real-time cost visibility, forecasting, benchmarking</td>
-              <td>dashboards, alerts, FOCUS data</td>
-            </tr>
-          </table>
-
-          <div class="warning-box">
-            <p><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;&nbsp;<strong>Anti-pattern:</strong> ทีมกลางทำ optimization เองทั้งหมด → กลายเป็น bottleneck, ไม่มี ownership</p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SLIDE 1.4 — Inform, Optimize, Operate -->
-      <section id="slide-4-4">
-        <h2><i class="fa-solid fa-arrows-spin text-primary"></i>&nbsp;&nbsp;FinOps Lifecycle — Inform → Optimize → Operate</h2>
-        <div class="content">
-
-          <div class="flow-item">
-            <span class="flow-icon"><i class="fa-solid fa-eye"></i></span>
-            <div class="flow-content">
-              <h4>Inform — มองเห็น</h4>
-              <p>Visibility ของทุก cloud spend (license, usage, IT time), จัดสรร cost, benchmark, report</p>
-            </div>
-          </div>
-
-          <div style="text-align: center; font-size: 28pt; color: var(--primary-color); margin: 4px 0;">
-            <i class="fa-solid fa-arrow-down"></i>
-          </div>
-
-          <div class="flow-item">
-            <span class="flow-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
-            <div class="flow-content">
-              <h4>Optimize — ลด waste</h4>
-              <p>Rightsizing, CUDs/reserved, ปิด resource ที่ไม่ได้ใช้, automation, refactor</p>
-            </div>
-          </div>
-
-          <div style="text-align: center; font-size: 28pt; color: var(--primary-color); margin: 4px 0;">
-            <i class="fa-solid fa-arrow-down"></i>
-          </div>
-
-          <div class="flow-item">
-            <span class="flow-icon"><i class="fa-solid fa-rocket"></i></span>
-            <div class="flow-content">
-              <h4>Operate — อัตโนมัติ</h4>
-              <p>Continuous improvement, automation, culture change, innovation enablement</p>
-            </div>
-          </div>
-
-          <div class="highlight-box" style="margin-top: 16px;">
-            <p><i class="fa-solid fa-lightbulb text-warm"></i>&nbsp;&nbsp;<strong>Key Insight:</strong> Top-performing teams <strong>ไม่หยุดที่ Operate</strong> — วนกลับไป Inform & Optimize ต่อไป เพื่อ improve อย่างต่อเนื่อง</p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SLIDE 1.5 — 5 Best Practices -->
-      <section id="slide-4-5">
-        <h2><i class="fa-solid fa-star text-primary"></i>&nbsp;&nbsp;5 Best Practices (Atlassian)</h2>
-        <div class="content">
-
-          <div class="step-box">
-            <h4><i class="fa-solid fa-map-location-dot"></i>&nbsp; 1. วางแผน FinOps <strong>ก่อน</strong> ย้าย Cloud</h4>
-            <p>ออกแบบ strategy ตั้งแต่เริ่ม, cloud billing ต่างจาก on-prem — ซื้อเท่าที่จำเป็น, license auto-expire</p>
-          </div>
-
-          <div class="step-box">
-            <h4><i class="fa-solid fa-scale-balanced"></i>&nbsp; 2. อย่า trade คุณภาพเพื่อประหยัด</h4>
-            <p>cheapest ≠ best value; trial 3 เดือนประหยัดจริง แต่ paid plan อาจให้ feature/support ที่คุ้มค่าที่สุด</p>
-          </div>
-
-          <div class="step-box">
-            <h4><i class="fa-solid fa-calculator"></i>&nbsp; 3. คำนวณ TCO/ROI จริง</h4>
-            <p>ยากกว่าที่คิดในองค์กรใหญ่ siloed teams; forecast + audit เป็นประจำ</p>
-          </div>
-
-          <div class="step-box">
-            <h4><i class="fa-solid fa-infinity"></i>&nbsp; 4. ทำให้เป็น ongoing practice</h4>
-            <p>ไม่ใช่ one-time setup — ตั้ง ongoing roles, audits, forecasting</p>
-          </div>
-
-          <div class="step-box">
-            <h4><i class="fa-solid fa-user-check"></i>&nbsp; 5. ตั้งคนรับผิดชอบชัดเจน</h4>
-            <p>"If nobody owns it, it goes by the wayside" — freed-up IT capacity เป็นจุดเริ่มต้นที่ดี</p>
-          </div>
-
-        </div>
-        <p class="footnote">Source: Atlassian Blog — atlassian.com/blog/platform/what-is-finops</p>
-      </section>
-
-      <!-- ===================================================================== -->
-      <!-- CHAPTER 2: Cost Allocation และ Budgeting                              -->
-      <!-- ===================================================================== -->
-      <section id="divider-2" class="section-divider">
-        <p style="font-size: 16pt; color: var(--muted-color); letter-spacing: 4px; margin-bottom: 12px; font-weight: 700;">CHAPTER 2</p>
-        <h1>Cost Allocation และ Budgeting</h1>
-        <p class="subtitle" style="color: var(--muted-color); font-size: 22pt; font-weight: 300;">Trace, Tag, Budget, and Control</p>
-      </section>
-
-      <!-- SLIDE 2.1 — Why Cost Allocation? -->
-      <section id="slide-6-1">
-        <h2><i class="fa-solid fa-magnifying-glass-dollar text-warning"></i>&nbsp;&nbsp;ทำไม Cost Allocation ถึงสำคัญ?</h2>
-        <div class="content">
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 20px;">
-            <!-- Problem -->
-            <div class="card" style="border-left: 4px solid var(--danger-color);">
-              <h3 style="color: var(--danger-color);"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp; ปัญหาก่อนทำ</h3>
-              <ul style="padding: 0;">
-                <li>Cloud bill มาเป็นก้อนเดียว ไม่รู้ว่าใครใช้</li>
-                <li>optimize ไม่ได้ถ้าไม่เห็นว่า spend ตรงไหน</li>
-                <li>จัดสรร budget ไม่ได้, ไม่มี accountability</li>
-                <li>Shadow IT ซ่อนอยู่ใน shared resources</li>
-              </ul>
-            </div>
-            <!-- Solution -->
-            <div class="card" style="border-left: 4px solid var(--success-color);">
-              <h3 style="color: var(--success-color);"><i class="fa-solid fa-circle-check"></i>&nbsp; เป้าหมายหลังทำ</h3>
-              <ul style="padding: 0;">
-                <li><strong>ทุกบาท trace ได้</strong> — รู้ทีม/โปรเจกต์/usage</li>
-                <li>optimize ได้แม่นยำตาม data</li>
-                <li>จัด budget ตาม business outcome</li>
-                <li>สร้าง accountability ทุก layer</li>
-              </ul>
-            </div>
-          </div>
-
           <div class="highlight-box">
-            <p><i class="fa-solid fa-bullseye text-primary"></i>&nbsp;&nbsp;Cost Allocation = <strong>การทำให้เห็นภาพจริง</strong> ว่าเงิน cloud หมดไปกับอะไร ใครใช้ คุ้มค่าไหม</p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SLIDE 2.2 — Tagging Strategy -->
-      <section id="slide-6-2">
-        <h2><i class="fa-solid fa-tags text-warning"></i>&nbsp;&nbsp;Tagging / Labeling Strategy</h2>
-        <div class="content">
-
-          <p class="text-xl" style="margin-bottom: 16px;"><i class="fa-solid fa-key text-primary"></i>&nbsp;&nbsp;<strong class="text-primary">Tags/Labels คือหัวใจของ Cost Allocation</strong> — ถ้าไม่ tag ก็มองไม่เห็นถ้า tag ไม่ดี ข้อมูลก็ใช้ไม่ได้</p>
-
-          <div class="card">
-            <h3><i class="fa-solid fa-rectangle-list"></i>&nbsp; ตัวอย่าง Tag Structure ที่แนะนำ</h3>
-            <table>
-              <tr>
-                <th>Tag Key</th>
-                <th>ค่าตัวอย่าง</th>
-                <th>วัตถุประสงค์</th>
-              </tr>
-              <tr>
-                <td><span class="tag tag-primary">cost_center</span></td>
-                <td>engineering-42</td>
-                <td>ระบุทีม/แผนกที่รับผิดชอบ</td>
-              </tr>
-              <tr>
-                <td><span class="tag tag-accent">project</span></td>
-                <td>checkout-v2</td>
-                <td>ระบุโปรเจกต์</td>
-              </tr>
-              <tr>
-                <td><span class="tag tag-success">environment</span></td>
-                <td>dev / staging / prod</td>
-                <td>ระบุสภาพแวดล้อม</td>
-              </tr>
-              <tr>
-                <td><span class="tag tag-warning">application</span></td>
-                <td>api-gateway</td>
-                <td>ระบุ service/app</td>
-              </tr>
-              <tr>
-                <td><span class="tag tag-danger">owner</span></td>
-                <td>@team-backend</td>
-                <td>บุคคลหรือทีมรับผิดชอบโดยตรง</td>
-              </tr>
-            </table>
-          </div>
-
-          <div class="warning-box">
-            <p><i class="fa-solid fa-gavel"></i>&nbsp;&nbsp;<strong>Best Practice:</strong> บังคับใช้ tag policy (denied ถ้าไม่มี tag) ตั้งแต่สร้าง resource ใหม่</p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SLIDE 2.3 — Shared Cost -->
-      <section id="slide-6-3">
-        <h2><i class="fa-solid fa-people-carry-box text-warning"></i>&nbsp;&nbsp;Shared Cost — จัดสรรค่าใช้งานทรัพยากรร่วม</h2>
-        <div class="content">
-
-          <p class="text-lg" style="margin-bottom: 16px; color: var(--muted-color);">เมื่อหลายทีมใช้ resource เดียวกัน (VPC, monitoring, CDN, networking) จะแบ่ง cost ยังไง?</p>
-
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;">
-            <div class="card">
-              <p class="icon-box text-warning"><i class="fa-solid fa-scale-balanced"></i></p>
-              <h3>Even Split</h3>
-              <p>แบ่งเท่าๆ กัน<br><strong style="color: var(--success-color);">+ ง่าย</strong><br><strong style="color: var(--danger-color);">- ไม่ fair, ไม่ motivate</strong></p>
-            </div>
-            <div class="card">
-              <p class="icon-box text-primary"><i class="fa-solid fa-chart-bar"></i></p>
-              <h3>Usage-based</h3>
-              <p>แบ่งตาม % ที่ใช้จริง<br><strong style="color: var(--success-color);">+ fair, motivate ประหยัด</strong><br><strong style="color: var(--danger-color);">- ซับซ้อน, ต้องมี data</strong></p>
-            </div>
-            <div class="card">
-              <p class="icon-box text-accent"><i class="fa-solid fa-percent"></i></p>
-              <h3>Fixed %</h3>
-              <p>กำหนด % ตายตัว<br><strong style="color: var(--success-color);">+ Predictable</strong><br><strong style="color: var(--danger-color);">- ไม่สะท้อน actual use</strong></p>
-            </div>
-          </div>
-
-          <div class="card" style="margin-top: 16px;">
-            <h3><i class="fa-solid fa-example"></i>&nbsp; ตัวอย่าง: CloudFront Cost</h3>
-            <p>ทีม A traffic 60%, ทีม B 30%, ทีม C 10% → แบ่ง bill ตามสัดส่วน 60:30:10</p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SLIDE 2.4 — Budgeting -->
-      <section id="slide-6-4">
-        <h2><i class="fa-solid fa-money-bill-trend-up text-warning"></i>&nbsp;&nbsp;Budgeting แบบ FinOps</h2>
-        <div class="content">
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 20px;">
-            <div class="card" style="border-left: 4px solid var(--danger-color);">
-              <h3 style="color: var(--danger-color);"><i class="fa-solid fa-building-columns"></i>&nbsp; Traditional Budget</h3>
-              <ul>
-                <li>Static รายปี</li>
-                <li>อนุมัติตาม resource type</li>
-                <li>เปลี่ยนยาก, review รายปี</li>
-              </ul>
-            </div>
-            <div class="card" style="border-left: 4px solid var(--success-color);">
-              <h3 style="color: var(--success-color);"><i class="fa-solid fa-rotate"></i>&nbsp; FinOps Budget</h3>
-              <ul>
-                <li>Dynamic, consumption-based</li>
-                <li>อนุมัติตาม business outcome</li>
-                <li>Review รายเดือน/ไตรมาส</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="highlight-box">
-            <p><i class="fa-solid fa-lightbulb text-warm"></i>&nbsp;&nbsp;<strong>Unit Economics &gt; Total Cost</strong></p>
-            <p style="font-size: 14pt; margin-top: 8px;">ไม่ควรดูแค่ "cloud bill เดือนละเท่าไร" แต่ดู <strong>cost per customer, cost per transaction, cost per feature</strong> — นี่คือ metric ที่วัดมูลค่าธุรกิจได้จริง</p>
+            <p>ต้นทุน Cloud <strong>ผันแปรตามการใช้งาน</strong> (Pay-as-you-go) — ต่างจาก on-premise ที่จ่ายคงที่ล่วงหน้า</p>
           </div>
 
           <div class="card">
-            <h3><i class="fa-solid fa-chart-line"></i>&nbsp; Forecasting + Actual</h3>
+            <p class="text-xl text-danger"><i class="fa-solid fa-xmark"></i>&nbsp; Mindset เก่า: <strong>ระบบต้องเปิด 24/7</strong> = เสถียร</p>
+            <p class="text-xl text-success" style="margin-top: 8px;"><i class="fa-solid fa-check"></i>&nbsp; Mindset ใหม่: <strong>Server ที่ปิดอยู่ = ประหยัดต้นทุน</strong></p>
+          </div>
+
+          <div class="card">
+            <h3><i class="fa-solid fa-building-flag text-primary"></i>&nbsp; ตัวอย่างสำหรับภาครัฐ</h3>
             <ul>
-              <li>ใช้ forecast จาก cloud provider + historical trend</li>
-              <li>Compare budget vs actual รายสัปดาห์ ไม่ใช่รายเดือน</li>
-              <li>ปรับ forecast เมื่อ workload เปลี่ยน</li>
+              <li>ระบบลงทะเบียนออนไลน์ — ใช้เฉพาะช่วงเปิดรับ</li>
+              <li>ระบบยื่นภาษี — พีคช่วงฤดูภาษี</li>
+              <li>ระบบเลือกตั้ง/สำรวจ — ใช้งานเป็นช่วง ๆ</li>
+              <li>→ ใช้ auto-shutdown, preemption หรือ scaling เพื่อลดต้นทุนนอกช่วงใช้งาน</li>
             </ul>
           </div>
-
         </div>
       </section>
 
-      <!-- SLIDE 2.5 — Budget Alerts -->
-      <section id="slide-6-5">
-        <h2><i class="fa-solid fa-bell text-warning"></i>&nbsp;&nbsp;Budget Alerts & Governance</h2>
+      <!-- Slide 7: Business-Value Decision -->
+      <section id="slide-5-3">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-scale-balanced text-primary"></i>&nbsp;&nbsp;หลักการที่ 2: Business-Value Based Decision Making</h2>
         <div class="content">
-
-          <p class="text-lg" style="margin-bottom: 16px;">ตั้ง alert threshold เป็น <strong>หลายชั้น</strong> เพื่อให้มีเวลา react ก่อนล_budget:</p>
-
-          <!-- Alert tiers -->
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px;">
-            <div class="stat-box" style="border-color: rgba(6, 214, 160, 0.5);">
-              <span class="stat-number" style="color: var(--success-color);">50%</span>
-              <span class="stat-label"><i class="fa-solid fa-circle-info"></i><br>Info</span>
-            </div>
-            <div class="stat-box" style="border-color: rgba(255, 183, 3, 0.5);">
-              <span class="stat-number" style="color: var(--warning-color);">80%</span>
-              <span class="stat-label"><i class="fa-solid fa-triangle-exclamation"></i><br>Warning</span>
-            </div>
-            <div class="stat-box" style="border-color: rgba(239, 71, 111, 0.5);">
-              <span class="stat-number" style="color: var(--danger-color);">100%</span>
-              <span class="stat-label"><i class="fa-solid fa-bell"></i><br>Critical</span>
-            </div>
-            <div class="stat-box" style="border-color: rgba(239, 71, 111, 0.7);">
-              <span class="stat-number" style="color: var(--danger-color);">120%</span>
-              <span class="stat-label"><i class="fa-solid fa-ban"></i><br>Auto-action</span>
-            </div>
+          <div class="highlight-box">
+            <p>ตัดสินใจด้านต้นทุนจากมุมมอง <strong>"คุณค่าทางธุรกิจ"</strong> — ไม่ใช่แค่ <strong>"ถูกที่สุด"</strong></p>
           </div>
 
           <div class="card">
-            <h3><i class="fa-solid fa-gauge-high"></i>&nbsp; Dashboard & Tooling</h3>
+            <h3><i class="fa-solid fa-server"></i>&nbsp; IaaS vs Managed Services</h3>
+            <p>Managed Services อาจแพงกว่า IaaS แต่ <strong>ประหยัดค่าบริหารจัดการ, ลด downtime, ทีมเล็กก็ดูแลได้</strong></p>
+          </div>
+
+          <div class="card">
+            <h3><i class="fa-solid fa-building-flag"></i>&nbsp; สำหรับภาครัฐ</h3>
             <ul>
-              <li><strong>GCP:</strong> Budgets & Alerts, Cost Table, BigQuery billing export</li>
-              <li><strong>AWS:</strong> AWS Budgets, Cost Explorer, CE billing anomaly detection</li>
-              <li><strong>Azure:</strong> Cost Management + Billing budgets</li>
+              <li>ROI ของบริการดิจิทัลต่อประชาชน — ประหยัดค่าเดินทาง, ลดเวลา, เพิ่มความโปร่งใส</li>
+              <li>Cloud ช่วยให้รัฐบาลดิจิทัล (e-Government) ใช้งานข้อมูลข้ามหน่วยงานได้</li>
+              <li>ต้องวัด <strong>business value</strong> ไม่ใช่แค่ infrastructure cost</li>
             </ul>
           </div>
-
-          <div class="warning-box">
-            <p><i class="fa-solid fa-xmark-circle"></i>&nbsp;&nbsp;<strong>Anti-pattern:</strong> Finance ดู report <strong>เดือนที่แล้ว</strong> — Feedback มาช้าเกินแก้! ต้องใช้ real-time หรือ near-real-time data</p>
-          </div>
-
         </div>
       </section>
 
-      <!-- SLIDE 2.6 — FOCUS -->
-      <section id="slide-6-6">
-        <h2><i class="fa-solid fa-file-import text-warning"></i>&nbsp;&nbsp;FOCUS — FinOps Open Cost & Usage Specification</h2>
+      <!-- Slide 8: Principles 3-6 -->
+      <section id="slide-5-4">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-users-rectangle text-primary"></i>&nbsp;&nbsp;หลักการที่ 3-6</h2>
         <div class="content">
-
-          <p class="text-xl" style="margin-bottom: 16px;">มาตรฐานจาก <strong>FinOps Foundation</strong> สำหรับ cost data ที่ <strong>vendor-independent</strong> — ทำให้ cost data จาก cloud หลายเจ้ามี format เดียวกัน</p>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;">
             <div class="card">
-              <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i>&nbsp; ปัญหาก่อน FOCUS</h3>
-              <ul>
-                <li>AWS, GCP, Azure แต่ละเจ้าใช้ format ต่างกัน</li>
-                <li>รวม cost report ยาก — column name ต่างกัน</li>
-                <li>Tag field คนละชื่อ, resource ID format ต่าง</li>
-                <li>ต้องเขียน custom parser สำหรับแต่ละ provider</li>
-              </ul>
+              <h3><i class="fa-solid fa-user-shield"></i>&nbsp; Accountability</h3>
+              <p>ทุกคนที่ใช้ Cloud มีส่วนรับผิดชอบต่อต้นทุน — ไม่ใช่แค่ทีม IT</p>
             </div>
-            <div class="card" style="border-color: rgba(6, 214, 160, 0.4);">
-              <h3 style="color: var(--success-color);"><i class="fa-solid fa-circle-check"></i>&nbsp; ได้ FOCUS แล้ว</h3>
-              <ul>
-                <li><strong>Column เดียวกัน</strong> ทุก provider (BilledCost, ChargeCategory, Provider...)</li>
-                <li>รวม multi-cloud report ได้ทันที</li>
-                <li>เครื่องมือ FinOps 1 ตัว ใช้ได้ทุก cloud</li>
-                <li>Benchmark cross-cloud ได้จริง</li>
-              </ul>
+            <div class="card">
+              <h3><i class="fa-solid fa-handshake"></i>&nbsp; Collaboration</h3>
+              <p>ทีม IT + การเงิน + ผู้ใช้งานต้องทำงานร่วมกัน — ไม่ใช่ต่างคนต่างทำ</p>
+            </div>
+            <div class="card">
+              <h3><i class="fa-solid fa-hand-holding-heart"></i>&nbsp; Blamelessness</h3>
+              <p>เมื่อเกิดค่าใช้จ่ายเกิน → <strong>หาสาเหตุ ไม่ใช่หาคนผิด</strong> — สร้างวัฒนธรรมปลอดภัยในการเรียนรู้</p>
+            </div>
+            <div class="card">
+              <h3><i class="fa-solid fa-eye"></i>&nbsp; Democratization of Data</h3>
+              <p>ทุกคนควรเห็นข้อมูลต้นทุน — ตัดสินใจได้ดีขึ้น โปร่งใส ตรวจสอบได้</p>
             </div>
           </div>
-
-          <div class="card" style="margin-top: 16px; text-align: center;">
-            <h3 style="text-align: center;"><i class="fa-solid fa-laptop-code"></i>&nbsp; FOCUS Fields หลัก</h3>
-            <p style="text-align: center;">
-              <span class="tag tag-primary">BilledCost</span>
-              <span class="tag tag-accent">ChargeCategory</span>
-              <span class="tag tag-success">Provider</span>
-              <span class="tag tag-warning">ResourceId</span>
-              <span class="tag tag-danger">Region</span>
-              <span class="tag tag-primary">ServiceName</span>
-              <span class="tag tag-accent">ChargeStartTime</span>
-            </p>
-          </div>
-
         </div>
-        <p class="footnote">Source: finops.org — FOCUS specification</p>
       </section>
 
-      <!-- ===================================================================== -->
-      <!-- CHAPTER 3: Rightsizing Strategies                                     -->
-      <!-- ===================================================================== -->
+      <!-- ================================================================ -->
+      <!-- ส่วนที่ 3 — FinOps Lifecycle บน GCP                              -->
+      <!-- ================================================================ -->
       <section id="divider-3" class="section-divider">
-        <p style="font-size: 16pt; color: var(--muted-color); letter-spacing: 4px; margin-bottom: 12px; font-weight: 700;">CHAPTER 3</p>
-        <h1>Rightsizing Strategies</h1>
-        <p class="subtitle" style="color: var(--muted-color); font-size: 22pt; font-weight: 300;">ปรับขนาด Resource ให้ตรงงาน — ไม่มากไป ไม่น้อยไป</p>
+        <p class="chapter-label">ส่วนที่ 3 &mdash; 30 นาที</p>
+        <h1>FinOps Lifecycle บน GCP</h1>
+        <p class="section-subtitle">Inform → Optimize → Operate (FinOps Foundation / Google)</p>
       </section>
 
-      <!-- SLIDE 3.1 — What is Rightsizing? -->
-      <section id="slide-8-1">
-        <h2><i class="fa-solid fa-sliders text-success"></i>&nbsp;&nbsp;Rightsizing คืออะไร?</h2>
+      <!-- Slide 9: 3-Phase Overview -->
+      <section id="slide-9-1">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-arrows-spin text-primary"></i>&nbsp;&nbsp;FinOps Lifecycle — 3 Phase</h2>
         <div class="content">
-
-          <div class="highlight-box">
-            <p class="text-2xl">การจับคู่ <strong>resource specification</strong> ให้ตรงกับ <strong>actual workload</strong> — <strong>"Right"</strong> ไม่ใช่ <strong>"Smallest"</strong> แต่คือ <strong>"เหมาะสมที่สุด"</strong></p>
-          </div>
-
-          <div class="card" style="margin: 20px 0;">
-            <h3><i class="fa-solid fa-scale-unbalanced"></i>&nbsp; ปัญหาที่แก้ไข</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-              <div>
-                <p style="color: var(--success-color); font-weight: 700; margin: 0 0 6px 0;"><i class="fa-solid fa-arrow-down"></i>&nbsp; Under-provisioned (เล็กเกิน)</p>
-                <ul>
-                  <li>Performance ตก, latency สูง</li>
-                  <li>Downtime, user experience แย่</li>
-                  <li>Auto-scale ต้องทำงานหนัก</li>
-                </ul>
-              </div>
-              <div>
-                <p style="color: var(--danger-color); font-weight: 700; margin: 0 0 6px 0;"><i class="fa-solid fa-arrow-up"></i>&nbsp; Over-provisioned (ใหญ่เกิน)</p>
-                <ul>
-                  <li>จ่ายสำหรับ CPU/RAM ที่ไม่ได้ใช้</li>
-                  <li>Wasted spend 30-40% ของ cloud cost</li>
-                  <li>เป็น quick win ที่มี impact สูงสุด</li>
-                </ul>
-              </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 16px;">
+            <div class="card" style="text-align: center; border-left: 4px solid var(--warning-color);">
+              <p class="icon-box text-warning"><i class="fa-solid fa-eye"></i></p>
+              <h3>Inform</h3>
+              <p>จัดสรร, รายงาน, พยากรณ์</p>
+              <p class="text-muted text-sm">ทำให้มองเห็น</p>
+            </div>
+            <div class="card" style="text-align: center; border-left: 4px solid var(--primary-color);">
+              <p class="icon-box text-primary"><i class="fa-solid fa-screwdriver-wrench"></i></p>
+              <h3>Optimize</h3>
+              <p>Rightsizing, Pricing, Guardrails</p>
+              <p class="text-muted text-sm">เพิ่มประสิทธิภาพ</p>
+            </div>
+            <div class="card" style="text-align: center; border-left: 4px solid var(--success-color);">
+              <p class="icon-box text-success"><i class="fa-solid fa-rocket"></i></p>
+              <h3>Operate</h3>
+              <p>Onboard, Educate, Measure</p>
+              <p class="text-muted text-sm">ฝังวัฒนธรรม</p>
             </div>
           </div>
-
-          <div class="card-inline" style="border-color: rgba(6, 214, 160, 0.4);">
-            <p class="text-2xl"><i class="fa-solid fa-bullseye text-success"></i>&nbsp;&nbsp;เป้าหมาย: <strong class="text-success">Sweet Spot (40-70% utilization)</strong></p>
+          <div class="highlight-box">
+            <p><i class="fa-solid fa-lightbulb text-warm"></i>&nbsp;&nbsp;Lifecycle นี้เป็น <strong>วงจรต่อเนื่อง</strong> — ทีมที่ดีจะวนกลับมา Inform และ Optimize ซ้ำ ๆ เพื่อ improve ตลอดเวลา</p>
           </div>
-
         </div>
       </section>
 
-      <!-- SLIDE 3.2 — Why Rightsize? -->
-      <section id="slide-8-2">
-        <h2><i class="fa-solid fa-chart-pie text-success"></i>&nbsp;&nbsp;ทำไมต้อง Rightsize?</h2>
+      <!-- Slide 10: Inform -->
+      <section id="slide-9-2">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-eye text-warning"></i>&nbsp;&nbsp;Phase 1: Inform (ทำให้มองเห็น)</h2>
         <div class="content">
-
-          <!-- Donut chart placeholder -->
-          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px; align-items: center; margin-bottom: 20px;">
-            <!-- Left: donut -->
-            <div style="display: flex; justify-content: center;">
-              <canvas data-chart="doughnut" style="max-width: 260px;">
-              <!--
-              {
-                "data": {
-                  "labels": ["ใช้จริง", "ไม่ใช้ (สูญเสีย)", "กันไว้ (spare)"],
-                  "datasets": [{
-                    "data": [35, 40, 25],
-                    "backgroundColor": ["#06D6A0", "#EF476F", "#FFB703"]
-                  }]
-                },
-                "options": {
-                  "responsive": true,
-                  "maintainAspectRatio": true,
-                  "plugins": {
-                    "legend": {
-                      "position": "bottom",
-                      "labels": { "color": "#EEF4F8", "font": { "size": 14 } }
-                    }
-                  }
-                }
-              }
-              -->
-              </canvas>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            <div class="card">
+              <h3>Allocate</h3>
+              <p>จัดสรรต้นทุนด้วย <strong>Labels/Tags</strong> บน GCP</p>
+              <ul>
+                <li>กำหนด label: agency, project, env, owner</li>
+                <li>จัดสรร shared cost</li>
+              </ul>
             </div>
-            <!-- Right: stats -->
-            <div>
-              <div class="stat-box" style="margin-bottom: 12px; border-color: rgba(239, 71, 111, 0.5);">
-                <span class="stat-number text-danger">40%</span>
-                <span class="stat-label">Cloud cost สูญเปล่า (ไม่ได้ใช้จริง)</span>
-              </div>
-              <div class="stat-box" style="border-color: rgba(6, 214, 160, 0.5);">
-                <span class="stat-number text-success">$30B+</span>
-                <span class="stat-label">Wasted cloud spend ทั่วโลก/ปี</span>
-              </div>
+            <div class="card">
+              <h3>Report</h3>
+              <p>Cloud Billing Export → BigQuery → Looker Studio</p>
+              <ul>
+                <li>Dashboard รายเดือน</li>
+                <li>Compare trend</li>
+                <li>KPI per project/service</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Forecast</h3>
+              <p>พยากรณ์ค่าใช้จ่ายล่วงหน้า</p>
+              <ul>
+                <li>ใช้ historical data + trend</li>
+                <li>เตือนล่วงหน้าก่อนงบประมาณเกิน</li>
+              </ul>
             </div>
           </div>
-
-          <div class="highlight-box">
-            <p><i class="fa-solid fa-lightbulb text-warm"></i>&nbsp;&nbsp;Rightsizing = <strong class="text-success">Quick Win #1</strong> ใน Optimize phase — ได้ ROI สูงสุด ทำง่าย เห็นผลเร็ว</p>
-          </div>
-
         </div>
       </section>
 
-      <!-- SLIDE 3.3 — Resource Types -->
-      <section id="slide-8-3">
-        <h2><i class="fa-solid fa-layer-group text-success"></i>&nbsp;&nbsp;ประเภททรัพยากรที่ควร Rightsize</h2>
+      <!-- Slide 11: Optimize -->
+      <section id="slide-9-3">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-screwdriver-wrench text-primary"></i>&nbsp;&nbsp;Phase 2: Optimize (เพิ่มประสิทธิภาพ)</h2>
         <div class="content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="card">
+              <h3><i class="fa-solid fa-sliders"></i>&nbsp; Product Efficiency</h3>
+              <ul>
+                <li><strong>Rightsizing:</strong> ปรับ size VM, DB, storage ให้ตรง workload</li>
+                <li><strong>Refactoring:</strong> ย้าย code ให้ใช้ serverless/container</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3><i class="fa-solid fa-tags"></i>&nbsp; Pricing Efficiency</h3>
+              <ul>
+                <li><strong>Committed Use Discounts (CUD)</strong>: ประหยัดถึง 57%</li>
+                <li><strong>Spot VMs:</strong> ประหยัดถึง 91%</li>
+                <li><strong>Sustained Use Discounts:</strong> ลดอัตโนมัติ</li>
+              </ul>
+            </div>
+            <div class="card" style="grid-column: span 2;">
+              <h3><i class="fa-solid fa-shield-halved"></i>&nbsp; Guardrails</h3>
+              <ul>
+                <li><strong>Budget Alerts:</strong> แจ้งเตือนเมื่อใกล้เกินงบ</li>
+                <li><strong>Quota Management:</strong> จำกัดการ provisioning resource เกินกำหนด</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <!-- Slide 12: Operate -->
+      <section id="slide-9-4">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-rocket text-success"></i>&nbsp;&nbsp;Phase 3: Operate (ฝังวัฒนธรรม)</h2>
+        <div class="content">
+          <div class="step-box">
+            <h4><i class="fa-solid fa-right-to-bracket"></i>&nbsp; Onboard Workloads</h4>
+            <p>กำหนดมาตรฐาน labeling/ตั้งแต่เริ่มสร้าง resource — "ถ้าไม่มี label = ไม่อนุมัติ deploy"</p>
+          </div>
+          <div class="step-box">
+            <h4><i class="fa-solid fa-chalkboard-user"></i>&nbsp; Educate & Enable</h4>
+            <p>อบรมทีมงานทุกระดับ — ตั้งแต่ CIO, ผู้บริหาร, technical team, finance — ให้มี cost awareness</p>
+          </div>
+          <div class="step-box">
+            <h4><i class="fa-solid fa-chart-line"></i>&nbsp; Incentivize & Measure Value</h4>
+            <p>สร้างแรงจูงใจให้ทีมประหยัดได้ — วัดผลตาม unit economics, cost per transaction, ROI ของบริการต่อประชาชน</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- ส่วนที่ 4 — หลักการบริหารต้นทุนคลาวด์บน GCP                       -->
+      <!-- ================================================================ -->
+      <section id="divider-4" class="section-divider">
+        <p class="chapter-label">ส่วนที่ 4 &mdash; 30 นาที</p>
+        <h1>หลักการบริหารต้นทุนคลาวด์บน GCP</h1>
+        <p class="section-subtitle">GCP Services Overview, โครงสร้างต้นทุน, Cost Management Tools</p>
+      </section>
+
+      <!-- Slide 13: GCP Services -->
+      <section id="slide-13">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-cloud text-primary"></i>&nbsp;&nbsp;GCP Services — 8 กลุ่มบริการ</h2>
+        <div class="content">
           <table>
             <tr>
-              <th style="width: 25%;">Resource</th>
-              <th style="width: 25%;">Metric ที่ดู</th>
-              <th style="width: 50%;">วิธี Rightsize</th>
+              <th style="width: 25%;">กลุ่มบริการ</th>
+              <th style="width: 75%;">ตัวอย่างบริการ</th>
             </tr>
             <tr>
-              <td><strong class="text-primary"><i class="fa-solid fa-server"></i>&nbsp; Compute</strong><br><span class="text-muted text-lg">VM / Container</span></td>
-              <td>CPU, Memory utilization</td>
-              <td>ลด vCPU/RAM ให้ตรงกับ actual use; ใช้ spot/preemptible สำหรับ non-prod</td>
+              <td><strong>Compute</strong></td>
+              <td>Compute Engine, App Engine, Batch</td>
             </tr>
             <tr>
-              <td><strong class="text-warning"><i class="fa-solid fa-hard-drive"></i>&nbsp; Storage</strong><br><span class="text-muted text-lg">Disk / Object</span></td>
-              <td>Access frequency, IOPS</td>
-              <td>เลือก tier (hot → warm → cold → archive) ตามความถี่เข้าถึง</td>
+              <td><strong>Storage</strong></td>
+              <td>Cloud Storage, Persistent Disk, Cloud Filestore</td>
             </tr>
             <tr>
-              <td><strong class="text-accent"><i class="fa-solid fa-database"></i>&nbsp; Database</strong><br><span class="text-muted text-lg">RDS / Cloud SQL</span></td>
-              <td>Query load, connections</td>
-              <td>ลด instance class, optimize storage, ใช้ read replica เฉพาะเมื่อจำเป็น</td>
+              <td><strong>Networking</strong></td>
+              <td>Cloud VPN, Cloud Load Balancing, Cloud CDN</td>
             </tr>
             <tr>
-              <td><strong class="text-success"><i class="fa-solid fa-network-wired"></i>&nbsp; Network</strong><br><span class="text-muted text-lg">LB, CDN, Transfer</span></td>
-              <td>Data transfer volume, peak hours</td>
-              <td>optimize data path, ใช้ CDN ลด egress, รวม cross-region traffic</td>
+              <td><strong>Database</strong></td>
+              <td>Cloud SQL, Cloud Spanner, Cloud Bigtable, AlloyDB</td>
+            </tr>
+            <tr>
+              <td><strong>Analytics</strong></td>
+              <td>BigQuery, Dataflow, Pub/Sub, Looker</td>
+            </tr>
+            <tr>
+              <td><strong>Dev & Mgmt</strong></td>
+              <td>Cloud Monitoring, Cloud Logging, Artifact Registry</td>
+            </tr>
+            <tr>
+              <td><strong>Security</strong></td>
+              <td>Cloud Armor, Cloud KMS, Security Command Center</td>
+            </tr>
+            <tr>
+              <td><strong>Others</strong></td>
+              <td>Marketplace, Support, Professional Services</td>
             </tr>
           </table>
-
         </div>
+        <p class="footnote">GCP Services Summary (Google Cloud Docs)</p>
       </section>
 
-      <!-- SLIDE 3.4 — Metrics -->
-      <section id="slide-8-4">
-        <h2><i class="fa-solid fa-gauge-high text-success"></i>&nbsp;&nbsp;Metrics ที่ต้องใช้</h2>
+      <!-- Slide 14: Cost Structure -->
+      <section id="slide-14">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-wallet text-primary"></i>&nbsp;&nbsp;โครงสร้างต้นทุนของแต่ละกลุ่มบริการ</h2>
         <div class="content">
-
-          <p class="text-lg text-muted" style="margin-bottom: 16px;">ไม่ดูแค่ <strong>average</strong> อย่างเดียว — ต้องดู <strong>p95, p99</strong> ด้วย เพื่อไม่พลาด peak time</p>
-
-          <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;">
-            <div class="card" style="text-align: center;">
-              <p class="icon-box text-primary"><i class="fa-solid fa-microchip"></i></p>
-              <h3>CPU</h3>
-              <p>Avg, p95, p99</p>
-            </div>
-            <div class="card" style="text-align: center;">
-              <p class="icon-box text-accent"><i class="fa-solid fa-memory"></i></p>
-              <h3>Memory</h3>
-              <p>Allocated vs Used</p>
-            </div>
-            <div class="card" style="text-align: center;">
-              <p class="icon-box text-warning"><i class="fa-solid fa-arrow-right-arrow-left"></i></p>
-              <h3>Disk I/O</h3>
-              <p>Throughput, IOPS</p>
-            </div>
-            <div class="card" style="text-align: center;">
-              <p class="icon-box text-success"><i class="fa-solid fa-wifi"></i></p>
-              <h3>Network</h3>
-              <p>In/Out, peak times</p>
-            </div>
-            <div class="card" style="text-align: center;">
-              <p class="icon-box text-danger"><i class="fa-solid fa-clock"></i></p>
-              <h3>Uptime</h3>
-              <p>24x7 vs business hours?</p>
-            </div>
-          </div>
-
-          <div class="warning-box" style="margin-top: 20px;">
-            <p><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;&nbsp;<strong>Rule of Thumb:</strong> ถ้า resource ใช้ <strong>&lt; 20%</strong> ติดกัน <strong>2 สัปดาห์</strong> → ควรลด size ทันที!</p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SLIDE 3.5 — Strategy -->
-      <section id="slide-8-5">
-        <h2><i class="fa-solid fa-arrows-split-up-and-left text-success"></i>&nbsp;&nbsp;Strategy: Downsize, Up-size, Right-size</h2>
-        <div class="content">
-
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px;">
-            <!-- Downsize -->
-            <div class="card" style="border: 2px solid var(--success-color); text-align: center;">
-              <p class="icon-box text-success" style="font-size: 36pt;"><i class="fa-solid fa-arrow-down-short-wide"></i></p>
-              <h3>Underutilized (&lt;20%)</h3>
-              <p style="color: var(--success-color); font-size: 20pt; font-weight: 800;">DOWNSIZE</p>
-              <p class="text-muted text-lg" style="margin-top: 8px;">ประหยัดเงิน<br>ลด resource spec</p>
-            </div>
-            <!-- Sweet spot -->
-            <div class="card" style="border: 2px solid var(--success-color); text-align: center; background: rgba(6, 214, 160, 0.08);">
-              <p class="icon-box text-success" style="font-size: 36pt;"><i class="fa-solid fa-bullseye"></i></p>
-              <h3 style="color: var(--success-color);">Sweet Spot (40-70%)</h3>
-              <p style="color: var(--success-color); font-size: 20pt; font-weight: 800;">RIGHT-SIZE ✓</p>
-              <p class="text-muted text-lg" style="margin-top: 8px;">สมดุล<br>cost + performance</p>
-            </div>
-            <!-- Upsize -->
-            <div class="card" style="border: 2px solid var(--danger-color); text-align: center;">
-              <p class="icon-box text-danger" style="font-size: 36pt;"><i class="fa-solid fa-arrow-up-wide-short"></i></p>
-              <h3>Overloaded (&gt;80%)</h3>
-              <p style="color: var(--danger-color); font-size: 20pt; font-weight: 800;">UP-SIZE</p>
-              <p class="text-muted text-lg" style="margin-top: 8px;">ป้องกัน downtime<br>เพิ่ม resource spec</p>
-            </div>
-          </div>
-
+          <table>
+            <tr>
+              <th style="width: 25%;">กลุ่ม</th>
+              <th>วิธีการคิดเงิน</th>
+            </tr>
+            <tr>
+              <td><strong>Compute</strong></td>
+              <td>vCPU + RAM + Runtime (ชั่วโมงที่ใช้งาน)</td>
+            </tr>
+            <tr>
+              <td><strong>Storage</strong></td>
+              <td>ปริมาณ GB + Operations (read/write) + Egress</td>
+            </tr>
+            <tr>
+              <td><strong>Networking</strong></td>
+              <td>Ingress <strong>ฟรี</strong> — Egress คิดตาม Region ปลายทาง</td>
+            </tr>
+            <tr>
+              <td><strong>Database</strong></td>
+              <td>Instance hours + Storage + I/O Operations</td>
+            </tr>
+            <tr>
+              <td><strong>Analytics (BigQuery)</strong></td>
+              <td>On-demand คิดตาม TB ที่ scan หรือ Slot Reservations</td>
+            </tr>
+          </table>
           <div class="highlight-box">
-            <p><i class="fa-solid fa-lightbulb text-warm"></i>&nbsp;&nbsp;<strong>Key Point:</strong> p95/p99 สำคัญกว่า avg — ทรัพยากรที่ avg ใช้ 15% แต่ peak (p99) ใช้ 95% อาจไม่ควร downsize</p>
+            <p><i class="fa-solid fa-lightbulb text-primary"></i>&nbsp;&nbsp;<strong>Key Insight:</strong> เข้าใจ cost model แต่ละ service ก่อนจะเลือกใช้งาน — ช่วยตัดสินใจถูกตั้งแต่แรก</p>
           </div>
-
         </div>
       </section>
 
-      <!-- SLIDE 3.6 — Tools -->
-      <section id="slide-8-6">
-        <h2><i class="fa-solid fa-toolbox text-success"></i>&nbsp;&nbsp;Rightsizing Tools</h2>
+      <!-- Slide 15: Cost Management Tools -->
+      <section id="slide-15">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-toolbox text-primary"></i>&nbsp;&nbsp;GCP Cost Management Tools</h2>
         <div class="content">
-
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;">
-            <!-- Cloud-native -->
-            <div class="card">
-              <h3><i class="fa-solid fa-cloud text-primary"></i>&nbsp; Cloud-Native</h3>
-              <ul>
-                <li><strong>GCP:</strong> Recommender API — CPU, memory, idle VM, CUD recommendations</li>
-                <li><strong>AWS:</strong> Compute Optimizer — EC2, EBS, Lambda, Auto Scaling</li>
-                <li><strong>Azure:</strong> Advisor — VM rightsizing, reserved instances</li>
-              </ul>
-            </div>
-            <!-- Third-party -->
-            <div class="card">
-              <h3><i class="fa-solid fa-puzzle-piece text-accent"></i>&nbsp; Third-party</h3>
-              <ul>
-                <li><strong>Spot.io:</strong> Automated right-sizing + spot instance optimization</li>
-                <li><strong>CloudHealth (VMware):</strong> Cost + compliance dashboard</li>
-                <li><strong>Cloudability (Apptio):</strong> Multi-cloud cost visibility</li>
-              </ul>
-            </div>
-            <!-- Custom -->
-            <div class="card">
-              <h3><i class="fa-solid fa-code text-success"></i>&nbsp; Custom</h3>
-              <ul>
-                <li>Prometheus + Grafana — monitor + dashboard</li>
-                <li>Datadog — APM + infra monitoring</li>
-                <li>เขียน script + alert rules เอง</li>
-              </ul>
-            </div>
+          <div class="step-box">
+            <h4><i class="fa-solid fa-chart-pie"></i>&nbsp; Cloud Billing Dashboard</h4>
+            <p>ภาพรวมค่าใช้จ่ายรายเดือน, breakdown ตาม service/project</p>
           </div>
-
-          <div class="warning-box" style="margin-top: 16px;">
-            <p><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;&nbsp;ใช้ recommender เป็น <strong>ข้อมูลประกอบ</strong> — ไม่ใช่ auto-apply ทันที!</p>
+          <div class="step-box">
+            <h4><i class="fa-solid fa-arrow-right-to-bracket"></i>&nbsp; Billing Export → BigQuery</h4>
+            <p>export ข้อมูลบิลลง BigQuery เพื่อวิเคราะห์เชิงลึก + สร้าง custom report / dashboard</p>
           </div>
-
+          <div class="step-box">
+            <h4><i class="fa-solid fa-robot"></i>&nbsp; Recommender API</h4>
+            <p>คำแนะนำ rightsizing อัตโนมัติ — VM idle, underutilized CPU, CUD recommendations</p>
+          </div>
+          <div class="step-box">
+            <h4><i class="fa-solid fa-bell"></i>&nbsp; Budget Alerts</h4>
+            <p>แจ้งเตือนเมื่อใกล้เกิน budget — ส่งผ่าน email, Pub/Sub, Slack</p>
+          </div>
+          <div class="step-box">
+            <h4><i class="fa-solid fa-table-cells"></i>&nbsp; Cost Table & Cost Breakdown</h4>
+            <p>แยกตาม Project, Service, Label, SKU — ละเอียดถึงระดับ billing line item</p>
+          </div>
         </div>
       </section>
 
-      <!-- SLIDE 3.7 — Process -->
-      <section id="slide-8-7">
-        <h2><i class="fa-solid fa-arrows-rotate text-success"></i>&nbsp;&nbsp;Continuous Rightsizing Process</h2>
-        <div class="content">
+      <!-- ================================================================ -->
+      <!-- ส่วนที่ 5 — Cost Allocation และ Budgeting                        -->
+      <!-- ================================================================ -->
+      <section id="divider-5" class="section-divider">
+        <p class="chapter-label">ส่วนที่ 5 &mdash; 30 นาที</p>
+        <h1>Cost Allocation และ Budgeting</h1>
+        <p class="section-subtitle">จัดสรร, ติดป้าย, ตั้งงบประมาณ, รายงานต้นทุน</p>
+      </section>
 
+      <!-- Slide 16: Concept -->
+      <section id="slide-16">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-magnifying-glass-dollar text-warning"></i>&nbsp;&nbsp;แนวคิด Cost Allocation</h2>
+        <div class="content">
+          <div class="highlight-box">
+            <p><strong>ทำไมต้องจัดสรรต้นทุน?</strong> โปร่งใส, สร้าง Accountability, วางแผนงบประมาณได้แม่นยำ</p>
+          </div>
+          <div class="danger-box">
+            <p><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;&nbsp;<strong>ความท้าทายของภาครัฐ:</strong> งบประมาณรายปี (fixed) vs. ต้นทุนคลาวด์แบบ Variable — ไม่ match กัน!</p>
+          </div>
+          <p class="text-lg">แนวทางการจัดสรรในภาครัฐ:</p>
+          <ul>
+            <li>ตั้ง budget รายไตรมาส ไม่ใช่รายปี — ปรับทุกไตรมาส</li>
+            <li>ใช้ reserve buffer 10-20% ของ budget สำหรับ fluctuation</li>
+            <li>แยก project budget ออกจากกัน — ไม่ปนกัน</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 17: GCP Resource Hierarchy -->
+      <section id="slide-17">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-sitemap text-primary"></i>&nbsp;&nbsp;GCP Resource Hierarchy และ Cost Allocation</h2>
+        <div class="content">
+          <div class="card" style="font-family: monospace; font-size: 16pt; background: #F8F9FA; border: 1px solid #E0E0E0;">
+            <p style="text-align: center;"><strong>Organization</strong></p>
+            <p style="text-align: center; padding-left: 30px;">└── <strong>Folder (กรม/กอง)</strong></p>
+            <p style="text-align: center; padding-left: 60px;">└── <strong>Project (ระบบงาน)</strong></p>
+            <p style="text-align: center; padding-left: 90px;">└── <strong>Resources</strong> (VM, Storage, DB...)</p>
+          </div>
+
+          <div class="card" style="margin: 12px 0;">
+            <h3><i class="fa-solid fa-tags"></i>&nbsp; Labels & Tags</h3>
+            <p>กำหนด: <span class="tag tag-primary">team</span> <span class="tag tag-accent">env</span> <span class="tag tag-success">cost-center</span> <span class="tag tag-warning">project-code</span></p>
+          </div>
+
+          <div class="card">
+            <h3><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp; Billing Account</h3>
+            <p>แยกตามหน่วยงาน/โครงการ — ทำให้เห็นภาพต้นทุนแต่ละส่วนชัดเจน</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 18: Shared Cost -->
+      <section id="slide-18">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-people-carry-box text-warning"></i>&nbsp;&nbsp;Shared Cost Allocation</h2>
+        <div class="content">
+          <p class="text-muted" style="margin-bottom: 12px;">Shared Resources: VPC, Monitoring, Logging — หลายกรมใช้ร่วมกัน จะจัดสรรยังไง?</p>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px;">
+            <div class="card" style="text-align: center;">
+              <p class="icon-box text-warning"><i class="fa-solid fa-scale-simple"></i></p>
+              <h3>Even Split</h3>
+              <p class="text-sm text-muted">แบ่งเท่า ๆ กัน<br><strong style="color: var(--success-color);">+ ง่าย</strong> <strong style="color: var(--danger-color);">- ไม่ fair</strong></p>
+            </div>
+            <div class="card" style="text-align: center;">
+              <p class="icon-box text-primary"><i class="fa-solid fa-chart-bar"></i></p>
+              <h3>Proportional</h3>
+              <p class="text-sm text-muted">แบ่งตาม % การใช้<br><strong style="color: var(--success-color);">+ fair</strong> <strong style="color: var(--danger-color);">- ซับซ้อน</strong></p>
+            </div>
+            <div class="card" style="text-align: center;">
+              <p class="icon-box text-accent"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></p>
+              <h3>Direct Attribution</h3>
+              <p class="text-sm text-muted">ระบุตรงว่าใครใช้<br><strong style="color: var(--success-color);">+ แม่นยำ</strong></p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3><i class="fa-solid fa-building-flag"></i>&nbsp; กรณีภาครัฐ</h3>
+            <p>ระบบที่หลายกรมใช้ร่วมกัน — e.g. Government Network (GovNet), Central Logging, Shared Identity — ควรใช้ <strong>Proportional split</strong> ตาม % traffic/users ของแต่ละกรม</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 19: Budgeting on GCP -->
+      <section id="slide-19">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-money-bill-trend-up text-warning"></i>&nbsp;&nbsp;Budgeting บน GCP</h2>
+        <div class="content">
+          <div class="highlight-box">
+            <p>ตั้ง Budget ใน <strong>Cloud Billing Console</strong> โดยกำหนดจำนวนและ alert</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px;">
+            <div class="stat-box" style="border-color: rgba(27,94,32,0.3);">
+              <span class="stat-number text-primary">50%</span>
+              <span class="stat-label">Info</span>
+            </div>
+            <div class="stat-box" style="border-color: rgba(249,168,37,0.5);">
+              <span class="stat-number" style="color: var(--warning-color);">90%</span>
+              <span class="stat-label">Warning</span>
+            </div>
+            <div class="stat-box" style="border-color: rgba(198,40,40,0.5);">
+              <span class="stat-number" style="color: var(--danger-color);">100%</span>
+              <span class="stat-label">Critical</span>
+            </div>
+            <div class="stat-box" style="border-color: rgba(198,40,40,0.5);">
+              <span class="stat-number" style="color: var(--danger-color);"><i class="fa-solid fa-chart-line"></i></span>
+              <span class="stat-label">Forecast</span>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <h4><i class="fa-solid fa-bolt"></i>&nbsp; Automated Response</h4>
+            <p>Budget Alert → <strong>Pub/Sub</strong> → <strong>Cloud Function</strong> → Auto shutdown / Notify team</p>
+          </div>
+
+          <div class="card">
+            <p style="margin: 0;"><i class="fa-solid fa-building-flag text-primary"></i>&nbsp;&nbsp;<strong>แนวทางการตั้งงบประมาณสำหรับราชการ:</strong> ตั้งรายไตรมาส + reserve buffer 15-20% — ปรับทุกไตรมาสตาม actual spend</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 20: Cost Reporting -->
+      <section id="slide-20">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-file-lines text-primary"></i>&nbsp;&nbsp;การรายงานต้นทุน (Cost Reporting)</h2>
+        <div class="content">
+          <div class="card">
+            <h3><i class="fa-solid fa-chart-line"></i>&nbsp; KPI ที่ควรติดตาม</h3>
+            <ul>
+              <li><strong>Cost per Service</strong> — รู้ว่าแต่ละ service จ่ายเท่าไร</li>
+              <li><strong>Cost per Project</strong> — แยกตามระบบงาน/โครงการ</li>
+              <li><strong>Budget Variance</strong> — ใช้จริง vs งบประมาณ</li>
+            </ul>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="card">
+              <h3><i class="fa-solid fa-users-gear"></i>&nbsp; Dashboard ผู้บริหาร</h3>
+              <p>Looker Studio + BigQuery — ภาพรวม, trend, budget vs actual, top spenders</p>
+            </div>
+            <div class="card">
+              <h3><i class="fa-solid fa-terminal"></i>&nbsp; Dashboard ทีมเทคนิค</h3>
+              <p>รายละเอียดถึงระดับ label, SKU — หา root cause ได้ทันที</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- ส่วนที่ 6 — Rightsizing Strategies                               -->
+      <!-- ================================================================ -->
+      <section id="divider-6" class="section-divider">
+        <p class="chapter-label">ส่วนที่ 6 &mdash; 30 นาที</p>
+        <h1>Rightsizing Strategies</h1>
+        <p class="section-subtitle">ปรับขนาด Resource ให้ตรงกับ Workload จริง</p>
+      </section>
+
+      <!-- Slide 21: What is Rightsizing? -->
+      <section id="slide-21">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-sliders text-primary"></i>&nbsp;&nbsp;Rightsizing คืออะไร?</h2>
+        <div class="content">
+          <div class="highlight-box">
+            <p class="text-xl">การปรับขนาด Resource ให้เหมาะสมกับ <strong>Workload จริง</strong></p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+            <div class="danger-box">
+              <p><i class="fa-solid fa-arrow-up"></i>&nbsp;&nbsp;<strong>Over-provisioning</strong><br>จ่ายเกินความจำเป็น — ค่าใช้จ่ายสูญเปล่า</p>
+            </div>
+            <div class="danger-box">
+              <p><i class="fa-solid fa-arrow-down"></i>&nbsp;&nbsp;<strong>Under-provisioning</strong><br>ประสิทธิภาพต่ำ — User experience แย่, downtime</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <p style="margin: 0; font-size: 15pt;"><i class="fa-solid fa-bullseye text-success"></i>&nbsp;&nbsp;<strong class="text-success">&nbsp;เป้าหมาย:</strong> <strong style="background: linear-gradient(to right, var(--danger-color), var(--success-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">"Right"</strong> = <strong>"ไม่มากไป ไม่น้อยไป"</strong> — เหมาะสมที่สุดกับงาน</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 22: Factors -->
+      <section id="slide-22">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-magnifying-glass-chart text-primary"></i>&nbsp;&nbsp;ปัจจัยในการพิจารณา Rightsizing</h2>
+        <div class="content">
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
-            <div class="card" style="text-align: center; border: 2px solid var(--primary-color);">
-              <span style="font-size: 32pt; color: var(--primary-color); font-weight: 900;">1</span>
-              <h3>Monitor</h3>
-              <p>เก็บ metrics utilization อย่างต่อเนื่อง</p>
+            <div class="card" style="text-align: center;">
+              <p class="icon-box"><i class="fa-solid fa-diagram-project"></i></p>
+              <h3>ประเภท Workload</h3>
+              <ul>
+                <li>Stateful / Stateless</li>
+                <li>Batch / Realtime</li>
+                <li>Latency-sensitive?</li>
+              </ul>
             </div>
             <div class="card" style="text-align: center;">
-              <span style="font-size: 32pt; color: var(--primary-color); font-weight: 900;">2</span>
-              <h3>Analyze</h3>
-              <p>หา resource ที่ under/over-utilized</p>
+              <p class="icon-box"><i class="fa-solid fa-weight-scale"></i></p>
+              <h3>ขนาด Workload</h3>
+              <ul>
+                <li>Traffic volume</li>
+                <li>Data size</li>
+                <li>Concurrent users</li>
+              </ul>
             </div>
             <div class="card" style="text-align: center;">
-              <span style="font-size: 32pt; color: var(--primary-color); font-weight: 900;">3</span>
-              <h3>Recommend</h3>
-              <p>เสนอ size change พร้อม risk assessment</p>
-            </div>
-            <div class="card" style="text-align: center;">
-              <span style="font-size: 32pt; color: var(--primary-color); font-weight: 900;">4</span>
-              <h3>Approve</h3>
-              <p>Owner review + approve ก่อน apply</p>
-            </div>
-            <div class="card" style="text-align: center;">
-              <span style="font-size: 32pt; color: var(--primary-color); font-weight: 900;">5</span>
-              <h3>Implement</h3>
-              <p>Apply change — ใช้ maintenance window ถ้า prod</p>
-            </div>
-            <div class="card" style="text-align: center; border: 2px solid var(--success-color);">
-              <span style="font-size: 32pt; color: var(--success-color); font-weight: 900;">6</span>
-              <h3 style="color: var(--success-color);">Verify</h3>
-              <p>ยืนยัน performance OK</p>
+              <p class="icon-box"><i class="fa-solid fa-gauge-high"></i></p>
+              <h3>ความต้องการ Performance</h3>
+              <ul>
+                <li>CPU / Memory</li>
+                <li>IOPS / Throughput</li>
+                <li>Availability (SLA)</li>
+              </ul>
             </div>
           </div>
-
-          <div class="highlight-box" style="margin-top: 16px;">
-            <p><i class="fa-solid fa-rotate text-primary"></i>&nbsp;&nbsp;วงจรนี้ต้องรัน <strong>ต่อเนื่อง</strong> — workload เปลี่ยนตลอดเวลา ไม่ใช่ทำครั้งเดียวจบ</p>
-          </div>
-
         </div>
       </section>
 
-      <!-- SLIDE 3.8 — Anti-patterns -->
-      <section id="slide-8-8">
-        <h2><i class="fa-solid fa-ban text-danger"></i>&nbsp;&nbsp;Anti-patterns ที่ควรเลี่ยง</h2>
+      <!-- Slide 23: Rightsizing 8 Groups GCP -->
+      <section id="slide-23">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-grid-2 text-primary"></i>&nbsp;&nbsp;Rightsizing ตาม 8 กลุ่มบริการ GCP</h2>
         <div class="content">
-
-          <div class="danger-box">
-            <p><i class="fa-solid fa-xmark-circle"></i>&nbsp;&nbsp;<strong>Rightsize แล้วไม่ monitor ตาม</strong> — เปลี่ยนไป performance แย่ไม่มีใครรู้ จนกว่าจะ outage</p>
-          </div>
-
-          <div class="danger-box">
-            <p><i class="fa-solid fa-xmark-circle"></i>&nbsp;&nbsp;<strong>ดูแค่ avg metric</strong> — ignore peak time, workload ที่ต้อง burst capacity จะล้มทันที</p>
-          </div>
-
-          <div class="danger-box">
-            <p><i class="fa-solid fa-xmark-circle"></i>&nbsp;&nbsp;<strong>Auto-downsize ทุกอย่าง</strong> — ไม่มี human review, ไม่มี risk assessment; บาง service ต้อง keep headroom</p>
-          </div>
-
-          <div class="danger-box">
-            <p><i class="fa-solid fa-xmark-circle"></i>&nbsp;&nbsp;<strong>ทำครั้งเดียวจบ</strong> — workload เปลี่ยนตาม season, feature launch, user growth; ต้องทำเป็น recurring process</p>
-          </div>
-
-          <div class="danger-box">
-            <p><i class="fa-solid fa-xmark-circle"></i>&nbsp;&nbsp;<strong>ไม่สื่อสารกับ engineering team</strong> — FinOps team สั่ง rightsize โดยไม่คุยกับคนใช้ → trust หาย, collaboration พัง</p>
-          </div>
-
+          <table>
+            <tr>
+              <th style="width: 20%;">กลุ่ม</th>
+              <th style="width: 80%;">策略</th>
+            </tr>
+            <tr>
+              <td><strong>Compute</strong></td>
+              <td>
+                <ul>
+                  <li>ใช้ Recommender → Resize VM, เปลี่ยน machine family (e2/n2/c2)</li>
+                  <li>App Engine: ปรับ Scaling (Automatic/Basic/Manual)</li>
+                  <li>CUD (1/3 ปี) สำหรับ Baseline workload</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Storage</strong></td>
+              <td>
+                <ul>
+                  <li>Storage Class: Standard → Nearline → Coldline → Archive</li>
+                  <li>Disk Type: pd-standard / pd-ssd / pd-balanced ตาม IOPS</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Networking</strong></td>
+              <td>
+                <ul>
+                  <li>ใช้ Cloud CDN ลด egress, จัด resources ใน Region เดียวกัน</li>
+                  <li>Cloud Interconnect สำหรับ On-prem ปริมาณสูง</li>
+                </ul>
+              </td>
+            </tr>
+          </table>
         </div>
-        <p class="footnote">บทเรียนจากทีม FinOps ทั่วโลก — อย่าทำผิดซ้ำ!</p>
       </section>
 
-      <!-- ===================================================================== -->
-      <!-- CLOSING SLIDE                                                        -->
-      <!-- ===================================================================== -->
-      <section id="slide-9">
+      <!-- Slide 23 cont. -->
+      <section id="slide-23b">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-grid-2 text-primary"></i>&nbsp;&nbsp;Rightsizing (ต่อ)</h2>
+        <div class="content">
+          <table>
+            <tr>
+              <td><strong>Database</strong></td>
+              <td>
+                <ul>
+                  <li>Cloud SQL: ปรับ tier, เปิด Auto Storage Increase, Read Replicas</li>
+                  <li>Cloud Spanner: ปรับ Processing Units</li>
+                  <li>Bigtable: ปรับ Node ตาม Throughput</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Analytics</strong></td>
+              <td>
+                <ul>
+                  <li>BigQuery: On-demand vs. Slot Reservations, Partitioning + Clustering</li>
+                  <li>Dataflow: ปรับ Worker, ใช้ Autoscaling</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Dev/Mgmt</strong></td>
+              <td>
+                <ul>
+                  <li>กำหนด Retention policy ของ Metrics/Logs</li>
+                  <li>ลด ingestion ด้วย Log Exclusion filters</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Security</strong></td>
+              <td>สคค SCC Tier (Standard/Premium/Enterprise) ให้เหมาะสม</td>
+            </tr>
+            <tr>
+              <td><strong>Others</strong></td>
+              <td>ทบทวน Marketplace subscriptions ที่ไม่ได้ใช้งาน</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- Slide 24: Pricing Efficiency -->
+      <section id="slide-24">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-tags text-success"></i>&nbsp;&nbsp;Pricing Efficiency — ลดต้นทุนด้วยราคา</h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;">
+            <div class="card">
+              <h3><i class="fa-solid fa-file-contract"></i>&nbsp; Committed Use Discounts (CUD)</h3>
+              <p>ประหยัดถึง <strong class="text-success">57%</strong> สำหรับ Compute — ยอมผูก 1 ปี หรือ 3 ปี สำหรับ workload ที่รันตลอด</p>
+            </div>
+            <div class="card">
+              <h3><i class="fa-solid fa-bolt"></i>&nbsp; Spot VMs (Preemptible)</h3>
+              <p>ประหยัดถึง <strong class="text-success">91%</strong> — เหมาะสำหรับ Batch, Fault-tolerant, ML training</p>
+            </div>
+            <div class="card">
+              <h3><i class="fa-solid fa-clock"></i>&nbsp; Sustained Use Discounts</h3>
+              <p>ลดอัตโนมัติเมื่อใช้งานต่อเนื่องภายในเดือน — ไม่ต้องทำอะไร</p>
+            </div>
+            <div class="card">
+              <h3><i class="fa-solid fa-coins"></i>&nbsp; BigQuery Flat-rate</h3>
+              <p>Slot Reservations — เหมาะสำหรับ workload ปริมาณสูงและสม่ำเสมอ</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 25: Guardrails -->
+      <section id="slide-25">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-shield-halved text-warning"></i>&nbsp;&nbsp;Guardrails — ป้องกันค่าใช้จ่ายที่ไม่คาดคิด</h2>
+        <div class="content">
+          <div class="step-box">
+            <h4><i class="fa-solid fa-ban"></i>&nbsp; Organization Policy</h4>
+            <p>จำกัด Region — ป้องกัน deploy Region แพงโดยไม่รู้ตัว, จำกัด Machine Type สูงสุด</p>
+          </div>
+          <div class="step-box">
+            <h4><i class="fa-solid fa-bell"></i>&nbsp; Budget Alerts + Pub/Sub + Cloud Functions</h4>
+            <p>แจ้งเตือน → Automate response → shutdown resource อัตโนมัติเมื่อเกิน threshold</p>
+          </div>
+          <div class="step-box">
+            <h4><i class="fa-solid fa-gauge"></i>&nbsp; Quota Management</h4>
+            <p>กำหนดขอบเขตการใช้ Resource — จำกัด CPU cores, disk size, number of instances ต่อ Project</p>
+          </div>
+          <div class="highlight-box">
+            <p><i class="fa-solid fa-lightbulb text-warm"></i>&nbsp;&nbsp;<strong>แนวปฏิบัติ:</strong> เริ่มด้วย alert ก่อน → พอ trust workflow แล้วค่อยเปิด auto-action</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- ส่วนที่ 7 — Road Map การนำไปใช้ในหน่วยงานราชการ                    -->
+      <!-- ================================================================ -->
+      <section id="divider-7" class="section-divider">
+        <p class="chapter-label">ส่วนที่ 7 &mdash; 15 นาที</p>
+        <h1>Road Map การนำไปใช้ใน</h1>
+        <h1 style="font-size: 40pt; margin-top: 0;">หน่วยงานราชการ</h1>
+        <p class="section-subtitle">Maturity Model, Quick Wins, Key Takeaways</p>
+      </section>
+
+      <!-- Slide 26: Maturity Model -->
+      <section id="slide-26">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-road text-primary"></i>&nbsp;&nbsp;Maturity Model — 3 ระดับ</h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            <div class="card" style="border-left: 5px solid var(--warning-color);">
+              <h3 style="color: var(--warning-color);">🐢 Crawl</h3>
+              <p class="text-sm text-muted">เริ่มต้น (เดือน 1-3)</p>
+              <ul>
+                <li>ติดตั้ง Billing Export → BigQuery</li>
+                <li>กำหนด Label Policy</li>
+                <li>ตั้ง Budget Alert ทุก Project</li>
+              </ul>
+            </div>
+            <div class="card" style="border-left: 5px solid var(--primary-color);">
+              <h3 style="color: var(--primary-color);">🦶 Walk</h3>
+              <p class="text-sm text-muted">พัฒนา (เดือน 3-6)</p>
+              <ul>
+                <li>Rightsizing ตาม Recommender</li>
+                <li>สร้าง Cost Dashboard</li>
+                <li>จัดตั้ง FinOps Team</li>
+              </ul>
+            </div>
+            <div class="card" style="border-left: 5px solid var(--success-color);">
+              <h3 style="color: var(--success-color);">🏃 Run</h3>
+              <p class="text-sm text-muted">เชี่ยวชาญ (เดือน 6+)</p>
+              <ul>
+                <li>ใช้ CUD / Spot VMs</li>
+                <li>Automated governance</li>
+                <li>Cost-aware culture ทั่วองค์กร</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 27: Quick Wins -->
+      <section id="slide-27">
+        <h2>&nbsp;&nbsp;<i class="fa-solid fa-trophy text-primary"></i>&nbsp;&nbsp;Quick Wins สำหรับภาครัฐ</h2>
+        <div class="content">
+          <div class="step-box">
+            <h4><strong>1.</strong> เปิด Billing Export → BigQuery <span class="text-muted">(วันแรก)</span></h4>
+          </div>
+          <div class="step-box">
+            <h4><strong>2.</strong> กำหนด Labeling Standard</h4>
+            <p><span class="tag tag-primary">agency</span> <span class="tag tag-accent">project</span> <span class="tag tag-success">env</span> <span class="tag tag-warning">cost-center</span></p>
+          </div>
+          <div class="step-box">
+            <h4><strong>3.</strong> ตั้ง Budget Alert ทุก Project</h4>
+          </div>
+          <div class="step-box">
+            <h4><strong>4.</strong> รัน Recommender ทุกเดือน → Rightsizing รายการที่ ROI ชัดเจน</h4>
+          </div>
+          <div class="step-box">
+            <h4><strong>5.</strong> เปลี่ยน Storage Class สำหรับข้อมูลที่ไม่ค่อยเข้าถึง</h4>
+            <p>Standard → <strong>Nearline</strong> / <strong>Coldline</strong> / <strong>Archive</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 28: Summary & Q&A -->
+      <section id="slide-28">
         <div class="closing-icon">
           <i class="fa-solid fa-cloud-bolt"></i>
         </div>
-        <h1 style="font-size: 52pt; text-align: center; margin-bottom: 30px;">สรุป & Q&A</h1>
-
-        <div class="card">
-          <ul style="padding: 0;">
-            <li class="text-2xl"><i class="fa-solid fa-cloud text-primary"></i>&nbsp;&nbsp;<strong>FinOps = Culture + Tool + Process</strong> — ต้องครบทั้ง 3 ด้าน</li>
-            <li class="text-2xl"><i class="fa-solid fa-people-arrows text-accent"></i>&nbsp;&nbsp;<strong>ทุกคนต้องรับผิดชอบ</strong> — ไม่ใช่แค่ Finance ทำคนเดียว</li>
-            <li class="text-2xl"><i class="fa-solid fa-chart-line text-warning"></i>&nbsp;&nbsp;<strong>Data-driven</strong> — ตัดสินใจจากข้อมูล ไม่ใช่ความรู้สึก</li>
-            <li class="text-2xl"><i class="fa-solid fa-arrows-rotate text-success"></i>&nbsp;&nbsp;<strong>Iterative</strong> — ไม่มี perfect state, improve ตลอดเวลา</li>
-          </ul>
+        <h1 style="font-size: 48pt; text-align: center; margin-bottom: 20px;">สรุป & Q&A</h1>
+        <div class="content">
+          <div class="card">
+            <ul>
+              <li class="text-2xl"><i class="fa-solid fa-cloud text-primary"></i>&nbsp;&nbsp;<strong>FinOps = วัฒนธรรม + กระบวนการ + เครื่องมือ</strong></li>
+              <li class="text-2xl"><i class="fa-solid fa-gears text-accent"></i>&nbsp;&nbsp;GCP มีเครื่องมือ <strong>ครบพร้อม</strong> — สิ่งที่ขาดคือ <strong>"การปฏิบัติอย่างสม่ำเสมอ"</strong></li>
+            </ul>
+          </div>
+          <div style="margin-top: 20px; text-align: center;">
+            <h3 style="text-align: center; color: var(--muted-color); font-size: 20pt;"><i class="fa-solid fa-comments"></i>&nbsp;&nbsp;Questions?</h3>
+          </div>
+          <p style="text-align: center; font-size: 10pt; color: var(--muted-color); margin-top: 20px;">
+            <strong>References:</strong> Google Cloud FinOps Getting Started Guide, GCP Services Summary
+          </p>
         </div>
-
-        <p style="text-align: center; margin-top: 40px; font-size: 32pt; color: var(--muted-color);">
-          <i class="fa-solid fa-comments text-primary"></i>&nbsp;&nbsp;Questions?
-        </p>
       </section>
 
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chart/plugin.js"></script>
   <script>
     Reveal.initialize({
       width: 1280,
       height: 720,
-      margin: 0,
+      margin: 0.06,
       controls: true,
       progress: true,
-      slideNumber: true,
+      slideNumber: false,
       hash: true,
       transition: 'slide',
-      center: false,
-      plugins: [ RevealChart ],
-      chart: {
-        defaults: Object.assign({
-          color: 'rgba(238, 244, 248, 0.8)',
-          borderColor: 'rgba(238, 244, 248, 0.8)',
-          devicePixelRatio: 2
-        }, window.location.search.includes('export') ? { animation: false } : {})
-      }
+      center: false
     });
   </script>
 </body>
