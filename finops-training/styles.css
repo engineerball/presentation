@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --background-color: #0D1B2A;
-  --primary-color: #00B4D8;
-  --secondary-color: #0077B6;
-  --accent-color: #48CAE4;
-  --warm-accent: #F4A261;
-  --success-color: #06D6A0;
-  --warning-color: #FFB703;
-  --danger-color: #EF476F;
-  --text-color: #EEF4F8;
-  --muted-color: #8FA8B8;
-  --card-bg: rgba(255, 255, 255, 0.06);
-  --card-border: rgba(0, 180, 216, 0.25);
+  --background-color: #0B1A0F;
+  --primary-color: #4E9F3D;
+  --secondary-color: #3A7D2C;
+  --accent-color: #6BBF4E;
+  --warm-accent: #D4A76A;
+  --success-color: #5CCC4D;
+  --warning-color: #F0B429;
+  --danger-color: #D94F5C;
+  --text-color: #F5F0E8;
+  --muted-color: #A89F8E;
+  --card-bg: rgba(78, 159, 61, 0.08);
+  --card-border: rgba(78, 159, 61, 0.30);
   --heading-font: "Noto Sans Thai", Helvetica, sans-serif;
   --body-font: "Noto Sans Thai", Helvetica, sans-serif;
   --base-font-size: 32px;
@@ -103,7 +103,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: linear-gradient(135deg, #0D1B2A 0%, #1B2D45 50%, #0D1B2A 100%);
+  background: linear-gradient(135deg, #0B1A0F 0%, #132A18 50%, #0B1A0F 100%);
 }
 
 .reveal #title h1 {
@@ -244,11 +244,11 @@
   margin-bottom: 6px;
 }
 
-.tag-primary { background: rgba(0, 180, 216, 0.15); color: var(--primary-color); }
-.tag-success { background: rgba(6, 214, 160, 0.15); color: var(--success-color); }
-.tag-warning { background: rgba(255, 183, 3, 0.15); color: var(--warning-color); }
-.tag-danger { background: rgba(239, 71, 111, 0.15); color: var(--danger-color); }
-.tag-accent { background: rgba(72, 202, 228, 0.15); color: var(--accent-color); }
+.tag-primary { background: rgba(78, 159, 61, 0.18); color: var(--primary-color); }
+.tag-success { background: rgba(92, 204, 77, 0.18); color: var(--success-color); }
+.tag-warning { background: rgba(240, 180, 41, 0.18); color: var(--warning-color); }
+.tag-danger { background: rgba(217, 79, 92, 0.18); color: var(--danger-color); }
+.tag-accent { background: rgba(107, 191, 78, 0.18); color: var(--accent-color); }
 
 .icon-box {
   font-size: 28pt;
@@ -289,7 +289,7 @@
 }
 
 .reveal th {
-  background: rgba(0, 180, 216, 0.15);
+  background: rgba(78, 159, 61, 0.18);
   color: var(--primary-color);
   padding: 12px 16px;
   text-align: left;
@@ -299,13 +299,13 @@
 
 .reveal td {
   padding: 10px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(245, 240, 232, 0.06);
   font-size: 14pt;
   color: var(--text-color);
 }
 
 .reveal tr:hover td {
-  background: rgba(0, 180, 216, 0.05);
+  background: rgba(78, 159, 61, 0.05);
 }
 
 /* ========== CLOSING SLIDE ========== */
@@ -361,7 +361,7 @@
   display: inline-block;
   padding: 4px 16px;
   border-radius: 6px;
-  background: rgba(0, 180, 216, 0.12);
+  background: rgba(78, 159, 61, 0.15);
   color: var(--primary-color);
   font-size: 13pt;
   font-weight: 700;
@@ -369,24 +369,10 @@
   margin-bottom: 6px;
 }
 
-/* ========== SECTION DIVIDER LARGE ========== */
-
-.section-divider-large h1 {
-  font-size: 60pt;
-}
-
-.section-divider-large .chapter-num {
-  font-size: 18pt;
-  color: var(--muted-color);
-  letter-spacing: 4px;
-  margin-bottom: 12px;
-  text-transform: uppercase;
-}
-
 /* ========== HIGHLIGHT BOX ========== */
 
 .highlight-box {
-  background: rgba(0, 180, 216, 0.08);
+  background: rgba(78, 159, 61, 0.08);
   border: 1px solid var(--card-border);
   border-left: 5px solid var(--primary-color);
   border-radius: 0 12px 12px 0;
@@ -400,8 +386,8 @@
 }
 
 .warning-box {
-  background: rgba(255, 183, 3, 0.08);
-  border: 1px solid rgba(255, 183, 3, 0.25);
+  background: rgba(240, 180, 41, 0.08);
+  border: 1px solid rgba(240, 180, 41, 0.25);
   border-left: 5px solid var(--warning-color);
   border-radius: 0 12px 12px 0;
   padding: 18px 24px;
@@ -414,8 +400,8 @@
 }
 
 .danger-box {
-  background: rgba(239, 71, 111, 0.08);
-  border: 1px solid rgba(239, 71, 111, 0.25);
+  background: rgba(217, 79, 92, 0.08);
+  border: 1px solid rgba(217, 79, 92, 0.25);
   border-left: 5px solid var(--danger-color);
   border-radius: 0 12px 12px 0;
   padding: 18px 24px;
