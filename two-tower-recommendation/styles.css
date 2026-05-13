@@ -13,29 +13,50 @@
   --primary-color: #00d4ff;
   --secondary-color: #7b61ff;
   --accent-color: #ffb347;
-  --text-color: #e8e8f0;
-  --muted-color: #8888aa;
+  --text-color: #f0f0f0;
+  --muted-color: #9999bb;
   --card-bg: #1a1a2e;
-  --card-border: #2a2a4e;
+  --card-border: #3a3a5e;
   --code-bg: #16162a;
   --green-accent: #4ade80;
   --red-accent: #f87171;
 }
 
-.reveal {
-  font-family: var(--body-font);
+/* ============================================
+   FORCE dark background on everything
+   ============================================ */
+html, body, .reveal, .reveal .slides, .reveal .slides section,
+.reveal .slides section section {
+  background: var(--background-color) !important;
 }
 
-.reveal h1, .reveal h2, .reveal h3 {
+.reveal {
+  font-family: var(--body-font);
+  color: var(--text-color);
+}
+
+.reveal .slides {
+  background: var(--background-color);
+}
+
+.reveal .slides section {
+  background: var(--background-color) !important;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
   font-family: var(--heading-font);
   text-transform: none;
-  color: var(--text-color);
+  color: var(--text-color) !important;
   letter-spacing: -0.02em;
 }
 
-.reveal h1 { color: var(--primary-color); }
-.reveal h2 { color: var(--primary-color); }
-.reveal h3 { color: var(--secondary-color); font-weight: 600; }
+.reveal h1 { color: var(--primary-color) !important; font-size: var(--h1-size); }
+.reveal h2 { color: var(--primary-color) !important; font-size: var(--h2-size); }
+.reveal h3 { color: var(--secondary-color) !important; font-weight: 600; font-size: var(--h3-size); }
+
+.reveal p, .reveal li, .reveal td, .reveal th, .reveal span, .reveal div {
+  color: var(--text-color);
+}
 
 .reveal .slides section {
   padding: 30px 50px;
@@ -55,7 +76,12 @@
 
 .reveal .content li {
   margin-bottom: 10px;
+  color: var(--text-color);
 }
+
+/* Override reveal.js defaults */
+.reveal a { color: var(--primary-color); }
+.reveal strong, .reveal b { color: var(--text-color); }
 
 .reveal pre {
   background: var(--code-bg);
@@ -70,15 +96,18 @@
 .reveal code {
   font-family: var(--code-font);
   font-size: 13pt;
+  color: var(--accent-color);
 }
 
 .reveal pre code {
   font-size: 13pt;
   padding: 0;
   background: none;
+  color: var(--text-color);
 }
 
-.reveal .text-muted { color: var(--muted-color); }
+/* Utilities */
+.reveal .text-muted { color: var(--muted-color) !important; }
 .reveal .text-center { text-align: center; }
 .reveal .text-lg { font-size: 16pt; }
 .reveal .text-xl { font-size: 19pt; }
@@ -91,12 +120,12 @@
 
 .reveal .section-divider h1,
 .reveal .section-divider h2 {
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
 }
 
 /* Title slide */
 #title h1 {
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
   font-size: 42pt;
   font-weight: 700;
 }
@@ -115,25 +144,13 @@
 }
 
 .card p, .card li {
-  color: var(--text-color);
+  color: var(--text-color) !important;
 }
 
 .card h3 {
   margin-top: 0;
   font-size: 18pt;
-}
-
-/* Architecture box */
-.arch-box {
-  border: 2px solid var(--card-border);
-  border-radius: 10px;
-  padding: 16px 20px;
-  text-align: center;
-}
-
-.arch-box p {
-  margin: 0;
-  color: var(--text-color);
+  color: var(--primary-color) !important;
 }
 
 /* Stat boxes */
@@ -147,12 +164,12 @@
 .stat-number {
   font-size: 28pt;
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
 }
 
 .stat-label {
   font-size: 13pt;
-  color: var(--muted-color);
+  color: var(--muted-color) !important;
 }
 
 /* Flow diagram */
@@ -166,7 +183,7 @@
 
 .flow-step p {
   margin: 0;
-  color: var(--text-color);
+  color: var(--text-color) !important;
   font-size: 14pt;
 }
 
@@ -175,7 +192,7 @@
   align-items: center;
   justify-content: center;
   font-size: 24pt;
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
 }
 
 /* Insight box */
@@ -187,20 +204,21 @@
 }
 
 .insight-box p {
-  color: var(--text-color);
+  color: var(--text-color) !important;
   margin: 0;
 }
 
-/* Comparison table override */
+/* Tables */
 .reveal table {
   font-size: 13pt;
   border-collapse: collapse;
   width: 100%;
+  color: var(--text-color);
 }
 
 .reveal th {
   background: var(--card-bg);
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
   padding: 10px 14px;
   text-align: left;
   border-bottom: 2px solid var(--primary-color);
@@ -209,7 +227,7 @@
 .reveal td {
   padding: 8px 14px;
   border-bottom: 1px solid var(--card-border);
-  color: var(--text-color);
+  color: var(--text-color) !important;
 }
 
 .reveal blockquote {
@@ -220,13 +238,14 @@
   background: none;
   box-shadow: none;
   width: 100%;
+  color: var(--text-color);
 }
 
 .reveal blockquote cite {
   display: block;
   margin-top: 8px;
   font-style: normal;
-  color: var(--muted-color);
+  color: var(--muted-color) !important;
 }
 
 .footnote {
@@ -237,7 +256,6 @@
   color: var(--muted-color);
 }
 
-/* Diagram SVG styles */
 .diagram-container {
   width: 100%;
   display: flex;
@@ -254,15 +272,10 @@
   margin: 2px 4px;
 }
 
-.tag-blue { background: rgba(0, 212, 255, 0.15); color: var(--primary-color); }
-.tag-purple { background: rgba(123, 97, 255, 0.15); color: var(--secondary-color); }
-.tag-amber { background: rgba(255, 179, 71, 0.15); color: var(--accent-color); }
-.tag-green { background: rgba(74, 222, 128, 0.15); color: var(--green-accent); }
-
-/* Closing slide */
-.closing h2 {
-  color: var(--primary-color);
-}
+.tag-blue { background: rgba(0, 212, 255, 0.15); color: var(--primary-color) !important; }
+.tag-purple { background: rgba(123, 97, 255, 0.15); color: var(--secondary-color) !important; }
+.tag-amber { background: rgba(255, 179, 71, 0.15); color: var(--accent-color) !important; }
+.tag-green { background: rgba(74, 222, 128, 0.15); color: var(--green-accent) !important; }
 
 /* Formula highlight */
 .formula-box {
@@ -278,5 +291,19 @@
   margin: 0;
   font-family: "JetBrains Mono", monospace;
   font-size: 16pt;
-  color: var(--accent-color);
+  color: var(--accent-color) !important;
+}
+
+/* Slide number */
+.reveal .slide-number {
+  background: var(--card-bg);
+  color: var(--muted-color);
+  font-size: 12pt;
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+
+/* Progress bar */
+.reveal .progress span {
+  background: var(--primary-color);
 }
