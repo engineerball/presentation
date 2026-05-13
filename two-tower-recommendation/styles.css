@@ -1,15 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
+  --slide-width: 960;
+  --slide-height: 600;
+}
+
+:root {
   --background-color: #0f0f1a;
   --heading-font: "Inter", Helvetica, sans-serif;
   --body-font: "Inter", Helvetica, sans-serif;
   --code-font: "JetBrains Mono", monospace;
-  --base-font-size: 14px;
-  --text-size: 15pt;
-  --h1-size: 38pt;
-  --h2-size: 26pt;
-  --h3-size: 18pt;
+  --base-font-size: 12px;
+  --text-size: 12pt;
+  --h1-size: 28pt;
+  --h2-size: 20pt;
+  --h3-size: 15pt;
   --primary-color: #00d4ff;
   --secondary-color: #7b61ff;
   --accent-color: #ffb347;
@@ -20,290 +25,193 @@
   --code-bg: #16162a;
   --green-accent: #4ade80;
   --red-accent: #f87171;
+  --slide-width: 960;
+  --slide-height: 640;
 }
 
-/* ============================================
-   FORCE dark background on everything
-   ============================================ */
-html, body, .reveal, .reveal .slides, .reveal .slides section,
-.reveal .slides section section {
-  background: var(--background-color) !important;
+html, body {
+  overflow: auto;
+}
+
+.reveal .slides section {
+  overflow: visible;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--background-color);
 }
 
 .reveal {
+  background: var(--background-color) !important;
   font-family: var(--body-font);
   color: var(--text-color);
 }
 
-.reveal .slides {
-  background: var(--background-color);
-}
-
-.reveal .slides section {
+.reveal .slides,
+.reveal .slides section,
+.reveal .slides section section {
   background: var(--background-color) !important;
 }
 
-.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+.reveal .slides section {
+  padding: 24px 40px;
+  text-align: left;
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
   font-family: var(--heading-font);
   text-transform: none;
-  color: var(--text-color) !important;
+  color: var(--text-color);
   letter-spacing: -0.02em;
+  margin: 0 0 10px 0;
 }
 
 .reveal h1 { color: var(--primary-color) !important; font-size: var(--h1-size); }
 .reveal h2 { color: var(--primary-color) !important; font-size: var(--h2-size); }
 .reveal h3 { color: var(--secondary-color) !important; font-weight: 600; font-size: var(--h3-size); }
 
-.reveal p, .reveal li, .reveal td, .reveal th, .reveal span, .reveal div {
+.reveal p, .reveal li, .reveal td, .reveal th {
   color: var(--text-color);
 }
 
-.reveal .slides section {
-  padding: 30px 50px;
-  text-align: left;
-}
-
-.reveal p, .reveal li {
+.reveal p {
   font-size: var(--text-size);
   color: var(--text-color);
-  line-height: 1.6;
+  line-height: 1.5;
+  margin: 6px 0;
 }
 
 .reveal .content ul {
   margin-left: 0;
-  padding-left: 20px;
+  padding-left: 18px;
 }
 
 .reveal .content li {
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   color: var(--text-color);
 }
 
-/* Override reveal.js defaults */
-.reveal a { color: var(--primary-color); }
 .reveal strong, .reveal b { color: var(--text-color); }
+.reveal a { color: var(--primary-color); }
 
 .reveal pre {
   background: var(--code-bg);
   border: 1px solid var(--card-border);
   border-radius: 8px;
-  padding: 16px 20px;
-  font-size: 13pt;
+  padding: 12px 16px;
+  font-size: 11pt;
   line-height: 1.4;
   box-shadow: none;
+  margin: 8px 0;
 }
 
 .reveal code {
   font-family: var(--code-font);
-  font-size: 13pt;
+  font-size: 11pt;
   color: var(--accent-color);
 }
 
 .reveal pre code {
-  font-size: 13pt;
+  font-size: 11pt;
   padding: 0;
   background: none;
   color: var(--text-color);
 }
 
-/* Utilities */
 .reveal .text-muted { color: var(--muted-color) !important; }
 .reveal .text-center { text-align: center; }
-.reveal .text-lg { font-size: 16pt; }
-.reveal .text-xl { font-size: 19pt; }
-.reveal .text-2xl { font-size: 22pt; }
-.reveal .text-3xl { font-size: 26pt; }
+.reveal .text-lg { font-size: 13pt; }
+.reveal .text-xl { font-size: 15pt; }
+.reveal .text-2xl { font-size: 18pt; }
+.reveal .text-3xl { font-size: 22pt; }
 
-.reveal .section-divider {
-  text-align: center;
-}
-
+.reveal .section-divider { text-align: center; }
 .reveal .section-divider h1,
-.reveal .section-divider h2 {
-  color: var(--primary-color) !important;
-}
+.reveal .section-divider h2 { color: var(--primary-color) !important; }
 
-/* Title slide */
-#title h1 {
-  color: var(--primary-color) !important;
-  font-size: 42pt;
-  font-weight: 700;
-}
+#title h1 { color: var(--primary-color) !important; font-size: 36pt; font-weight: 700; }
+#title p { color: var(--muted-color); font-size: 16pt; }
 
-#title p {
-  color: var(--muted-color);
-  font-size: 18pt;
-}
-
-/* Cards */
 .card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 20px 24px;
+  border-radius: 10px;
+  padding: 14px 18px;
 }
+.card p, .card li { color: var(--text-color) !important; }
+.card h3 { margin-top: 0; font-size: 15pt; }
 
-.card p, .card li {
-  color: var(--text-color) !important;
-}
-
-.card h3 {
-  margin-top: 0;
-  font-size: 18pt;
-  color: var(--primary-color) !important;
-}
-
-/* Stat boxes */
 .stat-box {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 10px;
-  padding: 16px 20px;
+  padding: 12px 16px;
 }
+.stat-number { font-size: 22pt; font-weight: 700; color: var(--primary-color) !important; }
+.stat-label { font-size: 11pt; color: var(--muted-color) !important; }
 
-.stat-number {
-  font-size: 28pt;
-  font-weight: 700;
-  color: var(--primary-color) !important;
-}
-
-.stat-label {
-  font-size: 13pt;
-  color: var(--muted-color) !important;
-}
-
-/* Flow diagram */
 .flow-step {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 8px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   text-align: center;
 }
-
-.flow-step p {
-  margin: 0;
-  color: var(--text-color) !important;
-  font-size: 14pt;
-}
+.flow-step p { margin: 0; color: var(--text-color) !important; font-size: 12pt; }
 
 .flow-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24pt;
+  font-size: 20pt;
   color: var(--primary-color) !important;
 }
 
-/* Insight box */
 .insight-box {
   background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(123, 97, 255, 0.08));
   border-left: 4px solid var(--accent-color);
   border-radius: 8px;
-  padding: 16px 20px;
+  padding: 12px 16px;
 }
+.insight-box p { color: var(--text-color) !important; margin: 0; }
 
-.insight-box p {
-  color: var(--text-color) !important;
-  margin: 0;
-}
-
-/* Tables */
-.reveal table {
-  font-size: 13pt;
-  border-collapse: collapse;
-  width: 100%;
-  color: var(--text-color);
-}
-
-.reveal th {
-  background: var(--card-bg);
-  color: var(--primary-color) !important;
-  padding: 10px 14px;
-  text-align: left;
-  border-bottom: 2px solid var(--primary-color);
-}
-
-.reveal td {
-  padding: 8px 14px;
-  border-bottom: 1px solid var(--card-border);
-  color: var(--text-color) !important;
-}
+.reveal table { font-size: 11pt; border-collapse: collapse; width: 100%; color: var(--text-color); margin: 8px 0; }
+.reveal th { background: var(--card-bg); color: var(--primary-color) !important; padding: 8px 12px; text-align: left; border-bottom: 2px solid var(--primary-color); }
+.reveal td { padding: 6px 12px; border-bottom: 1px solid var(--card-border); color: var(--text-color) !important; }
 
 .reveal blockquote {
   border-left: 4px solid var(--primary-color);
-  padding-left: 20px;
-  margin: 16px 0;
+  padding-left: 18px;
+  margin: 12px 0;
   font-style: italic;
   background: none;
   box-shadow: none;
   width: 100%;
   color: var(--text-color);
 }
+.reveal blockquote cite { display: block; margin-top: 6px; font-style: normal; color: var(--muted-color) !important; }
 
-.reveal blockquote cite {
-  display: block;
-  margin-top: 8px;
-  font-style: normal;
-  color: var(--muted-color) !important;
-}
+.footnote { position: absolute; bottom: 16px; left: 40px; font-size: 10pt; color: var(--muted-color); }
 
-.footnote {
-  position: absolute;
-  bottom: 20px;
-  left: 50px;
-  font-size: 11pt;
-  color: var(--muted-color);
-}
+.diagram-container { width: 100%; display: flex; justify-content: center; }
 
-.diagram-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-/* Tag badges */
-.tag {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12pt;
-  font-weight: 600;
-  margin: 2px 4px;
-}
-
+.tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10pt; font-weight: 600; margin: 2px 3px; }
 .tag-blue { background: rgba(0, 212, 255, 0.15); color: var(--primary-color) !important; }
 .tag-purple { background: rgba(123, 97, 255, 0.15); color: var(--secondary-color) !important; }
 .tag-amber { background: rgba(255, 179, 71, 0.15); color: var(--accent-color) !important; }
 .tag-green { background: rgba(74, 222, 128, 0.15); color: var(--green-accent) !important; }
 
-/* Formula highlight */
 .formula-box {
   background: var(--code-bg);
   border: 1px solid var(--card-border);
   border-radius: 8px;
-  padding: 14px 20px;
+  padding: 10px 16px;
   text-align: center;
-  margin: 12px 0;
+  margin: 10px 0;
 }
+.formula-box p { margin: 0; font-family: "JetBrains Mono", monospace; font-size: 14pt; color: var(--accent-color) !important; }
 
-.formula-box p {
-  margin: 0;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 16pt;
-  color: var(--accent-color) !important;
-}
-
-/* Slide number */
-.reveal .slide-number {
-  background: var(--card-bg);
-  color: var(--muted-color);
-  font-size: 12pt;
-  padding: 6px 14px;
-  border-radius: 6px;
-}
-
-/* Progress bar */
-.reveal .progress span {
-  background: var(--primary-color);
-}
+.reveal .slide-number { background: var(--card-bg); color: var(--muted-color); font-size: 11pt; padding: 4px 12px; border-radius: 6px; }
+.reveal .progress span { background: var(--primary-color); }
