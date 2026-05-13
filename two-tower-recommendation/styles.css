@@ -5,11 +5,11 @@
   --heading-font: "Inter", Helvetica, sans-serif;
   --body-font: "Inter", Helvetica, sans-serif;
   --code-font: "JetBrains Mono", monospace;
-  --base-font-size: 32px;
+  --base-font-size: 14px;
   --text-size: 15pt;
-  --h1-size: 48pt;
-  --h2-size: 34pt;
-  --h3-size: 22pt;
+  --h1-size: 38pt;
+  --h2-size: 26pt;
+  --h3-size: 18pt;
   --primary-color: #00d4ff;
   --secondary-color: #7b61ff;
   --accent-color: #ffb347;
