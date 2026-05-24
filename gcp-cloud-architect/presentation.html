@@ -1,0 +1,1208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Architect — GCP Best Practices & Real-World Experience</title>
+
+  <!-- Reveal.js core -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- =============================================
+           TITLE SLIDE
+           ============================================= -->
+      <section id="title" class="section-divider" data-state="is-section-divider">
+        <div style="margin-bottom: 20px;">
+          <i class="fa-solid fa-cloud gcp-blue" style="font-size: 48pt;"></i>
+        </div>
+        <h1>Cloud Architect</h1>
+        <p class="gcp-blue" style="font-size: 22pt; margin-top: 10px;">GCP Best Practices & Real-World Experience</p>
+        <p class="title-meta">Presentation + Workshop &nbsp;|&nbsp; 2 Hours</p>
+      </section>
+
+      <!-- =============================================
+           AGENDA
+           ============================================= -->
+      <section id="agenda">
+        <h2><i class="fa-solid fa-list-check gcp-blue"></i> &nbsp;Agenda</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card-accent" style="margin-bottom: 12px;">
+                <p><span class="badge badge-blue">10 min</span></p>
+                <p><strong>1. Quick Recap</strong> — Cloud fundamentals</p>
+              </div>
+              <div class="card-accent" style="margin-bottom: 12px;">
+                <p><span class="badge badge-blue">10 min</span></p>
+                <p><strong>2. GCP Overview</strong> — Infrastructure & pricing</p>
+              </div>
+              <div class="card-accent" style="margin-bottom: 12px;">
+                <p><span class="badge badge-blue">15 min</span></p>
+                <p><strong>3. Core Services</strong> — Compute, Storage, Networking</p>
+              </div>
+              <div class="card-accent" style="margin-bottom: 12px;">
+                <p><span class="badge badge-green">15 min</span></p>
+                <p><strong>4. Data Engineering</strong> — Big Data on GCP</p>
+              </div>
+            </div>
+            <div>
+              <div class="card-accent-green" style="margin-bottom: 12px;">
+                <p><span class="badge badge-yellow">15 min</span></p>
+                <p><strong>5. Networking & Security</strong> — What most miss</p>
+              </div>
+              <div class="card-accent-green" style="margin-bottom: 12px;">
+                <p><span class="badge badge-green">5 min</span></p>
+                <p><strong>6. Well-Architected</strong> — Production checklist</p>
+              </div>
+              <div class="card-accent-yellow" style="margin-bottom: 12px;">
+                <p><span class="badge badge-yellow">40 min</span></p>
+                <p><strong>7. Workshop</strong> — Dataflow + BigQuery ETL</p>
+              </div>
+              <div class="card-accent-red" style="margin-bottom: 12px;">
+                <p><span class="badge badge-red">10 min</span></p>
+                <p><strong>8-9. Lessons Learned & Q&A</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================
+           SECTION 1: QUICK RECAP
+           ============================================= -->
+      <section id="divider-recap" class="section-divider" data-state="is-section-divider">
+        <p class="text-uppercase text-muted" style="font-size: 14pt; letter-spacing: 0.2em;">Section 1</p>
+        <h1>Quick Recap</h1>
+        <p>Cloud in 5 Minutes</p>
+      </section>
+
+      <section id="why-cloud">
+        <h2><i class="fa-solid fa-cloud gcp-blue"></i> &nbsp;Why Cloud?</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <ul>
+                <li><strong>Scale on demand</strong> — no more capacity planning guesswork</li>
+                <li><strong>Global infrastructure</strong> — deploy close to users in minutes</li>
+                <li><strong>Pay for what you use</strong> — shift from owning hardware to consuming services</li>
+                <li><strong>Innovation velocity</strong> — 200+ products, new features weekly</li>
+                <li><strong>Managed services</strong> — reduce operational burden (patching, scaling, DR)</li>
+              </ul>
+            </div>
+            <div>
+              <div class="tip-box" style="margin-top: 20px;">
+                <p><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;<strong>Key insight:</strong> Cloud isn't "putting your servers somewhere else" — it's consuming capabilities as APIs that you used to build and maintain yourself.</p>
+              </div>
+              <div class="stat-box" style="margin-top: 16px;">
+                <p class="stat-number">200+</p>
+                <p class="stat-label">GCP Products & Services</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="iaas-paas-saas">
+        <h2><i class="fa-solid fa-layer-group gcp-green"></i> &nbsp;IaaS / PaaS / SaaS</h2>
+        <div class="content">
+          <div class="grid-3">
+            <div class="card-accent-blue">
+              <p style="font-size: 13pt; color: var(--info-color); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">IaaS</p>
+              <p><strong>Infrastructure as a Service</strong></p>
+              <p class="text-muted" style="font-size: 14pt; margin-top: 8px;">VMs, Storage, Networking</p>
+              <p class="text-muted" style="font-size: 13pt;">Full control, full responsibility</p>
+              <p style="margin-top: 12px;"><span class="badge badge-blue">GCE</span> <span class="badge badge-blue">VPC</span> <span class="badge badge-blue">Persistent Disk</span></p>
+            </div>
+            <div class="card-accent-green">
+              <p style="font-size: 13pt; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">PaaS</p>
+              <p><strong>Platform as a Service</strong></p>
+              <p class="text-muted" style="font-size: 14pt; margin-top: 8px;">Managed platforms</p>
+              <p class="text-muted" style="font-size: 13pt;">Focus on code, not infra</p>
+              <p style="margin-top: 12px;"><span class="badge badge-green">Cloud Run</span> <span class="badge badge-green">GKE</span> <span class="badge badge-green">Cloud SQL</span></p>
+            </div>
+            <div class="card-accent-yellow">
+              <p style="font-size: 13pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">SaaS</p>
+              <p><strong>Software as a Service</strong></p>
+              <p class="text-muted" style="font-size: 14pt; margin-top: 8px;">Ready-to-use applications</p>
+              <p class="text-muted" style="font-size: 13pt;">Least control, zero maintenance</p>
+              <p style="margin-top: 12px;"><span class="badge badge-yellow">Workspace</span> <span class="badge badge-yellow">Looker</span> <span class="badge badge-yellow">Firebase</span></p>
+            </div>
+          </div>
+          <div class="tip-box" style="margin-top: 16px;">
+            <p><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;<strong>Rule of thumb:</strong> If your team doesn't have Kubernetes expertise, don't choose GKE. Choose Cloud Run instead — choosing the wrong abstraction level is choosing problems.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================
+           SECTION 2: GCP OVERVIEW
+           ============================================= -->
+      <section id="divider-gcp" class="section-divider" data-state="is-section-divider">
+        <p class="text-uppercase text-muted" style="font-size: 14pt; letter-spacing: 0.2em;">Section 2</p>
+        <h1>GCP Overview</h1>
+        <p>Infrastructure, Pricing & IaC</p>
+      </section>
+
+      <section id="gcp-infra">
+        <h2><i class="fa-solid fa-globe gcp-blue"></i> &nbsp;GCP Global Infrastructure</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card" style="margin-bottom: 14px;">
+                <p><strong><i class="fa-solid fa-map-marker-alt gcp-blue"></i> &nbsp;Regions</strong> <span class="text-muted">(40+)</span></p>
+                <p class="text-muted" style="font-size: 14pt;">Independent geographic areas</p>
+                <p class="text-muted" style="font-size: 13pt;"><span class="code-inline">us-central1</span> <span class="code-inline">asia-southeast1</span> <span class="code-inline">europe-west1</span></p>
+              </div>
+              <div class="card" style="margin-bottom: 14px;">
+                <p><strong><i class="fa-solid fa-server gcp-green"></i> &nbsp;Zones</strong> <span class="text-muted">(130+)</span></p>
+                <p class="text-muted" style="font-size: 14pt;">Isolated locations within a region</p>
+                <p class="text-muted" style="font-size: 13pt;">Deploy across zones for high availability</p>
+              </div>
+              <div class="card">
+                <p><strong><i class="fa-solid fa-bolt gcp-yellow"></i> &nbsp;Edge Locations</strong> <span class="text-muted">(150+)</span></p>
+                <p class="text-muted" style="font-size: 14pt;">PoPs for CDN & Cloud Armor</p>
+              </div>
+            </div>
+            <div>
+              <div class="tip-box" style="margin-top: 10px;">
+                <p><i class="fa-solid fa-compass gcp-light"></i> &nbsp;<strong>Choosing a region:</strong></p>
+                <ul style="margin-top: 8px;">
+                  <li>Close to users → lower latency</li>
+                  <li>Compliance requirements (GDPR → EU)</li>
+                  <li>Service availability varies by region</li>
+                </ul>
+              </div>
+              <div class="card-accent-red" style="margin-top: 14px;">
+                <p><strong><i class="fa-solid fa-triangle-exclamation gcp-red"></i> &nbsp;Remember:</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Zones are isolated — if one zone goes down, your app must still work. Design for multi-zone from day one.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="gcp-hierarchy">
+        <h2><i class="fa-solid fa-sitemap gcp-green"></i> &nbsp;GCP Resource Hierarchy</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="flow-step" style="margin-bottom: 8px;">
+                <p style="font-size: 16pt;"><strong>Organization</strong></p>
+                <p class="text-muted" style="font-size: 13pt;">Top-level container, policy root</p>
+              </div>
+              <p class="flow-arrow">↓</p>
+              <div class="flow-step" style="margin-bottom: 8px;">
+                <p style="font-size: 16pt;"><strong>Folders</strong></p>
+                <p class="text-muted" style="font-size: 13pt;">Group by environment / department</p>
+              </div>
+              <p class="flow-arrow">↓</p>
+              <div class="flow-step" style="margin-bottom: 8px;">
+                <p style="font-size: 16pt;"><strong>Projects</strong></p>
+                <p class="text-muted" style="font-size: 13pt;">Billing & isolation boundary</p>
+              </div>
+              <p class="flow-arrow">↓</p>
+              <div class="flow-step">
+                <p style="font-size: 16pt;"><strong>Resources</strong></p>
+                <p class="text-muted" style="font-size: 13pt;">VMs, buckets, databases, etc.</p>
+              </div>
+            </div>
+            <div>
+              <div class="tip-box" style="margin-top: 10px;">
+                <p><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;<strong>Recommended folder structure:</strong></p>
+                <div class="code-block" style="margin-top: 8px; font-size: 12pt;">
+Org/
+├── Production/
+│   ├── team-backend/
+│   └── team-frontend/
+├── Staging/
+├── Development/
+└── Shared-Infrastructure/
+                </div>
+              </div>
+              <div class="card-accent-yellow" style="margin-top: 14px;">
+                <p><strong>Design org structure first!</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Moving projects between folders is possible but painful. Get the hierarchy right from the start.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="gcp-pricing">
+        <h2><i class="fa-solid fa-tags gcp-yellow"></i> &nbsp;Pricing Basics</h2>
+        <div class="content">
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Discount</th>
+                <th>Best For</th>
+                <th>Commitment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>On-Demand</strong></td>
+                <td>—</td>
+                <td>Dev/test, spiky workloads</td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td><strong>SUDs</strong> <span class="text-muted">(Auto)</span></td>
+                <td>Up to 30%</td>
+                <td>Any sustained usage</td>
+                <td>Automatic</td>
+              </tr>
+              <tr>
+                <td><strong>CUDs</strong></td>
+                <td>Up to 57%</td>
+                <td>Steady baseline workloads</td>
+                <td>1-3 year</td>
+              </tr>
+              <tr>
+                <td><strong>Preemptible/Spot</strong></td>
+                <td>Up to 91%</td>
+                <td>Batch, fault-tolerant jobs</td>
+                <td>None (can reclaim)</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="tip-box" style="margin-top: 12px;">
+            <p><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;<strong>SUDs</strong> are automatic — no action needed. Run a VM for >25% of the month, discount kicks in. <strong>CUDs</strong> for stable baseline. Don't commit to CUDs for unstable workloads.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="iac">
+        <h2><i class="fa-solid fa-code gcp-blue"></i> &nbsp;Infrastructure as Code</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card" style="margin-bottom: 12px;">
+                <p><strong><i class="fa-solid fa-star gcp-yellow"></i> &nbsp;Terraform</strong> <span class="badge badge-green">Recommended</span></p>
+                <p class="text-muted" style="font-size: 14pt;">Declarative, huge ecosystem, state management</p>
+              </div>
+              <div class="card" style="margin-bottom: 12px;">
+                <p><strong>Cloud Build</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">CI/CD — automate terraform apply on merge</p>
+              </div>
+              <div class="card" style="margin-bottom: 12px;">
+                <p><strong>Config Connector</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Manage GCP resources via K8s manifests</p>
+              </div>
+            </div>
+            <div>
+              <div class="tip-box" style="margin-top: 10px;">
+                <p><i class="fa-solid fa-check gcp-green"></i> &nbsp;<strong>Key benefits:</strong></p>
+                <ul style="margin-top: 8px;">
+                  <li>Reproducible environments</li>
+                  <li>Auditable — everything in git history</li>
+                  <li>Version-controlled infrastructure</li>
+                  <li>No click-ops in production</li>
+                </ul>
+              </div>
+              <div class="warning-box" style="margin-top: 14px;">
+                <p><i class="fa-solid fa-triangle-exclamation gcp-red"></i> &nbsp;<strong>"Click-ops"</strong> is the enemy of production. Everything done via UI should be doable via code for reproducibility and audit trail.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================
+           SECTION 3: CORE SERVICES
+           ============================================= -->
+      <section id="divider-core" class="section-divider" data-state="is-section-divider">
+        <p class="text-uppercase text-muted" style="font-size: 14pt; letter-spacing: 0.2em;">Section 3</p>
+        <h1>Core Services</h1>
+        <p>Compute, Storage, Networking & Serverless</p>
+      </section>
+
+      <section id="compute">
+        <h2><i class="fa-solid fa-microchip gcp-blue"></i> &nbsp;Compute Options</h2>
+        <div class="content">
+          <table>
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>Best For</th>
+                <th>Scaling</th>
+                <th>Management</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>GCE</strong></td>
+                <td>Full control, custom OS</td>
+                <td>Manual / MIG</td>
+                <td>You manage all</td>
+              </tr>
+              <tr>
+                <td><strong class="gcp-green">Cloud Run</strong></td>
+                <td>Containers, HTTP workloads</td>
+                <td>Auto (0→N)</td>
+                <td class="gcp-green">Serverless</td>
+              </tr>
+              <tr>
+                <td><strong>GKE</strong></td>
+                <td>Container orchestration</td>
+                <td>Cluster autoscaler</td>
+                <td>You manage cluster</td>
+              </tr>
+              <tr>
+                <td><strong>App Engine</strong></td>
+                <td>Web apps, simple deploy</td>
+                <td>Automatic</td>
+                <td class="gcp-green">Fully managed</td>
+              </tr>
+              <tr>
+                <td><strong>Cloud Functions</strong></td>
+                <td>Event-driven, short tasks</td>
+                <td>Auto (0→N)</td>
+                <td class="gcp-green">Serverless</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="tip-box" style="margin-top: 10px;">
+            <p><i class="fa-solid fa-rocket gcp-yellow"></i> &nbsp;<strong>Start with Cloud Run</strong> — easiest, deploy containers instantly, scales to zero, pay per request. Use <strong>GKE Autopilot</strong> if you need Kubernetes without managing the control plane.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="storage">
+        <h2><i class="fa-solid fa-database gcp-green"></i> &nbsp;Storage Options</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card-accent-blue" style="margin-bottom: 12px;">
+                <p><strong>GCS</strong> <span class="badge badge-blue">Object</span></p>
+                <p class="text-muted" style="font-size: 14pt;">Files, images, backups, data lake</p>
+              </div>
+              <div class="card-accent-green" style="margin-bottom: 12px;">
+                <p><strong>Cloud SQL</strong> <span class="badge badge-green">Managed RDBMS</span></p>
+                <p class="text-muted" style="font-size: 14pt;">MySQL, PostgreSQL, SQL Server</p>
+              </div>
+              <div class="card-accent-yellow" style="margin-bottom: 12px;">
+                <p><strong>Spanner</strong> <span class="badge badge-yellow">Global SQL</span></p>
+                <p class="text-muted" style="font-size: 14pt;">Multi-region ACID transactions</p>
+              </div>
+            </div>
+            <div>
+              <div class="card-accent-red" style="margin-bottom: 12px;">
+                <p><strong>Firestore</strong> <span class="badge badge-red">NoSQL</span></p>
+                <p class="text-muted" style="font-size: 14pt;">Mobile/web apps, real-time sync</p>
+              </div>
+              <div class="card" style="margin-bottom: 12px;">
+                <p><strong>Memorystore</strong> <span class="badge badge-blue">Cache</span></p>
+                <p class="text-muted" style="font-size: 14pt;">Managed Redis / Memcached</p>
+              </div>
+              <div class="tip-box" style="margin-top: 20px;">
+                <p><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;<strong>GCS</strong> is foundational — used by everything. <strong>Spanner</strong> is powerful but expensive. Don't choose it unless you need global ACID.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="networking">
+        <h2><i class="fa-solid fa-network-wired gcp-yellow"></i> &nbsp;Networking</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>VPC</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Private IP space, subnets, firewall, routing</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Cloud Load Balancing</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Global anycast LB — HTTP(S), TCP, SSL, internal/external</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Cloud CDN</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Content delivery at 150+ edge locations</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Cloud Armor + Cloud NAT</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">DDoS/WAF at edge + outbound without public IP</p>
+              </div>
+            </div>
+            <div>
+              <div class="tip-box" style="margin-top: 10px;">
+                <p><i class="fa-solid fa-shield-halved gcp-green"></i> &nbsp;<strong>Private-first approach:</strong></p>
+                <ul style="margin-top: 8px;">
+                  <li>Use private IPs for all workloads</li>
+                  <li>Cloud NAT for outbound traffic only</li>
+                  <li>Private Google Access — use GCP APIs without public IPs</li>
+                  <li>Private Service Connect — keep traffic on Google's network</li>
+                </ul>
+              </div>
+              <div class="card-accent-yellow" style="margin-top: 14px;">
+                <p><strong>VPC Flow Logs</strong> — audit ALL network traffic. Enable from day one.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="serverless">
+        <h2><i class="fa-solid fa-bolt gcp-blue"></i> &nbsp;Serverless & Event-Driven</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Cloud Functions</strong> <span class="badge badge-green">Gen 2</span></p>
+                <p class="text-muted" style="font-size: 14pt;">Event-triggered code (HTTP, Pub/Sub, Storage events)</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Eventarc</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Event routing — decouple sources from destinations</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Workflows</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Orchestrate services as step-by-step YAML workflows</p>
+              </div>
+              <div class="card">
+                <p><strong>Cloud Tasks</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Async task queues with retry logic</p>
+              </div>
+            </div>
+            <div>
+              <div class="tip-box" style="margin-top: 10px;">
+                <p><i class="fa-solid fa-diagram-project gcp-light"></i> &nbsp;<strong>Event-driven pattern on GCP:</strong></p>
+                <div class="flow-step" style="margin-top: 8px; text-align: left;">
+                  <p style="font-size: 14pt;">1. <strong>Event Source</strong> — Pub/Sub, Storage, Scheduler</p>
+                </div>
+                <p class="flow-arrow">↓</p>
+                <div class="flow-step" style="text-align: left;">
+                  <p style="font-size: 14pt;">2. <strong>Event Router</strong> — Eventarc</p>
+                </div>
+                <p class="flow-arrow">↓</p>
+                <div class="flow-step" style="text-align: left;">
+                  <p style="font-size: 14pt;">3. <strong>Handler</strong> — Cloud Functions / Cloud Run / Workflows</p>
+                </div>
+                <p class="flow-arrow">↓</p>
+                <div class="flow-step" style="text-align: left;">
+                  <p style="font-size: 14pt;">4. <strong>Downstream</strong> — BigQuery, Storage, External API</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================
+           SECTION 4: DATA ENGINEERING
+           ============================================= -->
+      <section id="divider-data" class="section-divider" data-state="is-section-divider">
+        <p class="text-uppercase text-muted" style="font-size: 14pt; letter-spacing: 0.2em;">Section 4</p>
+        <h1>Data Engineering</h1>
+        <p>Big Data Platform on GCP</p>
+      </section>
+
+      <section id="data-platform-overview">
+        <h2><i class="fa-solid fa-diagram-project gcp-green"></i> &nbsp;Modern Data Platform — Big Picture</h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+            <div class="flow-step">
+              <p style="font-size: 12pt; color: var(--info-color); font-weight: 600;">SOURCES</p>
+              <p class="text-muted" style="font-size: 11pt;">Apps, DBs, APIs, IoT</p>
+            </div>
+            <div class="flow-step">
+              <p style="font-size: 12pt; color: var(--primary-color); font-weight: 600;">INGEST</p>
+              <p class="text-muted" style="font-size: 11pt;">Pub/Sub, Dataflow, Fusion</p>
+            </div>
+            <div class="flow-step">
+              <p style="font-size: 12pt; color: var(--secondary-color); font-weight: 600;">STORE</p>
+              <p class="text-muted" style="font-size: 11pt;">GCS (Lake), BigQuery (WH)</p>
+            </div>
+            <div class="flow-step">
+              <p style="font-size: 12pt; color: var(--accent-color); font-weight: 600;">PROCESS</p>
+              <p class="text-muted" style="font-size: 11pt;">Dataflow, Dataproc, BQ</p>
+            </div>
+            <div class="flow-step">
+              <p style="font-size: 12pt; color: var(--danger-color); font-weight: 600;">SERVE</p>
+              <p class="text-muted" style="font-size: 11pt;">Looker, Vertex AI, APIs</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="tip-box">
+              <p><i class="fa-solid fa-key gcp-yellow"></i> &nbsp;<strong>GCP advantage:</strong> Decoupled storage and compute. Store data in GCS (cheap), process with BigQuery/Dataflow (fast). Pay for what you scan, not for idle clusters.</p>
+            </div>
+            <div class="tip-box">
+              <p><i class="fa-solid fa-link gcp-light"></i> &nbsp;<strong>BigLake</strong> — One engine queries both warehouse (BigQuery native) and lake (GCS: Parquet, ORC, Iceberg, Delta Lake) data in place.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="data-ingestion">
+        <h2><i class="fa-solid fa-arrow-right-to-bracket gcp-blue"></i> &nbsp;Data Ingestion</h2>
+        <div class="content">
+          <table>
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>Type</th>
+                <th>Best For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Pub/Sub</strong></td>
+                <td><span class="badge badge-green">Real-time</span></td>
+                <td>Event streaming, real-time pipelines</td>
+              </tr>
+              <tr>
+                <td><strong>Dataflow</strong></td>
+                <td><span class="badge badge-blue">Batch + Streaming</span></td>
+                <td>ETL/ELT, complex transformations</td>
+              </tr>
+              <tr>
+                <td><strong>Cloud Data Fusion</strong></td>
+                <td><span class="badge badge-yellow">Visual</span></td>
+                <td>No-code/low-code data pipelines</td>
+              </tr>
+              <tr>
+                <td><strong>Datastream</strong></td>
+                <td><span class="badge badge-green">CDC</span></td>
+                <td>Replicating database changes in real-time</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="card-accent-yellow" style="margin-top: 14px;">
+            <p><strong><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;Real-time vs Batch:</strong> Real-time when you need data within seconds (fraud detection, live dashboards). Batch when you can wait (daily reports, warehousing). Use <strong>Lambda architecture</strong> — real-time for immediate insights, batch for corrections.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="data-lake-warehouse">
+        <h2><i class="fa-solid fa-warehouse gcp-green"></i> &nbsp;Data Lake & Warehouse</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card-accent-blue" style="margin-bottom: 14px;">
+                <p><strong><i class="fa-solid fa-box-archive gcp-blue"></i> &nbsp;GCS — Data Lake</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Store raw data in open formats (Parquet, Avro, ORC)</p>
+                <ul style="margin-top: 8px;">
+                  <li>Auto lifecycle policies: Standard → Nearline → Coldline → Archive</li>
+                  <li>Bucket-level IAM, Object-level ACLs</li>
+                </ul>
+              </div>
+              <div class="card-accent-green">
+                <p><strong><i class="fa-solid fa-table gcp-green"></i> &nbsp;BigQuery — Data Warehouse</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Serverless, columnar, petabyte-scale</p>
+                <ul style="margin-top: 8px;">
+                  <li>Pay per data processed, not per cluster</li>
+                  <li>BigLake: query GCS data in place</li>
+                  <li>BI Engine: in-memory caching</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <div class="tip-box" style="margin-top: 10px;">
+                <p><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;<strong>BigQuery cost tip:</strong></p>
+                <p style="font-size: 14pt; margin-top: 8px;">Billing is per data scanned. Always <strong>partition</strong> and <strong>cluster</strong> tables. Never <span class="code-inline">SELECT *</span> on large tables.</p>
+              </div>
+              <div class="card-accent-yellow" style="margin-top: 14px;">
+                <p><strong>BigQuery ML (BQML)</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Train ML models with SQL — no data export needed. Great for starting out before graduating to Vertex AI.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="data-orchestration">
+        <h2><i class="fa-solid fa-gears gcp-yellow"></i> &nbsp;Orchestration & Analytics</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card" style="margin-bottom: 12px;">
+                <p><strong>Cloud Composer</strong> <span class="badge badge-blue">Managed Airflow</span></p>
+                <p class="text-muted" style="font-size: 14pt;">DAGs define task dependencies, schedule + retry built-in</p>
+                <p class="text-muted" style="font-size: 13pt;">Best for: complex ETL with many dependencies</p>
+              </div>
+              <div class="card" style="margin-bottom: 12px;">
+                <p><strong>Workflows</strong> <span class="badge badge-green">Serverless</span></p>
+                <p class="text-muted" style="font-size: 14pt;">YAML step definitions, no infra to manage</p>
+                <p class="text-muted" style="font-size: 13pt;">Best for: API orchestration, conditional logic</p>
+              </div>
+            </div>
+            <div>
+              <div class="card" style="margin-bottom: 12px;">
+                <p><strong>Looker</strong> <span class="badge badge-yellow">BI</span></p>
+                <p class="text-muted" style="font-size: 14pt;">Semantic layer, embedded analytics, data apps</p>
+              </div>
+              <div class="card" style="margin-bottom: 12px;">
+                <p><strong>Vertex AI</strong> <span class="badge badge-red">ML Platform</span></p>
+                <p class="text-muted" style="font-size: 14pt;">AutoML, custom training, model deployment, feature store</p>
+              </div>
+              <div class="tip-box" style="margin-top: 10px;">
+                <p><i class="fa-solid fa-route gcp-light"></i> &nbsp;<strong>Rule:</strong> Complex pipelines → Composer. Simple orchestration → Workflows. Don't over-engineer.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================
+           SECTION 5: NETWORKING & SECURITY
+           ============================================= -->
+      <section id="divider-security" class="section-divider" data-state="is-section-divider">
+        <p class="text-uppercase text-muted" style="font-size: 14pt; letter-spacing: 0.2em;">Section 5</p>
+        <h1>Networking & Security</h1>
+        <p>What Most People Miss</p>
+      </section>
+
+      <section id="vpc-design">
+        <h2><i class="fa-solid fa-shield-halved gcp-blue"></i> &nbsp;VPC Design Best Practices</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card-accent-blue" style="margin-bottom: 10px;">
+                <p><strong>Private-first approach</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">No public IPs on workloads when possible</p>
+              </div>
+              <div class="card-accent-green" style="margin-bottom: 10px;">
+                <p><strong>Shared VPC</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Central networking team manages VPC, projects attach to it</p>
+              </div>
+              <div class="card-accent-yellow" style="margin-bottom: 10px;">
+                <p><strong>VPC Service Controls</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Security perimeters around GCP APIs (BigQuery, GCS)</p>
+              </div>
+              <div class="card-accent-red" style="margin-bottom: 10px;">
+                <p><strong>Private Service Connect</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Access Google APIs via private endpoints</p>
+              </div>
+            </div>
+            <div>
+              <div class="warning-box" style="margin-top: 10px;">
+                <p><i class="fa-solid fa-triangle-exclamation gcp-red"></i> &nbsp;<strong>Common mistake:</strong> Using default VPC for production — no segmentation, no isolation, hard to add later.</p>
+              </div>
+              <div class="tip-box" style="margin-top: 14px;">
+                <p><i class="fa-solid fa-lock gcp-green"></i> &nbsp;<strong>VPC Service Controls</strong> create a perimeter around API data. Even if credentials are compromised, data cannot be exfiltrated. Many orgs skip this layer.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="iam">
+        <h2><i class="fa-solid fa-user-shield gcp-green"></i> &nbsp;IAM Best Practices</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Principle of Least Privilege</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Grant minimum permissions needed — no more</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>One Service Account per Workload</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Don't share — enables audit and rotation</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Workload Identity</strong> <span class="badge badge-green">Key!</span></p>
+                <p class="text-muted" style="font-size: 14pt;">GKE pods auth as GCP service accounts — no key files!</p>
+              </div>
+              <div class="card">
+                <p><strong>Custom Roles</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Fine-grained permissions when predefined roles don't fit</p>
+              </div>
+            </div>
+            <div>
+              <div class="warning-box" style="margin-top: 10px; margin-bottom: 10px;">
+                <p><i class="fa-solid fa-xmark gcp-red"></i> &nbsp;<strong>Common mistakes:</strong></p>
+                <ul class="warning-item" style="margin-top: 8px;">
+                  <li>Using <span class="code-inline">roles/owner</span> or <span class="code-inline">roles/editor</span> for everything</li>
+                  <li>Storing service account keys in code / containers</li>
+                  <li>One service account for all workloads</li>
+                  <li>Never rotating credentials</li>
+                </ul>
+              </div>
+              <div class="tip-box">
+                <p><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;<strong>Prefer predefined roles:</strong></p>
+                <p style="font-size: 14pt; margin-top: 4px;"><span class="code-inline">roles/storage.objectViewer</span> instead of <span class="code-inline">roles/editor</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cloud-armor">
+        <h2><i class="fa-solid fa-shield gcp-yellow"></i> &nbsp;Cloud Armor & BeyondCorp</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card-accent-blue" style="margin-bottom: 14px;">
+                <p><strong>Cloud Armor</strong></p>
+                <ul>
+                  <li>DDoS protection + WAF</li>
+                  <li>Preconfigured rules: SQLi, XSS, LFI, RFI</li>
+                  <li>Rate limiting, geo-blocking</li>
+                  <li>Adaptive Protection (ML-based)</li>
+                </ul>
+                <p class="text-muted" style="font-size: 13pt; margin-top: 8px;">Attached to External HTTP(S) Load Balancer</p>
+              </div>
+            </div>
+            <div>
+              <div class="card-accent-green" style="margin-bottom: 14px;">
+                <p><strong>BeyondCorp Enterprise</strong></p>
+                <ul>
+                  <li>Zero-trust access — no VPN needed</li>
+                  <li>Context-aware: identity + device + location</li>
+                  <li>IAP: Protect internal apps</li>
+                  <li>Access Context Manager</li>
+                </ul>
+                <p class="text-muted" style="font-size: 13pt; margin-top: 8px;">Replace VPN with identity-based access</p>
+              </div>
+            </div>
+          </div>
+          <div class="tip-box" style="margin-top: 10px;">
+            <p><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;<strong>Free WAF rules</strong> are available — no reason not to enable them. Use <strong>IAP</strong> instead of VPN for internal app access whenever possible.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================
+           SECTION 6: WELL-ARCHITECTED
+           ============================================= -->
+      <section id="divider-waf" class="section-divider" data-state="is-section-divider">
+        <p class="text-uppercase text-muted" style="font-size: 14pt; letter-spacing: 0.2em;">Section 6</p>
+        <h1>Well-Architected</h1>
+        <p>Production Readiness Checklist</p>
+      </section>
+
+      <section id="waf-framework">
+        <h2><i class="fa-solid fa-clipboard-check gcp-blue"></i> &nbsp;GCP Well-Architected Framework</h2>
+        <div class="content">
+          <div class="grid-2" style="gap: 16px;">
+            <div class="card-accent-blue">
+              <p><strong><i class="fa-solid fa-heart-pulse gcp-blue"></i> &nbsp;Reliability</strong></p>
+              <p class="text-muted" style="font-size: 13pt;">Can it recover from failures? Automated backups? Failover?</p>
+            </div>
+            <div class="card-accent-green">
+              <p><strong><i class="fa-solid fa-lock gcp-green"></i> &nbsp;Security</strong></p>
+              <p class="text-muted" style="font-size: 13pt;">Encrypted? Least-privilege IAM? Incident response plan?</p>
+            </div>
+            <div class="card-accent-yellow">
+              <p><strong><i class="fa-solid fa-coins gcp-yellow"></i> &nbsp;Cost Optimization</strong></p>
+              <p class="text-muted" style="font-size: 13pt;">Right pricing model? Idle resources? Budget alerts?</p>
+            </div>
+            <div class="card-accent-red">
+              <p><strong><i class="fa-solid fa-gauge-high gcp-red"></i> &nbsp;Operational Excellence</strong></p>
+              <p class="text-muted" style="font-size: 13pt;">Monitoring? Alerting? CI/CD? Incident management?</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="production-checklist">
+        <h2><i class="fa-solid fa-list-check gcp-green"></i> &nbsp;Production Checklist</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <ul class="checklist">
+                <li><strong>IAM:</strong> No owner/editor on service accounts, Workload Identity</li>
+                <li><strong>Networking:</strong> Private IPs only, Cloud NAT, Cloud Armor</li>
+                <li><strong>Monitoring:</strong> SLO alerts, uptime checks enabled</li>
+                <li><strong>Logging:</strong> Cloud Audit Logs at org level</li>
+              </ul>
+            </div>
+            <div>
+              <ul class="checklist">
+                <li><strong>Cost:</strong> Budget alerts set, no unused resources</li>
+                <li><strong>Data:</strong> Encrypted at rest + in transit, backup configured</li>
+                <li><strong>CI/CD:</strong> All infra changes through code review</li>
+                <li><strong>DR:</strong> Documented failover plan, tested at least once</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tip-box" style="margin-top: 14px;">
+            <p><i class="fa-solid fa-triangle-exclamation gcp-yellow"></i> &nbsp;<strong>Ship this checklist with every project.</strong> It takes 5 minutes to verify. It takes hours to recover from things you forgot.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================
+           SECTION 7: WORKSHOP
+           ============================================= -->
+      <section id="divider-workshop" class="section-divider" data-state="is-section-divider">
+        <p class="text-uppercase text-muted" style="font-size: 14pt; letter-spacing: 0.2em;">Section 7 &nbsp;|&nbsp; 40 min</p>
+        <h1><i class="fa-solid fa-laptop-code gcp-yellow"></i></h1>
+        <h1>Workshop</h1>
+        <p>ETL Pipeline with Dataflow + BigQuery</p>
+      </section>
+
+      <section id="workshop-overview">
+        <h2><i class="fa-solid fa-bullseye gcp-blue"></i> &nbsp;Workshop Overview</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <p style="font-size: 15pt;"><strong>What we'll build:</strong></p>
+              <div class="flow-step" style="margin-bottom: 8px;">
+                <p style="font-size: 14pt;"><strong>Ingest</strong> CSV from GCS → BigQuery</p>
+              </div>
+              <p class="flow-arrow">↓</p>
+              <div class="flow-step" style="margin-bottom: 8px;">
+                <p style="font-size: 14pt;"><strong>Transform</strong> with Apache Beam (Dataflow)</p>
+              </div>
+              <p class="flow-arrow">↓</p>
+              <div class="flow-step" style="margin-bottom: 8px;">
+                <p style="font-size: 14pt;"><strong>Enrich & Query</strong> with BigQuery SQL</p>
+              </div>
+            </div>
+            <div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Tools</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Cloud Shell, Apache Beam (Python), Dataflow, BigQuery, GCS</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>Learning Outcomes</strong></p>
+                <ul style="margin-top: 6px;">
+                  <li>Understand ETL pipeline on GCP</li>
+                  <li>Write & run Apache Beam pipelines</li>
+                  <li>Use BigQuery for transformation</li>
+                  <li>Monitor Dataflow jobs</li>
+                </ul>
+              </div>
+              <div class="card-accent-yellow">
+                <p class="text-muted" style="font-size: 13pt;">Based on <strong>GSP290</strong> — Google Cloud Skills</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workshop-prelab">
+        <h2><i class="fa-solid fa-wrench gcp-yellow"></i> &nbsp;Pre-Lab Setup</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <p style="font-size: 14pt;"><strong>Enable APIs:</strong></p>
+              <div class="code-block" style="font-size: 11pt;">
+<span class="code-comment"># Enable required APIs</span>
+gcloud services enable dataflow.googleapis.com \
+  compute.googleapis.com storage.googleapis.com \
+  bigquery.googleapis.com cloudaicompanion.googleapis.com
+              </div>
+              <p style="font-size: 14pt; margin-top: 14px;"><strong>Download starter code:</strong></p>
+              <div class="code-block" style="font-size: 11pt;">
+gcloud storage cp -r \
+  gs://spls/gsp290/dataflow-python-examples .
+              </div>
+            </div>
+            <div>
+              <p style="font-size: 14pt;"><strong>Create resources:</strong></p>
+              <div class="code-block" style="font-size: 11pt;">
+<span class="code-comment"># Create GCS bucket</span>
+gcloud storage buckets create \
+  gs://$PROJECT_ID/ --location=$REGION
+
+<span class="code-comment"># Copy data files</span>
+gcloud storage cp gs://spls/gsp290/data_files/*.csv \
+  gs://$PROJECT_ID/data_files/
+
+<span class="code-comment"># Create BigQuery dataset</span>
+bq mk lake
+              </div>
+              <div class="card-accent-yellow" style="margin-top: 12px;">
+                <p><strong>Note:</strong> If using Google Skills lab, project is pre-configured. APIs may just need a restart.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workshop-ingestion-code">
+        <h2><i class="fa-solid fa-file-code gcp-blue"></i> &nbsp;Step 1: Data Ingestion Pipeline</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <p style="font-size: 14pt;"><strong>Pipeline logic (<span class="code-inline">data_ingestion.py</span>):</strong></p>
+              <div class="code-block" style="font-size: 11pt;">
+<span class="code-comment"># Pipeline steps:</span>
+<span class="code-comment"># 1. Read CSV from GCS (TextIO)</span>
+<span class="code-comment"># 2. Filter out header row</span>
+<span class="code-comment"># 3. Parse lines → dictionaries</span>
+<span class="code-comment"># 4. Write to BigQuery (BigQueryIO)</span>
+
+with beam.Pipeline() as p:
+  (p
+   | 'Read' >> beam.io.ReadFromText(input)
+   | 'Filter' >> beam.Filter(
+       lambda line: 'name,state' not in line)
+   | 'Parse' >> beam.Map(parse_line)
+   | 'Write' >> beam.io.WriteToBigQuery(
+       table, schema=schema))
+              </div>
+            </div>
+            <div>
+              <p style="font-size: 14pt;"><strong>Setup Docker:</strong></p>
+              <div class="code-block" style="font-size: 11pt;">
+docker run -it \
+  -e PROJECT=$PROJECT_ID \
+  -v $(pwd)/dataflow-python-examples:/dataflow \
+  python:3.8 /bin/bash
+
+pip install apache-beam[gcp]==2.59.0
+cd /dataflow
+              </div>
+              <div class="tip-box" style="margin-top: 12px;">
+                <p><i class="fa-solid fa-lightbulb gcp-yellow"></i> &nbsp;<strong>Runner modes:</strong></p>
+                <p style="font-size: 13pt; margin-top: 4px;"><span class="code-inline">DirectRunner</span> = local testing<br><span class="code-inline">DataflowRunner</span> = distributed on GCP</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workshop-ingestion-run">
+        <h2><i class="fa-solid fa-play gcp-green"></i> &nbsp;Step 1: Run Ingestion Pipeline</h2>
+        <div class="content">
+          <p style="font-size: 14pt;"><strong>Run the pipeline:</strong></p>
+          <div class="code-block" style="font-size: 10pt;">
+python dataflow_python_examples/data_ingestion.py \
+  --project=$PROJECT_ID \
+  --region=$REGION \
+  --runner=DataflowRunner \
+  --machine_type=e2-standard-2 \
+  --staging_location=gs://$PROJECT_ID/test \
+  --temp_location=gs://$PROJECT_ID/test \
+  --input=gs://$PROJECT_ID/data_files/head_usa_names.csv \
+  --save_main_session
+          </div>
+          <div class="grid-2" style="margin-top: 16px;">
+            <div class="tip-box">
+              <p><i class="fa-solid fa-eye gcp-light"></i> &nbsp;<strong>Monitor:</strong> Navigate to Dataflow in Console. Watch job status. Wait for <strong>"Succeeded"</strong> (~5 min).</p>
+            </div>
+            <div class="card-accent-green">
+              <p><strong>Verify in BigQuery:</strong></p>
+              <div class="code-block" style="font-size: 11pt; margin-top: 8px;">
+SELECT * FROM lake.usa_names LIMIT 10;
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workshop-transform">
+        <h2><i class="fa-solid fa-arrows-rotate gcp-yellow"></i> &nbsp;Step 2: Data Transformation Pipeline</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <p style="font-size: 14pt;"><strong>What's different?</strong></p>
+              <div class="card-accent-yellow" style="margin-bottom: 12px;">
+                <p>Same ingestion + adds <strong>data transformation</strong></p>
+                <ul style="margin-top: 8px;">
+                  <li>Ingest CSV from GCS</li>
+                  <li>Parse lines → dictionaries</li>
+                  <li><strong class="gcp-yellow">Transform year format → BigQuery DATE</strong></li>
+                  <li>Write to BigQuery</li>
+                </ul>
+              </div>
+              <p class="text-muted" style="font-size: 13pt;">This is the "T" in ETL — the most important step in production pipelines.</p>
+            </div>
+            <div>
+              <p style="font-size: 14pt;"><strong>Run:</strong></p>
+              <div class="code-block" style="font-size: 10pt;">
+python dataflow_python_examples/\
+  data_transformation.py \
+  --project=$PROJECT_ID \
+  --region=$REGION \
+  --runner=DataflowRunner \
+  --machine_type=e2-standard-2 \
+  --staging_location=gs://$PROJECT_ID/test\
+  --temp_location=gs://$PROJECT_ID/test \
+  --input=gs://$PROJECT_ID/data_files/\
+  head_usa_names.csv \
+  --save_main_session
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workshop-enrich">
+        <h2><i class="fa-solid fa-magnifying-glass-chart gcp-red"></i> &nbsp;Step 3: Enrich with BigQuery SQL</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <p style="font-size: 14pt;"><strong>Query and analyze:</strong></p>
+              <div class="code-block" style="font-size: 11pt;">
+<span class="code-comment">-- Join and enrich data</span>
+SELECT
+  state,
+  gender,
+  <span class="code-func">COUNT</span>(*) as name_count,
+  <span class="code-func">AVG</span>(year) as avg_year
+FROM lake.usa_names
+WHERE year > 2000
+GROUP BY state, gender
+ORDER BY name_count DESC
+LIMIT 20;
+              </div>
+            </div>
+            <div>
+              <div class="tip-box" style="margin-top: 10px; margin-bottom: 12px;">
+                <p><i class="fa-solid fa-rocket gcp-green"></i> &nbsp;<strong>BigQuery power:</strong></p>
+                <ul style="margin-top: 8px;">
+                  <li>Serverless — no cluster management</li>
+                  <li>Processes TBs in seconds</li>
+                  <li>Optimizes query execution automatically</li>
+                  <li>Pay per data scanned</li>
+                </ul>
+              </div>
+              <div class="card-accent-blue">
+                <p><strong>Try your own queries!</strong> Change the WHERE clause, add different GROUP BY, JOIN with other tables.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workshop-recap">
+        <h2><i class="fa-solid fa-flag-checkered gcp-green"></i> &nbsp;Workshop Recap</h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+            <div class="card-accent-blue" style="text-align: center;">
+              <p style="font-size: 28pt;"><i class="fa-solid fa-download gcp-blue"></i></p>
+              <p><strong>Ingest</strong></p>
+              <p class="text-muted" style="font-size: 13pt;">GCS → Dataflow → BigQuery</p>
+            </div>
+            <div class="card-accent-yellow" style="text-align: center;">
+              <p style="font-size: 28pt;"><i class="fa-solid fa-arrows-rotate gcp-yellow"></i></p>
+              <p><strong>Transform</strong></p>
+              <p class="text-muted" style="font-size: 13pt;">Dataflow pipeline logic</p>
+            </div>
+            <div class="card-accent-green" style="text-align: center;">
+              <p style="font-size: 28pt;"><i class="fa-solid fa-chart-line gcp-green"></i></p>
+              <p><strong>Analyze</strong></p>
+              <p class="text-muted" style="font-size: 13pt;">BigQuery SQL insights</p>
+            </div>
+          </div>
+          <div class="tip-box" style="margin-top: 20px;">
+            <p><i class="fa-solid fa-star gcp-yellow"></i> &nbsp;<strong>Key takeaway:</strong> GCP provides managed services for the entire data lifecycle. You write the logic, Google manages the infrastructure. No cluster tuning, no capacity planning, no ops overhead.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================
+           SECTION 8: LESSONS LEARNED
+           ============================================= -->
+      <section id="divider-lessons" class="section-divider" data-state="is-section-divider">
+        <p class="text-uppercase text-muted" style="font-size: 14pt; letter-spacing: 0.2em;">Section 8</p>
+        <h1>Lessons Learned</h1>
+        <p>War Stories from the Trenches</p>
+      </section>
+
+      <section id="war-stories">
+        <h2><i class="fa-solid fa-fire gcp-red"></i> &nbsp;Things We Learned the Hard Way</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card-accent-red" style="margin-bottom: 12px;">
+                <p><strong>🔥 Over-provisioning</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">16 vCPU for an app using 2 → <strong>$3,000/month wasted</strong></p>
+                <p class="text-muted" style="font-size: 13pt;">→ Fix: Cloud Monitoring → rightsized to e2-standard-2</p>
+              </div>
+              <div class="card-accent-red" style="margin-bottom: 12px;">
+                <p><strong>🔥 BigQuery Cost Surprise</strong></p>
+                <p class="text-muted" style="font-size: 14pt;"><span class="code-inline">SELECT *</span> on 5TB unpartitioned table → <strong>$25 in one query</strong></p>
+                <p class="text-muted" style="font-size: 13pt;">→ Fix: Always partition + cluster, SELECT specific columns</p>
+              </div>
+            </div>
+            <div>
+              <div class="card-accent-red" style="margin-bottom: 12px;">
+                <p><strong>🔥 Open Firewall "Temporarily"</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">0.0.0.0/0 on port 22 "for debugging" → <strong>forgot to close → crypto miner</strong></p>
+                <p class="text-muted" style="font-size: 13pt;">→ Fix: Use IAP for SSH, never expose SSH</p>
+              </div>
+              <div class="card-accent-red" style="margin-bottom: 12px;">
+                <p><strong>🔥 Silent Pipeline Failure</strong></p>
+                <p class="text-muted" style="font-size: 14pt;">Dataflow failed silently for 3 days → <strong>stale reports</strong></p>
+                <p class="text-muted" style="font-size: 13pt;">→ Fix: Alerting on failures + data freshness checks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tips-tricks">
+        <h2><i class="fa-solid fa-wand-magic-sparkles gcp-yellow"></i> &nbsp;Tips & Tricks</h2>
+        <div class="content">
+          <div class="grid-2">
+            <div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>1.</strong> Always set <strong>budget alerts</strong> — first thing after project creation</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>2.</strong> Use <strong>labels consistently</strong> — enable billing breakdown by team/project</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>3.</strong> Enable <strong>all audit logs</strong> at org level — you'll need them</p>
+              </div>
+              <div class="card">
+                <p><strong>4.</strong> Use <strong>Terraform for everything</strong> — click-ops will bite you</p>
+              </div>
+            </div>
+            <div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>5.</strong> Test in a <strong>separate project</strong> — never experiment in production</p>
+              </div>
+              <div class="card" style="margin-bottom: 10px;">
+                <p><strong>6.</strong> Read the <strong>Recommender</strong> — Active Assist finds idle resources, security issues, optimization opportunities</p>
+              </div>
+              <div class="card">
+                <p><strong>7.</strong> <strong>Start simple, iterate</strong> — Cloud Run before GKE, MIG before custom autoscaling</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================
+           SECTION 9: Q&A
+           ============================================= -->
+      <section id="qa" class="section-divider" data-state="is-section-divider">
+        <div style="margin-bottom: 20px;">
+          <i class="fa-solid fa-comments gcp-blue" style="font-size: 48pt;"></i>
+        </div>
+        <h1>Questions?</h1>
+        <p style="font-size: 16pt; color: var(--muted); margin-top: 16px;">
+          <i class="fa-solid fa-link"></i> &nbsp;Lab Material: skills.google/focuses/3460<br>
+          <i class="fa-solid fa-book"></i> &nbsp;GCP Docs: cloud.google.com/docs<br>
+          <i class="fa-solid fa-graduation-cap"></i> &nbsp;Cloud Skills: cloudskillsboost.google
+        </p>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 1280,
+      height: 720,
+      margin: 0,
+      controls: true,
+      progress: true,
+      slideNumber: false,
+      hash: true,
+      transition: 'slide',
+      center: false
+    });
+  </script>
+</body>
+</html>
