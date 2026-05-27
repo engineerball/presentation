@@ -234,6 +234,13 @@
 }
 
 /* Inline code */
+/* Links - bright and readable on dark */
+.reveal a {
+  color: var(--accent-blue) !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .reveal code {
   font-family: var(--mono-font);
   background: rgba(255,255,255,0.06);
