@@ -515,19 +515,21 @@
           <h2>Feature List Pattern — ตัวอย่าง</h2>
           <div class="content">
             <p style="margin: 0 0 12px 0; font-size: 13pt; color: var(--muted-color);">claude.ai clone: 200+ features ใน JSON file ทั้งหมดเริ่มจาก "failing"</p>
-            <div class="diagram" style="text-align: left; font-family: var(--mono-font); font-size: 11pt; padding: 16px; line-height: 1.6;">
-<p style="margin:0; color: var(--muted-color);">{</p>
-<p style="margin:0;">  "features": [</p>
-<p style="margin:0;">    {</p>
-<p style="margin:0;">      "id": "chat-input",</p>
-<p style="margin:0;">      "category": "ui",</p>
-<p style="margin:0;">      "description": "User can type and send messages",</p>
-<p style="margin:0;">      "test_steps": ["Type 'hello'", "Click send", "Verify response"],</p>
-<p style="margin:0;">      "passes": <span class="text-red">false</span></p>
-<p style="margin:0;">    }</p>
-<p style="margin:0;">  ]</p>
-<p style="margin:0; color: var(--muted-color);">}</p>
-            </div>
+            <pre class="json-highlight"><code>{
+  <span class="json-key">"features"</span>: [
+    {
+      <span class="json-key">"id"</span>: <span class="json-string">"chat-input"</span>,
+      <span class="json-key">"category"</span>: <span class="json-string">"ui"</span>,
+      <span class="json-key">"description"</span>: <span class="json-string">"User can type and send messages"</span>,
+      <span class="json-key">"test_steps"</span>: [
+        <span class="json-string">"Type 'hello'"</span>,
+        <span class="json-string">"Click send"</span>,
+        <span class="json-string">"Verify response"</span>
+      ],
+      <span class="json-key">"passes"</span>: <span class="text-red">false</span>
+    }
+  ]
+}</code></pre>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;">
               <div class="card" style="padding: 10px 14px;">
                 <p style="margin: 0; font-size: 11pt;"><strong class="text-green">✓</strong> Model แก้ JSON ได้น้อยกว่า Markdown → ลด risk เปลี่ยน spec</p>

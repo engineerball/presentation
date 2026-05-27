@@ -242,6 +242,27 @@
   text-underline-offset: 3px;
 }
 
+/* JSON Syntax Highlighting */
+pre.json-highlight {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--box-radius);
+  padding: 18px 22px;
+  margin: 0;
+  font-family: var(--mono-font);
+  font-size: 11pt;
+  line-height: 1.7;
+  overflow-x: auto;
+  text-align: left;
+}
+pre.json-highlight code {
+  background: none;
+  padding: 0;
+  color: var(--text-color);
+}
+.json-key { color: #FF7B72; }
+.json-string { color: #A5D6FF; }
+
 .reveal code {
   font-family: var(--mono-font);
   background: rgba(255,255,255,0.06);
