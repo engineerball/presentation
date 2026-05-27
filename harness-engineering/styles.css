@@ -257,11 +257,11 @@ pre.json-highlight {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--box-radius);
-  padding: 18px 22px;
+  padding: 14px 18px;
   margin: 0;
   font-family: var(--mono-font);
-  font-size: 11pt;
-  line-height: 1.7;
+  font-size: 10pt;
+  line-height: 1.6;
   overflow-x: auto;
   text-align: left;
 }
