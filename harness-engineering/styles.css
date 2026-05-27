@@ -39,7 +39,15 @@
 }
 
 .reveal-viewport {
-  background-color: var(--background-color);
+  background-color: var(--background-color) !important;
+}
+
+.reveal .slides {
+  background-color: var(--background-color) !important;
+}
+
+.reveal .slides section {
+  background-color: var(--background-color) !important;
 }
 
 .reveal-viewport.is-section-divider .slide-background.present {
@@ -54,7 +62,7 @@
 .reveal h6 {
   font-family: var(--heading-font);
   text-transform: none;
-  color: var(--text-color);
+  color: var(--text-color) !important;
   font-weight: 700;
   line-height: 1.2;
 }
@@ -69,7 +77,7 @@
 .reveal th,
 .reveal blockquote {
   font-size: var(--text-size);
-  color: var(--text-color);
+  color: var(--text-color) !important;
   line-height: 1.5;
 }
 
