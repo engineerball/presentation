@@ -178,6 +178,16 @@
 .text-orange { color: var(--secondary-color) !important; }
 .text-blue { color: var(--accent-blue) !important; }
 .text-purple { color: var(--accent-purple) !important; }
+.reveal strong.text-red,
+.reveal b.text-red { color: var(--primary-color) !important; }
+.reveal strong.text-green,
+.reveal b.text-green { color: var(--accent-green) !important; }
+.reveal strong.text-blue,
+.reveal b.text-blue { color: var(--accent-blue) !important; }
+.reveal strong.text-orange,
+.reveal b.text-orange { color: var(--secondary-color) !important; }
+.reveal strong.text-purple,
+.reveal b.text-purple { color: var(--accent-purple) !important; }
 .font-mono { font-family: var(--mono-font) !important; }
 
 /* Card component */
