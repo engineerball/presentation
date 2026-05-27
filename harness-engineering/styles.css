@@ -138,8 +138,8 @@
 
 .reveal .slides section > .footnote {
   position: absolute;
-  top: 15px;
-  right: var(--slide-padding);
+  bottom: 30px;
+  left: var(--slide-padding);
   right: var(--slide-padding);
   font-size: var(--footnote-size);
   color: var(--accent-blue) !important;
