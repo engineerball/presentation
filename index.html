@@ -1,10 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="0;url=semantic-layer/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Presentations</title>
-  <style>body{font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#0a1628;color:#E8EDF1;text-align:center}</style>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #0D1117;
+      color: #E6EDF3;
+      min-height: 100vh;
+      padding: 60px 40px;
+    }
+
+    header {
+      max-width: 900px;
+      margin: 0 auto 48px;
+    }
+
+    header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      color: #E6EDF3;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 15px;
+      color: #8B949E;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      display: block;
+      background: #161B22;
+      border: 1px solid #30363D;
+      border-radius: 12px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .card:hover {
+      border-color: #58A6FF;
+      background: #1C2330;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #8B949E;
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #E6EDF3;
+    }
+
+    .card p {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #8B949E;
+      line-height: 1.5;
+    }
+
+    .tag-finops  { color: #3FB950; }
+    .tag-gcp     { color: #58A6FF; }
+    .tag-ml      { color: #BC8CFF; }
+    .tag-eng     { color: #F08800; }
+    .tag-data    { color: #48CAE4; }
+  </style>
 </head>
-<body><h1>🦐 Presentations</h1><p>Redirecting to <a href="semantic-layer/" style="color:#48CAE4;">Semantic Layer</a>...</p><script>window.location.href="semantic-layer/";</script></body>
+<body>
+  <header>
+    <h1>Presentations</h1>
+    <p>Teerapat K. — click any card to open</p>
+  </header>
+
+  <div class="grid">
+
+    <a class="card" href="harness-engineering/">
+      <p class="card-tag tag-eng">Engineering</p>
+      <h2>Harness Engineering</h2>
+      <p>เมื่อ AI เขียนโค้ดได้ 10x แต่อะไรจะพังก่อน? — CI/CD, review, release at AI scale</p>
+    </a>
+
+    <a class="card" href="semantic-layer/">
+      <p class="card-tag tag-data">Data Engineering</p>
+      <h2>The Semantic Layer</h2>
+      <p>Deep dive for data engineers — metrics, dbt, and the semantic layer ecosystem</p>
+    </a>
+
+    <a class="card" href="two-tower-recommendation/">
+      <p class="card-tag tag-ml">Machine Learning</p>
+      <h2>Two-Tower Recommendation</h2>
+      <p>Two-tower model architecture for large-scale recommendation systems</p>
+    </a>
+
+    <a class="card" href="gcp-cloud-architect/">
+      <p class="card-tag tag-gcp">GCP</p>
+      <h2>Cloud Architect — GCP</h2>
+      <p>Best practices and real-world experience on Google Cloud Platform</p>
+    </a>
+
+    <a class="card" href="finops/">
+      <p class="card-tag tag-finops">FinOps</p>
+      <h2>FinOps: บริหาร Cloud ให้คุ้มค่า</h2>
+      <p>Cloud cost management fundamentals — visibility, optimization, governance</p>
+    </a>
+
+    <a class="card" href="finops-training/">
+      <p class="card-tag tag-finops">FinOps</p>
+      <h2>FinOps บน Google Cloud</h2>
+      <p>FinOps training on Google Cloud Platform — tools, budgets, and best practices</p>
+    </a>
+
+    <a class="card" href="finops-thai-governant/">
+      <p class="card-tag tag-finops">FinOps · Government</p>
+      <h2>FinOps สำหรับภาครัฐไทย</h2>
+      <p>Cloud financial management for Thai government organizations</p>
+    </a>
+
+  </div>
+</body>
 </html>
