@@ -49,6 +49,70 @@ Each presentation follows this pattern:
 - Grid layouts use inline `style="display: grid; ..."` — not utility classes
 - All visible text goes in `<p>`, `<li>`, or heading tags — never bare in `<div>`/`<span>`
 
+## Advanced Features
+
+These are opt-in per presentation. See `harness-engineering/index.html` as the reference implementation.
+
+### CDN additions
+
+In `<head>`:
+```html
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/monokai.min.css">
+```
+
+Before `</body>`, after `reveal.min.js`:
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/math/math.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+```
+
+### Reveal.initialize() additions
+
+```javascript
+plugins: [ ..., RevealHighlight, RevealMath.MathJax3 ],
+highlight: { highlightOnLoad: true },
+math: { mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js' },
+```
+
+After `Reveal.initialize()`:
+```javascript
+mermaid.initialize({ startOnLoad: false, theme: 'dark', darkMode: true });
+Reveal.on('ready', () => mermaid.run());
+Reveal.on('slidechanged', () => mermaid.run());
+```
+
+### Usage
+
+**Syntax-highlighted code block:**
+```html
+<pre><code data-trim class="language-python">
+def hello(): return "world"
+</code></pre>
+```
+
+**Interactive code storytelling** (arrow keys step through highlights):
+```html
+<pre><code data-trim data-line-numbers="1|3-5|7" class="language-javascript">
+// each | is one arrow-key step
+</code></pre>
+```
+
+**LaTeX math:**
+```html
+<p>Inline: \( E = mc^2 \)</p>
+<p>Block: \[ \sum_{i=1}^{n} x_i \]</p>
+```
+
+**Mermaid diagram:**
+```html
+<div class="mermaid">
+graph TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Done]
+</div>
+```
+
 ### Established design tokens (harness-engineering reference)
 
 | Variable | Value |

@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
 
+  <!-- highlight.js theme -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/monokai.min.css">
+
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -515,18 +518,18 @@
           <h2>Feature List Pattern — ตัวอย่าง</h2>
           <div class="content">
             <p style="margin: 0 0 12px 0; font-size: 13pt; color: var(--muted-color);">claude.ai clone: 200+ features ใน JSON file ทั้งหมดเริ่มจาก "failing"</p>
-            <pre class="json-highlight"><code>{
-  <span class="json-key">"features"</span>: [
+            <pre><code data-trim class="language-json">{
+  "features": [
     {
-      <span class="json-key">"id"</span>: <span class="json-string">"chat-input"</span>,
-      <span class="json-key">"category"</span>: <span class="json-string">"ui"</span>,
-      <span class="json-key">"description"</span>: <span class="json-string">"User can type and send messages"</span>,
-      <span class="json-key">"test_steps"</span>: [
-        <span class="json-string">"Type 'hello'"</span>,
-        <span class="json-string">"Click send"</span>,
-        <span class="json-string">"Verify response"</span>
+      "id": "chat-input",
+      "category": "ui",
+      "description": "User can type and send messages",
+      "test_steps": [
+        "Type 'hello'",
+        "Click send",
+        "Verify response"
       ],
-      <span class="json-key">"passes"</span>: <span class="text-red">false</span>
+      "passes": false
     }
   ]
 }</code></pre>
@@ -1059,6 +1062,9 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins/chart/plugin.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/math/math.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
     Reveal.initialize({
       width: 1280,
@@ -1070,7 +1076,11 @@
       hash: true,
       transition: 'slide',
       center: false,
-      plugins: [ RevealChart ],
+      plugins: [ RevealChart, RevealHighlight, RevealMath.MathJax3 ],
+      highlight: { highlightOnLoad: true },
+      math: {
+        mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+      },
       chart: {
         defaults: Object.assign({
           color: 'rgba(0, 0, 0, 0.8)',
@@ -1079,6 +1089,10 @@
         }, window.location.search.includes('export') ? { animation: false } : {})
       }
     });
+
+    mermaid.initialize({ startOnLoad: false, theme: 'dark', darkMode: true });
+    Reveal.on('ready', () => mermaid.run());
+    Reveal.on('slidechanged', () => mermaid.run());
   </script>
 </body>
 </html>

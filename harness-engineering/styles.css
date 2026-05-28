@@ -252,26 +252,25 @@
   text-underline-offset: 3px;
 }
 
-/* JSON Syntax Highlighting */
-pre.json-highlight {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+/* Code blocks (highlight.js) */
+.reveal pre {
   border-radius: var(--box-radius);
-  padding: 14px 18px;
   margin: 0;
+  font-size: 10pt;
+  box-shadow: none;
+  width: 100%;
+}
+.reveal pre code {
   font-family: var(--mono-font);
   font-size: 10pt;
   line-height: 1.6;
-  overflow-x: auto;
-  text-align: left;
+  padding: 14px 18px;
+  border-radius: var(--box-radius);
+  max-height: none;
 }
-pre.json-highlight code {
-  background: none;
-  padding: 0;
-  color: var(--text-color);
-}
-.json-key { color: #FF7B72; }
-.json-string { color: #A5D6FF; }
+/* Line highlight for code storytelling */
+.reveal pre code .hljs-ln-line.hljs-ln-numbers { display: none; }
+.hljs-ln-line[data-line-number] { padding-left: 0; }
 
 .reveal code {
   font-family: var(--mono-font);
