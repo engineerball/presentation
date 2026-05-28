@@ -51,7 +51,7 @@
 }
 
 .reveal-viewport.is-section-divider .slide-background.present {
-  background-color: var(--section-divider-bg) !important;
+  background-color: var(--section-divider-bg);
 }
 
 .reveal h1,
@@ -379,6 +379,10 @@
   color: var(--muted-color);
   font-size: 18pt;
   flex-shrink: 0;
+}
+
+.reveal .slides section.section-divider::before {
+  display: none;
 }
 
 /* Section divider style tweaks */
