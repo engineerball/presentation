@@ -26,7 +26,7 @@
     <div class="slides">
 
       <!-- ===== TITLE ===== -->
-      <section id="title" class="section-divider" data-state="is-section-divider" data-background-color="#060D15">
+      <section id="title" class="section-divider" data-state="is-section-divider">
         <p class="emoji-big">🏗️</p>
         <h1>Harness Engineering</h1>
         <p class="subtitle">เมื่อ AI เขียนโค้ดได้ 10x แต่อะไรจะพังก่อน?</p>
@@ -34,7 +34,7 @@
       </section>
 
       <!-- ===== SECTION 1: 10x MOMENT ===== -->
-      <section id="divider-1" class="section-divider" data-state="is-section-divider" data-background-color="#0C1A2E">
+      <section id="divider-1" class="section-divider" data-state="is-section-divider">
         <p class="emoji-big">🚀</p>
         <h1>10x Moment</h1>
         <p class="subtitle">เมื่อทุกอย่างเร่ง แต่ระบบรอบข้างยังเดิม</p>
@@ -53,7 +53,7 @@
               <div class="card card-accent-red">
                 <h3 style="color: var(--primary-color);">หลัง AI</h3>
                 <p style="margin: 8px 0;">PR <strong>100+ อัน/สัปดาห์</strong></p>
-                <p style="margin: 0;">Review ล้านหลัง · Pipeline เดี้ยง · Bug เยอะ</p>
+                <p style="margin: 0;">Review ล้าหลัง · Pipeline เดี้ยง · Bug เยอะ</p>
                 <p style="margin: 8px 0 0 0; color: var(--primary-color) !important;">✗ ทุกอย่างพัง</p>
               </div>
             </div>
@@ -142,7 +142,7 @@
         </section>
 
       <!-- ===== SECTION 2: WHAT IS HARNESS ENGINEERING ===== -->
-      <section id="divider-2" class="section-divider" data-state="is-section-divider" data-background-color="#140D24">
+      <section id="divider-2" class="section-divider" data-state="is-section-divider">
         <p class="emoji-big">⚙️</p>
         <h1>Harness Engineering คืออะไร?</h1>
         <p class="subtitle">จาก Coder เป็น Architect</p>
@@ -239,6 +239,245 @@
           </div>
         </section>
 
+        <!-- ===== HARNESS DEEP-DIVE: 6 items ===== -->
+
+        <section id="slide-h1-repo-structure">
+          <h2>📂 Repository Structure — Agent มองไม่เห็น = ไม่มี</h2>
+          <div class="content">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px;">
+              <div>
+                <p style="margin: 0 0 8px 0; font-size: 12pt; color: var(--muted-color);">โครงสร้างที่ทำให้ Agent ทำงานถูก:</p>
+                <pre><code data-trim class="language-text">repo/
+├── AGENTS.md          ← TOC ~100 บรรทัด
+├── docs/
+│   ├── architecture.md
+│   ├── design-decisions.md
+│   └── product-spec.md
+├── src/
+│   ├── types/         ← Layer 1 (ฐาน)
+│   ├── config/        ← Layer 2
+│   ├── repo/          ← Layer 3
+│   ├── service/       ← Layer 4
+│   └── ui/            ← Layer 5 (ยอด)
+└── .agents/           ← Blueprints ระดับ service</code></pre>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div class="warning-box" style="padding: 10px 14px;">
+                  <p style="font-size: 11pt; margin: 0;"><i class="fa-solid fa-xmark"></i> <strong>ผิด:</strong> Giant AGENTS.md ไฟล์เดียว — Agent โหลดทั้งหมด Context อุดตัน</p>
+                </div>
+                <div class="success-box" style="padding: 10px 14px;">
+                  <p style="font-size: 11pt; margin: 0;"><i class="fa-solid fa-check"></i> <strong>ถูก:</strong> AGENTS.md = TOC → ชี้ไป docs/ แยก — <strong>Progressive Disclosure</strong></p>
+                </div>
+                <div class="card" style="padding: 10px 14px; border-left: 4px solid var(--accent-blue);">
+                  <p style="margin: 0; font-size: 11pt;"><strong class="text-blue">Layered deps:</strong> Types → Config → Repo → Service → UI บังคับด้วย custom linters — ไม่ให้ Agent สร้าง circular deps</p>
+                </div>
+                <div class="card" style="padding: 10px 14px; border-left: 4px solid var(--accent-green);">
+                  <p style="margin: 0; font-size: 11pt;"><strong class="text-green">OpenAI:</strong> Sora Android 1M LOC — ทุก convention อยู่ใน repo เป็น markdown ไม่มี tribal knowledge</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="slide-h2-cicd">
+          <h2>🔄 CI/CD — Pipeline คือ Safety Net ของ Agent</h2>
+          <div class="content">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px;">
+              <div class="card" style="padding: 12px; text-align: center; border-top: 3px solid var(--accent-blue);">
+                <p style="margin: 0; font-size: 18pt;">🔀</p>
+                <p style="margin: 4px 0 0 0; font-size: 11pt;"><strong class="text-blue">Pre-commit</strong></p>
+                <p style="margin: 2px 0 0 0; font-size: 10pt; color: var(--muted-color);">Linters · Fast type check</p>
+              </div>
+              <div class="card" style="padding: 12px; text-align: center; border-top: 3px solid var(--accent-green);">
+                <p style="margin: 0; font-size: 18pt;">🧪</p>
+                <p style="margin: 4px 0 0 0; font-size: 11pt;"><strong class="text-green">CI Gate</strong></p>
+                <p style="margin: 2px 0 0 0; font-size: 10pt; color: var(--muted-color);">Unit + Integration tests</p>
+              </div>
+              <div class="card" style="padding: 12px; text-align: center; border-top: 3px solid var(--secondary-color);">
+                <p style="margin: 0; font-size: 18pt;">🚀</p>
+                <p style="margin: 4px 0 0 0; font-size: 11pt;"><strong class="text-orange">Deploy</strong></p>
+                <p style="margin: 2px 0 0 0; font-size: 10pt; color: var(--muted-color);">Short PR lifespan → merge เร็ว</p>
+              </div>
+              <div class="card" style="padding: 12px; text-align: center; border-top: 3px solid var(--accent-purple);">
+                <p style="margin: 0; font-size: 18pt;">🔍</p>
+                <p style="margin: 4px 0 0 0; font-size: 11pt;"><strong class="text-purple">Continuous</strong></p>
+                <p style="margin: 2px 0 0 0; font-size: 10pt; color: var(--muted-color);">Drift detection · Entropy PRs</p>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px;">
+              <div class="card card-accent-green" style="padding: 14px;">
+                <h3 style="color: var(--accent-green); font-size: 13pt;"><i class="fa-solid fa-bolt"></i> OpenAI Merge Philosophy</h3>
+                <ul style="font-size: 11pt; margin: 6px 0; padding-left: 20px;">
+                  <li>Test flakes → follow-up run ไม่ block merge</li>
+                  <li><strong>Corrections ถูกกว่า indefinite waiting</strong></li>
+                  <li>1,500 PRs, 3.5/dev/day — ไม่มี bottleneck</li>
+                </ul>
+              </div>
+              <div class="card card-accent-orange" style="padding: 14px;">
+                <h3 style="color: var(--secondary-color); font-size: 13pt;"><i class="fa-solid fa-chart-line"></i> Background Entropy Agent</h3>
+                <ul style="font-size: 11pt; margin: 6px 0; padding-left: 20px;">
+                  <li>Scan codebase drift ตลอดเวลา</li>
+                  <li>Auto-generate refactoring PRs</li>
+                  <li>Tech debt = compound interest</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="slide-h3-project-instructions">
+          <h2>📝 Project Instructions — สอน Agent ก่อนลงมือ</h2>
+          <div class="content">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px;">
+              <div>
+                <p style="margin: 0 0 8px 0; font-size: 12pt; color: var(--muted-color);">ชั้น Progressive Disclosure:</p>
+                <div class="card" style="padding: 12px 14px; border-left: 4px solid var(--accent-green); margin-bottom: 8px;">
+                  <p style="margin: 0; font-size: 12pt;"><strong class="text-green">Root CLAUDE.md</strong> — โหลดทุก session</p>
+                  <p style="margin: 4px 0 0 0; font-size: 10pt; color: var(--muted-color);">Identity + TOC + repo rules ~100 บรรทัด</p>
+                </div>
+                <div class="card" style="padding: 12px 14px; border-left: 4px solid var(--accent-blue); margin-bottom: 8px;">
+                  <p style="margin: 0; font-size: 12pt;"><strong class="text-blue">Per-project CLAUDE.md</strong> — โหลดตามงาน</p>
+                  <p style="margin: 4px 0 0 0; font-size: 10pt; color: var(--muted-color);">Context ของ project นั้น ๆ on demand</p>
+                </div>
+                <div class="card" style="padding: 12px 14px; border-left: 4px solid var(--accent-purple);">
+                  <p style="margin: 0; font-size: 12pt;"><strong class="text-purple">Skills (SKILL.md)</strong> — โหลดตาม task</p>
+                  <p style="margin: 4px 0 0 0; font-size: 10pt; color: var(--muted-color);">Reusable workflows as plain markdown</p>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div class="success-box" style="padding: 10px 14px;">
+                  <p style="font-size: 11pt; margin: 0;"><strong>Meta:</strong> 63K installs — root CLAUDE.md lean ตลอด, per-project load on demand → ลด attention dilution</p>
+                </div>
+                <div class="card" style="padding: 10px 14px; border-left: 4px solid var(--secondary-color);">
+                  <p style="margin: 0; font-size: 11pt;"><strong class="text-orange">Skills as Markdown:</strong> 3,000+ community skills ใน 3 เดือน — no compilation, no deployment</p>
+                </div>
+                <div class="warning-box" style="padding: 10px 14px;">
+                  <p style="font-size: 11pt; margin: 0;"><i class="fa-solid fa-lightbulb"></i> โหลดทุกอย่างพร้อมกัน = quality ลด — <strong>Context Window ≠ ยิ่งเยอะยิ่งดี</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="slide-h4-linters">
+          <h2>🧹 Formatting & Linters — Sensor เร็วสุด ถูกสุด</h2>
+          <div class="content">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px;">
+              <div>
+                <p style="margin: 0 0 8px 0; font-size: 12pt; color: var(--muted-color);">Computational Sensors — ทำงานเป็น ms:</p>
+                <pre><code data-trim class="language-yaml"># pre-push hook (Stripe Minions)
+hooks:
+  pre-push:
+    - ruff check .          # Python linter
+    - mypy src/             # Type checker
+    - pytest tests/unit/    # Unit tests
+    - eslint src/           # JS/TS linter
+# Agent แก้ไขเองจนผ่านทั้งหมด
+# คนเห็นแค่ final PR</code></pre>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                  <div class="card card-accent-green" style="padding: 10px 12px; text-align: center;">
+                    <p style="margin: 0; font-size: 10pt;"><strong>Computational</strong></p>
+                    <p style="margin: 4px 0 0 0; font-size: 10pt; color: var(--accent-green);">ms–seconds · ถูก · Deterministic</p>
+                  </div>
+                  <div class="card card-accent-orange" style="padding: 10px 12px; text-align: center;">
+                    <p style="margin: 0; font-size: 10pt;"><strong>Inferential</strong></p>
+                    <p style="margin: 4px 0 0 0; font-size: 10pt; color: var(--secondary-color);">seconds–min · แพง · ไม่ Deterministic</p>
+                  </div>
+                </div>
+                <div class="success-box" style="padding: 10px 14px;">
+                  <p style="font-size: 11pt; margin: 0;"><strong>Stripe Minions:</strong> pre-push hooks = Agent self-correct ก่อน push คนเห็นแค่ final result</p>
+                </div>
+                <div class="card" style="padding: 10px 14px; border-left: 4px solid var(--accent-blue);">
+                  <p style="margin: 0; font-size: 11pt;"><strong class="text-blue">Taste invariants:</strong> Naming, logging structure, file sizes — encode consistency rules ที่ custom linters บังคับ ไม่ต้องพึ่งคนตรวจ</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="slide-h5-tool-integrations">
+          <h2>🔌 Tool Integrations — ขยาย Arm ให้ Agent ถึง External Systems</h2>
+          <div class="content">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px;">
+              <div class="card card-accent-blue" style="padding: 14px;">
+                <h3 style="color: var(--accent-blue); font-size: 13pt;"><i class="fa-solid fa-plug"></i> MCP Servers</h3>
+                <p style="margin: 6px 0 0 0; font-size: 11pt;">Authenticated, scoped access ไป internal tools</p>
+                <ul style="font-size: 10pt; margin: 6px 0 0 0; padding-left: 18px;">
+                  <li>Meetings · Tasks · Wikis</li>
+                  <li>Databases · APIs</li>
+                  <li>Puppeteer (Browser)</li>
+                </ul>
+              </div>
+              <div class="card card-accent-green" style="padding: 14px;">
+                <h3 style="color: var(--accent-green); font-size: 13pt;"><i class="fa-solid fa-terminal"></i> CLIs &amp; Scripts</h3>
+                <p style="margin: 6px 0 0 0; font-size: 11pt;">Agent เรียก shell tools ที่คนใช้อยู่แล้ว</p>
+                <ul style="font-size: 10pt; margin: 6px 0 0 0; padding-left: 18px;">
+                  <li>git, docker, kubectl</li>
+                  <li>Test runners</li>
+                  <li>Build systems</li>
+                </ul>
+              </div>
+              <div class="card card-accent-purple" style="padding: 14px;">
+                <h3 style="color: var(--accent-purple); font-size: 13pt;"><i class="fa-solid fa-scroll"></i> Blueprints (Stripe)</h3>
+                <p style="margin: 6px 0 0 0; font-size: 11pt;">Service-level docs → ลด inference burden</p>
+                <ul style="font-size: 10pt; margin: 6px 0 0 0; padding-left: 18px;">
+                  <li>Contracts, interface specs</li>
+                  <li>Architecture rules</li>
+                  <li>Expected patterns</li>
+                </ul>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+              <div class="success-box" style="padding: 10px 14px;">
+                <p style="font-size: 11pt; margin: 0;"><strong>Meta:</strong> MCP infra ก่อน workflow — "Agent เก่งแค่ไหนก็ตาม ถ้าถึงระบบไม่ได้ก็ทำงานไม่ได้"</p>
+              </div>
+              <div class="card" style="padding: 10px 14px; border-left: 4px solid var(--primary-color);">
+                <p style="margin: 0; font-size: 11pt;"><strong class="text-red">Security:</strong> Least Privilege — MCP scope เฉพาะ sub-task ที่จำเป็น ไม่ให้ Agent เข้าถึงทุกอย่าง</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="slide-h6-feedback">
+          <h2>📊 Feedback Mechanisms — ทำให้ Agent แก้ตัวเองได้</h2>
+          <div class="content">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px;">
+              <div>
+                <p style="margin: 0 0 8px 0; font-size: 12pt; color: var(--muted-color);">Feature List Pattern (Anthropic):</p>
+                <pre><code data-trim class="language-json">{
+  "features": [
+    {
+      "id": "send-message",
+      "test_steps": [
+        "Type 'hello' in input",
+        "Click send button",
+        "Verify response appears"
+      ],
+      "passes": false  ← ทุก feature เริ่มจาก false
+    }
+  ]
+}</code></pre>
+                <p style="margin: 6px 0 0 0; font-size: 10pt; color: var(--muted-color);">Agent แก้ได้แค่ <code>"passes"</code> field — ป้องกัน spec drift</p>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div class="card card-accent-blue" style="padding: 12px 14px;">
+                  <h3 style="color: var(--accent-blue); font-size: 12pt;"><i class="fa-solid fa-bug"></i> Multi-Agent Evaluator</h3>
+                  <p style="margin: 4px 0 0 0; font-size: 11pt;">Generator เขียน → Evaluator ตรวจ Black-box ผ่าน Browser/API — แยก context ป้องกัน self-serving bias</p>
+                </div>
+                <div class="card card-accent-green" style="padding: 12px 14px;">
+                  <h3 style="color: var(--accent-green); font-size: 12pt;"><i class="fa-solid fa-eye"></i> Agent Visibility</h3>
+                  <p style="margin: 4px 0 0 0; font-size: 11pt;">Chrome DevTools + LogQL/PromQL — Agent ต้องเห็น UI + logs ที่ตัวเองสร้าง จึงจะแก้ได้ถูก</p>
+                </div>
+                <div class="warning-box" style="padding: 10px 14px;">
+                  <p style="font-size: 11pt; margin: 0;"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Test ผ่าน ≠ Feature ใช้ได้</strong> — ต้องทำ E2E (Puppeteer) ไม่ใช่แค่ Unit test</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="slide-role-shift">
           <h2>บทบาทเราเปลี่ยนไปแล้ว</h2>
           <div class="content">
@@ -269,7 +508,7 @@
         </section>
 
       <!-- ===== SECTION 3: OPENAI ===== -->
-      <section id="divider-3" class="section-divider" data-state="is-section-divider" data-background-color="#091A2E">
+      <section id="divider-3" class="section-divider" data-state="is-section-divider">
         <p class="emoji-big">🔵</p>
         <h1>OpenAI — Environment-First</h1>
         <p class="subtitle">1M LOC · 1,500 PRs · Zero Manual Code</p>
@@ -417,7 +656,7 @@
         </section>
 
       <!-- ===== SECTION 4: ANTHROPIC ===== -->
-      <section id="divider-4" class="section-divider" data-state="is-section-divider" data-background-color="#0F0A22">
+      <section id="divider-4" class="section-divider" data-state="is-section-divider">
         <p class="emoji-big">🟣</p>
         <h1>Anthropic — Multi-Agent</h1>
         <p class="subtitle">Decoupling + Long-Running Agents</p>
@@ -577,7 +816,7 @@
         </section>
 
       <!-- ===== SECTION 5: GUIDES & SENSORS ===== -->
-      <section id="divider-5" class="section-divider" data-state="is-section-divider" data-background-color="#0A1E0E">
+      <section id="divider-5" class="section-divider" data-state="is-section-divider">
         <p class="emoji-big">🧭</p>
         <h1>Guides & Sensors</h1>
         <p class="subtitle">Böckeler Framework — ThoughtWorks</p>
@@ -747,7 +986,7 @@
         </section>
 
       <!-- ===== SECTION 6: TRAE ===== -->
-      <section id="divider-6" class="section-divider" data-state="is-section-divider" data-background-color="#1C0F00">
+      <section id="divider-6" class="section-divider" data-state="is-section-divider">
         <p class="emoji-big">🔮</p>
         <h1>Trae/ByteDance — R.E.S.T.</h1>
         <p class="subtitle">General Agent Engineering Framework</p>
@@ -916,7 +1155,7 @@
         </section>
 
       <!-- ===== SECTION 7: TRADE-OFFS ===== -->
-      <section id="divider-7" class="section-divider" data-state="is-section-divider" data-background-color="#1E0808">
+      <section id="divider-7" class="section-divider" data-state="is-section-divider">
         <p class="emoji-big">⚡</p>
         <h1>Trade-offs ที่ต้องรู้</h1>
         <p class="subtitle">Cost · Illusion · Decay</p>
@@ -1050,7 +1289,7 @@
         </section>
 
       <!-- ===== CLOSING ===== -->
-      <section id="slide-closing" class="section-divider" data-state="is-section-divider" data-background-color="#0D1117">
+      <section id="slide-closing" class="section-divider" data-state="is-section-divider">
         <p class="emoji-big">🎯</p>
         <h1>ก่อนจะวิ่งให้เร็ว 10x</h1>
         <p class="subtitle">ต้องมั่นใจก่อนว่า ทิศทางและรากฐานแข็งแรงพอ</p>
