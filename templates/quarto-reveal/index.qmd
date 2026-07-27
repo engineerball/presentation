@@ -70,3 +70,75 @@ Replace this with the single most important claim the deck needs to land.
 1. Finalize the narrative spine
 2. Add real evidence, visuals, and numbers
 3. Render, inspect, and revise
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const setupRevealKeyboardSupport = () => {
+    const viewport = document.querySelector(".reveal-viewport") || document.body;
+    const focusDeck = () => {
+      try {
+        viewport.setAttribute("tabindex", "-1");
+        viewport.focus({ preventScroll: true });
+      } catch (_) {}
+      try {
+        document.body.focus({ preventScroll: true });
+      } catch (_) {}
+    };
+
+    focusDeck();
+    ["pointerdown", "mousedown", "touchstart", "click"].forEach((eventName) => {
+      window.addEventListener(eventName, focusDeck, true);
+    });
+
+    window.addEventListener(
+      "keydown",
+      (event) => {
+        const target = event.target;
+        const tagName = target?.tagName?.toUpperCase?.() || "";
+        const isEditable =
+          target?.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT", "BUTTON"].includes(tagName);
+
+        if (isEditable || !window.Reveal) {
+          return;
+        }
+
+        switch (event.key) {
+          case "ArrowRight":
+          case "PageDown":
+          case " ":
+            event.preventDefault();
+            window.Reveal.next();
+            break;
+          case "ArrowLeft":
+          case "PageUp":
+            event.preventDefault();
+            window.Reveal.prev();
+            break;
+          case "ArrowDown":
+            event.preventDefault();
+            window.Reveal.down ? window.Reveal.down() : window.Reveal.next();
+            break;
+          case "ArrowUp":
+            event.preventDefault();
+            window.Reveal.up ? window.Reveal.up() : window.Reveal.prev();
+            break;
+          case "Home":
+            event.preventDefault();
+            window.Reveal.slide(0);
+            break;
+          default:
+            break;
+        }
+      },
+      true
+    );
+  };
+
+  if (window.Reveal?.isReady?.()) {
+    setupRevealKeyboardSupport();
+  } else {
+    window.addEventListener("load", setupRevealKeyboardSupport, { once: true });
+  }
+});
+</script>
