@@ -3,7 +3,7 @@ lang: th
 format:
   revealjs:
     theme: default
-    css: theme.scss
+    css: styles.css
     embed-resources: true
     slide-number: true
     progress: true
