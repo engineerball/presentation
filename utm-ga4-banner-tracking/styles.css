@@ -245,14 +245,14 @@
 
 .title-subtitle {
   font-size: 18pt !important;
-  color: var(--muted-color) !important;
+  color: #5b6880 !important;
   max-width: 1040px;
   margin: 22px auto 0;
 }
 
 .title-meta {
   font-size: 13pt !important;
-  color: var(--soft-muted) !important;
+  color: #6a7892 !important;
   margin-top: 22px;
 }
 

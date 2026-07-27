@@ -29,10 +29,10 @@ format:
 
 ```{=html}
 <div class="text-center">
-  <p class="eyebrow anim-fade-up">Team Discussion Deck</p>
+  <p class="eyebrow">Team Discussion Deck</p>
   <h1>UTM Tracking for Banner Ads</h1>
-  <p class="title-subtitle anim-blur-in">แนวทางวัดผลโฆษณาใน GA4 ให้ข้อมูลสะอาด เทียบกันได้ และต่อยอด optimize ได้จริง</p>
-  <p class="title-meta anim-fade-up">สำหรับทีม Marketing, Product, Analytics และ Engineering</p>
+  <p class="title-subtitle">แนวทางวัดผลโฆษณาใน GA4 ให้ข้อมูลสะอาด เทียบกันได้ และต่อยอด optimize ได้จริง</p>
+  <p class="title-meta">สำหรับทีม Marketing, Product, Analytics และ Engineering</p>
 </div>
 ```
 
