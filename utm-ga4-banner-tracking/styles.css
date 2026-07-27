@@ -489,36 +489,77 @@
   color: var(--soft-muted) !important;
 }
 
-.reveal .fragment.fade-up {
-  opacity: 0;
-  transform: translateY(24px);
+@keyframes fadeUpIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.reveal .fragment.fade-up.visible {
-  opacity: 1;
-  transform: translateY(0);
+@keyframes zoomInSoft {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.reveal .fragment.zoom-in {
-  opacity: 0;
-  transform: scale(0.95);
+@keyframes blurInSoft {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
 }
 
-.reveal .fragment.zoom-in.visible {
-  opacity: 1;
-  transform: scale(1);
+.reveal .slides section.present .anim-fade-up {
+  animation: fadeUpIn 0.65s ease-out both;
 }
 
-.reveal .fragment.blur-in {
-  opacity: 0;
-  filter: blur(6px);
-  transform: translateY(8px);
+.reveal .slides section.present .anim-zoom-in {
+  animation: zoomInSoft 0.6s ease-out both;
 }
 
-.reveal .fragment.blur-in.visible {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
+.reveal .slides section.present .anim-blur-in {
+  animation: blurInSoft 0.7s ease-out both;
+}
+
+.reveal .slides section.present .stats-3col > :nth-child(2),
+.reveal .slides section.present .three-col-grid > :nth-child(2),
+.reveal .slides section.present .card-grid > :nth-child(2),
+.reveal .slides section.present .flow-grid-3 > :nth-child(2),
+.reveal .slides section.present .badge-row > :nth-child(2),
+.reveal .slides section.present .step:nth-of-type(2) {
+  animation-delay: 0.08s;
+}
+
+.reveal .slides section.present .stats-3col > :nth-child(3),
+.reveal .slides section.present .three-col-grid > :nth-child(3),
+.reveal .slides section.present .card-grid > :nth-child(3),
+.reveal .slides section.present .flow-grid-3 > :nth-child(3),
+.reveal .slides section.present .badge-row > :nth-child(3),
+.reveal .slides section.present .step:nth-of-type(3) {
+  animation-delay: 0.16s;
+}
+
+.reveal .slides section.present .flow-grid-3 > :nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+.reveal .slides section.present .flow-grid-3 > :nth-child(5) {
+  animation-delay: 0.32s;
 }
 
 @media (max-width: 1200px) {

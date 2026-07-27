@@ -29,35 +29,35 @@ format:
 
 ```{=html}
 <div class="text-center">
-  <p class="eyebrow fragment fade-up">Team Discussion Deck</p>
+  <p class="eyebrow anim-fade-up">Team Discussion Deck</p>
   <h1>UTM Tracking for Banner Ads</h1>
-  <p class="title-subtitle fragment blur-in">แนวทางวัดผลโฆษณาใน GA4 ให้ข้อมูลสะอาด เทียบกันได้ และต่อยอด optimize ได้จริง</p>
-  <p class="title-meta fragment fade-up">สำหรับทีม Marketing, Product, Analytics และ Engineering</p>
+  <p class="title-subtitle anim-blur-in">แนวทางวัดผลโฆษณาใน GA4 ให้ข้อมูลสะอาด เทียบกันได้ และต่อยอด optimize ได้จริง</p>
+  <p class="title-meta anim-fade-up">สำหรับทีม Marketing, Product, Analytics และ Engineering</p>
 </div>
 ```
 
 ## ทำไมเราต้องคุยเรื่องนี้ตอนนี้
 
 ```{=html}
-<div class="highlight-box fragment fade-up">
+<div class="highlight-box anim-fade-up">
   <p>ตอนนี้เรามี <strong>GA4 ติดตั้งแล้ว</strong>, เปิด <strong>Enhanced Measurement</strong> แล้ว, และเห็นข้อมูลใน <strong>Realtime</strong> แล้ว - แต่ถ้ายังไม่มี UTM standard กลางของทีม เราจะเทียบ performance ของ banner แต่ละตัวได้ไม่ดีพอ</p>
 </div>
 <div class="stats-3col mt-3">
-  <div class="stat-box fragment fade-up">
+  <div class="stat-box anim-fade-up">
     <span class="stat-number text-green">พร้อมแล้ว</span>
     <span class="stat-label">GA4 foundation</span>
   </div>
-  <div class="stat-box fragment fade-up">
+  <div class="stat-box anim-fade-up">
     <span class="stat-number text-orange">ยังขาด</span>
     <span class="stat-label">UTM naming convention</span>
   </div>
-  <div class="stat-box fragment fade-up">
+  <div class="stat-box anim-fade-up">
     <span class="stat-number text-blue">เป้าหมาย</span>
     <span class="stat-label">traffic + conversion visibility</span>
   </div>
 </div>
 <div class="card-grid mt-3">
-  <div class="card card-accent-red fragment zoom-in">
+  <div class="card card-accent-red anim-zoom-in">
     <p class="card-title">ถ้าไม่มีมาตรฐาน</p>
     <ul>
       <li>source สะกดหลายแบบ</li>
@@ -65,7 +65,7 @@ format:
       <li>creative ไหนดีไม่ชัด</li>
     </ul>
   </div>
-  <div class="card card-accent-green fragment zoom-in">
+  <div class="card card-accent-green anim-zoom-in">
     <p class="card-title">ถ้ามีมาตรฐาน</p>
     <ul>
       <li>ดู performance รายเว็บได้</li>
@@ -80,37 +80,37 @@ format:
 
 ```{=html}
 <div class="three-col-grid">
-  <div class="diagram-box fragment fade-up">
+  <div class="diagram-box anim-fade-up">
     <p class="card-title">UTM</p>
     <p class="small">บอกว่า session มาจากไหน</p>
     <p class="small text-muted">source / medium / campaign / content</p>
   </div>
-  <div class="diagram-box fragment fade-up">
+  <div class="diagram-box anim-fade-up">
     <p class="card-title">Events</p>
     <p class="small">บอกว่าผู้ใช้ทำอะไรบนเว็บ</p>
     <p class="small text-muted">click, form_start, form_submit</p>
   </div>
-  <div class="diagram-box fragment fade-up">
+  <div class="diagram-box anim-fade-up">
     <p class="card-title">Key events</p>
     <p class="small">บอกว่าอะไรคือผลลัพธ์ที่ธุรกิจแคร์</p>
     <p class="small text-muted">generate_lead, sign_up, purchase</p>
   </div>
 </div>
-<div class="success-box mt-3 fragment blur-in">
+<div class="success-box mt-3 anim-blur-in">
   <p><strong>สรุป:</strong> UTM อย่างเดียวไม่พอ - มันตอบได้แค่ว่า traffic มาจากไหน แต่ยังไม่ตอบว่า traffic นั้น convert หรือไม่</p>
 </div>
-<div class="step fragment fade-up"><span class="step-num">1</span><div class="step-text"><strong>Banner URL</strong> ต้องติด UTM ให้สม่ำเสมอ</div></div>
-<div class="step fragment fade-up"><span class="step-num">2</span><div class="step-text"><strong>Landing flow</strong> ต้องยิง event สำคัญให้ครบ</div></div>
-<div class="step fragment fade-up"><span class="step-num">3</span><div class="step-text"><strong>GA4</strong> ต้อง mark success event เป็น key event</div></div>
+<div class="step anim-fade-up"><span class="step-num">1</span><div class="step-text"><strong>Banner URL</strong> ต้องติด UTM ให้สม่ำเสมอ</div></div>
+<div class="step anim-fade-up"><span class="step-num">2</span><div class="step-text"><strong>Landing flow</strong> ต้องยิง event สำคัญให้ครบ</div></div>
+<div class="step anim-fade-up"><span class="step-num">3</span><div class="step-text"><strong>GA4</strong> ต้อง mark success event เป็น key event</div></div>
 ```
 
 ## ข้อเสนอ UTM Standard สำหรับทีม
 
 ```{=html}
 <div class="badge-row">
-  <span class="tag tag-blue fragment fade-up">default medium = banner</span>
-  <span class="tag tag-green fragment fade-up">lowercase only</span>
-  <span class="tag tag-orange fragment fade-up">underscore only</span>
+  <span class="tag tag-blue anim-fade-up">default medium = banner</span>
+  <span class="tag tag-green anim-fade-up">lowercase only</span>
+  <span class="tag tag-orange anim-fade-up">underscore only</span>
 </div>
 ```
 
@@ -129,7 +129,7 @@ format:
 ## ตัวอย่างที่ควรใช้จริง
 
 ```{=html}
-<div class="card card-accent-blue fragment fade-up">
+<div class="card card-accent-blue anim-fade-up">
   <p class="card-title">Canonical URL pattern</p>
   <pre><code>https://www.yourdomain.com/landing-page
 ?utm_source=&lt;publisher_name&gt;
@@ -138,7 +138,7 @@ format:
 &amp;utm_content=&lt;placement&gt;_&lt;size&gt;_&lt;variant&gt;</code></pre>
 </div>
 <div class="card-grid mt-3">
-  <div class="card card-accent-green fragment zoom-in">
+  <div class="card card-accent-green anim-zoom-in">
     <p class="card-title">Good examples</p>
     <ul>
       <li><code>utm_source=example_news</code></li>
@@ -146,7 +146,7 @@ format:
       <li><code>utm_content=homepage_top_728x90_v1</code></li>
     </ul>
   </div>
-  <div class="card card-accent-red fragment zoom-in">
+  <div class="card card-accent-red anim-zoom-in">
     <p class="card-title">Avoid these</p>
     <ul>
       <li><code>ExampleNews</code>, <code>example-news</code>, <code>exnews</code></li>
@@ -155,7 +155,7 @@ format:
     </ul>
   </div>
 </div>
-<div class="warning-box mt-2 fragment blur-in">
+<div class="warning-box mt-2 anim-blur-in">
   <p>หลักคิดง่ายๆ: <strong>source = เว็บที่คนคลิกมา</strong>, <strong>campaign = เป้าหมายธุรกิจ</strong>, <strong>content = banner ตัวไหน</strong></p>
 </div>
 ```
@@ -164,38 +164,38 @@ format:
 
 ```{=html}
 <div class="flow-grid-3">
-  <div class="diagram-box fragment fade-up">
+  <div class="diagram-box anim-fade-up">
     <p class="card-title">1. Banner</p>
     <p class="small">อยู่บนเว็บ partner</p>
   </div>
-  <div class="flow-arrow fragment fade-up">→</div>
-  <div class="diagram-box fragment fade-up">
+  <div class="flow-arrow anim-fade-up">→</div>
+  <div class="diagram-box anim-fade-up">
     <p class="card-title">2. Landing URL</p>
     <p class="small">ติด UTM ครบ</p>
   </div>
-  <div class="flow-arrow fragment fade-up">→</div>
-  <div class="diagram-box fragment fade-up">
+  <div class="flow-arrow anim-fade-up">→</div>
+  <div class="diagram-box anim-fade-up">
     <p class="card-title">3. GA4 Session</p>
     <p class="small">source / medium / campaign</p>
   </div>
 </div>
 <div class="flow-grid-3 mt-2">
-  <div class="diagram-box fragment fade-up">
+  <div class="diagram-box anim-fade-up">
     <p class="card-title">4. On-site Event</p>
     <p class="small">click_cta / form_start / form_submit</p>
   </div>
-  <div class="flow-arrow fragment fade-up">→</div>
-  <div class="diagram-box fragment fade-up">
+  <div class="flow-arrow anim-fade-up">→</div>
+  <div class="diagram-box anim-fade-up">
     <p class="card-title">5. Key Event</p>
     <p class="small">generate_lead หรือ sign_up</p>
   </div>
-  <div class="flow-arrow fragment fade-up">→</div>
-  <div class="diagram-box fragment fade-up">
+  <div class="flow-arrow anim-fade-up">→</div>
+  <div class="diagram-box anim-fade-up">
     <p class="card-title">6. Team Report</p>
     <p class="small">เห็น traffic + conversion</p>
   </div>
 </div>
-<div class="highlight-box mt-3 fragment blur-in">
+<div class="highlight-box mt-3 anim-blur-in">
   <p>สิ่งที่ทีมอยากตอบให้ได้ในที่สุดคือ <strong>banner ไหนบนเว็บไหนพา conversion ที่มีคุณภาพมาได้ดีที่สุด</strong> ไม่ใช่แค่ใครพา click มาเยอะที่สุด</p>
 </div>
 ```
@@ -204,7 +204,7 @@ format:
 
 ```{=html}
 <div class="card-grid">
-  <div class="card card-accent-blue fragment fade-up">
+  <div class="card card-accent-blue anim-fade-up">
     <p class="card-title">Minimum event set</p>
     <ul>
       <li><code>page_view</code></li>
@@ -214,7 +214,7 @@ format:
       <li><code>generate_lead</code> หรือ success page view</li>
     </ul>
   </div>
-  <div class="card card-accent-green fragment fade-up">
+  <div class="card card-accent-green anim-fade-up">
     <p class="card-title">ควร mark เป็น key event</p>
     <ul>
       <li><code>generate_lead</code> ถ้าเป็น lead gen</li>
@@ -223,7 +223,7 @@ format:
     </ul>
   </div>
 </div>
-<div class="success-box mt-3 fragment blur-in">
+<div class="success-box mt-3 anim-blur-in">
   <p>ถ้าเรายังไม่มี event success ที่ชัดเจน การ optimize ads จะติดเพดาน เพราะเรารู้เพียงว่า traffic มา - แต่ไม่รู้ว่าธุรกิจได้ผลลัพธ์จริงหรือไม่</p>
 </div>
 ```
@@ -254,7 +254,7 @@ format:
 | - approve UTM convention v1<br>- approve source dictionary<br>- เริ่มใช้ shared generator template | - define success event ที่ใช้ร่วมกัน<br>- mark key event ใน GA4<br>- เริ่มเทียบ placement และ creative |
 
 ```{=html}
-<div class="highlight-box mt-3 fragment blur-in">
+<div class="highlight-box mt-3 anim-blur-in">
   <p><strong>Definition of done รอบแรก:</strong> ทุก banner link ใหม่ต้องออกจาก template กลาง และทีมต้องตอบได้ว่า source ไหน campaign ไหน content ไหนสร้าง lead ได้ดีที่สุด</p>
 </div>
 ```
@@ -263,7 +263,7 @@ format:
 
 ```{=html}
 <div class="text-center">
-  <p class="discussion-title fragment fade-up">Discussion Decisions</p>
-  <p class="title-subtitle fragment blur-in">1) ใช้ <code>utm_medium=banner</code> เป็นมาตรฐานไหม<br>2) ใครเป็น owner ของ source dictionary<br>3) success event หลักของ banner traffic คืออะไร</p>
+  <p class="discussion-title anim-fade-up">Discussion Decisions</p>
+  <p class="title-subtitle anim-blur-in">1) ใช้ <code>utm_medium=banner</code> เป็นมาตรฐานไหม<br>2) ใครเป็น owner ของ source dictionary<br>3) success event หลักของ banner traffic คืออะไร</p>
 </div>
 ```
