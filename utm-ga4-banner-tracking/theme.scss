@@ -57,6 +57,13 @@ $code-block-bg: #0B1220;
   margin: 0 0 8px 0;
 }
 
+.card-title {
+  font-size: 18pt !important;
+  font-weight: 800;
+  color: var(--text-color) !important;
+  margin: 0 0 8px 0;
+}
+
 .reveal p,
 .reveal li,
 .reveal td,
@@ -147,6 +154,10 @@ $code-block-bg: #0B1220;
   text-align: center !important;
 }
 
+.section-divider > h2 {
+  display: none;
+}
+
 .text-center { text-align: center !important; }
 .text-muted { color: var(--muted-color) !important; }
 .text-green { color: var(--accent-green) !important; }
@@ -186,6 +197,28 @@ $code-block-bg: #0B1220;
 .stats-row,
 .card-row {
   margin-top: 16px;
+}
+
+.stats-3col,
+.three-col-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.flow-grid-3 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr) 56px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
 }
 
 .card {
@@ -327,4 +360,17 @@ $code-block-bg: #0B1220;
   margin-top: 12px;
   font-size: 11pt !important;
   color: var(--muted-color) !important;
+}
+
+@media (max-width: 1200px) {
+  .stats-3col,
+  .three-col-grid,
+  .card-grid,
+  .flow-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
 }
