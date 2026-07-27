@@ -2,9 +2,8 @@
 lang: th
 format:
   revealjs:
-    theme:
-      - default
-      - theme.scss
+    theme: default
+    css: theme.scss
     embed-resources: true
     slide-number: true
     progress: true
