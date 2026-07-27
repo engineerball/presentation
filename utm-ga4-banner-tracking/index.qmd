@@ -160,7 +160,7 @@ format:
 </div>
 ```
 
-## ข้อมูลจะไหลอย่างไรตั้งแต่ banner ถึง report
+## ข้อมูลจะไหลอย่างไรตั้งแต่ banner ถึง report {.flow-slide}
 
 ```{=html}
 <div class="flow-grid-3">
