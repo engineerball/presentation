@@ -15,7 +15,7 @@
   --accent-red: #E33737;
   --accent-purple: #BC8CFF;
   --text-color: #E6EDF3;
-  --muted-color: #8B949E;
+  --muted-color: #B8C1CC;
   --card-bg: #161B22;
   --border-color: #30363D;
 }
@@ -258,7 +258,8 @@
 .stat-label {
   display: block;
   margin-top: 6px;
-  font-size: 11pt !important;
+  font-size: 12pt !important;
+  font-weight: 500;
   color: var(--muted-color) !important;
 }
 
@@ -275,7 +276,8 @@
 }
 
 .diagram-box .small {
-  font-size: 12pt !important;
+  font-size: 13pt !important;
+  font-weight: 500;
   color: var(--muted-color) !important;
   margin-top: 6px;
 }
