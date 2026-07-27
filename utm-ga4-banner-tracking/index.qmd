@@ -1,0 +1,293 @@
+---
+title: "UTM Tracking for Banner Ads"
+subtitle: "แนวทางวัดผลโฆษณาใน GA4 ให้ข้อมูลสะอาด เทียบกันได้ และต่อยอด optimize ได้จริง"
+lang: th
+format:
+  revealjs:
+    theme:
+      - default
+      - theme.scss
+    embed-resources: true
+    slide-number: true
+    progress: true
+    controls: true
+    center: false
+    transition: slide
+    width: 1600
+    height: 900
+    margin: 0.04
+    smaller: false
+    incremental: false
+---
+
+## {#title-slide .section-divider}
+
+::: {.text-center}
+<p class="eyebrow">Team Discussion Deck</p>
+# UTM Tracking for Banner Ads
+<p class="title-subtitle">แนวทางวัดผลโฆษณาใน GA4 ให้ข้อมูลสะอาด เทียบกันได้ และต่อยอด optimize ได้จริง</p>
+<p class="title-meta">สำหรับทีม Marketing, Product, Analytics และ Engineering</p>
+:::
+
+## ทำไมเราต้องคุยเรื่องนี้ตอนนี้
+
+::: {.highlight-box}
+ตอนนี้เรามี **GA4 ติดตั้งแล้ว**, เปิด **Enhanced Measurement** แล้ว, และเห็นข้อมูลใน **Realtime** แล้ว - แต่ถ้ายังไม่มี UTM standard กลางของทีม เราจะเทียบ performance ของ banner แต่ละตัวได้ไม่ดีพอ
+:::
+
+:::: {.columns .stats-row}
+::: {.column width="33%"}
+::: {.stat-box}
+<span class="stat-number text-green">พร้อมแล้ว</span>
+<span class="stat-label">GA4 foundation</span>
+:::
+:::
+::: {.column width="33%"}
+::: {.stat-box}
+<span class="stat-number text-orange">ยังขาด</span>
+<span class="stat-label">UTM naming convention</span>
+:::
+:::
+::: {.column width="33%"}
+::: {.stat-box}
+<span class="stat-number text-blue">เป้าหมาย</span>
+<span class="stat-label">traffic + conversion visibility</span>
+:::
+:::
+::::
+
+:::: {.columns .card-row}
+::: {.column width="50%"}
+::: {.card .card-accent-red}
+### ถ้าไม่มีมาตรฐาน
+- source สะกดหลายแบบ
+- campaign เทียบกันยาก
+- creative ไหนดีไม่ชัด
+:::
+:::
+::: {.column width="50%"}
+::: {.card .card-accent-green}
+### ถ้ามีมาตรฐาน
+- ดู performance รายเว็บได้
+- เทียบ placement / size / variant ได้
+- โยงไป conversion ได้จริง
+:::
+:::
+::::
+
+## กรอบความคิดที่ทีมต้องตรงกัน
+
+:::: {.columns}
+::: {.column width="33%"}
+::: {.diagram-box}
+**UTM**
+
+<span class="small">บอกว่า session มาจากไหน</span>
+
+<span class="small text-muted">source / medium / campaign / content</span>
+:::
+:::
+::: {.column width="33%"}
+::: {.diagram-box}
+**Events**
+
+<span class="small">บอกว่าผู้ใช้ทำอะไรบนเว็บ</span>
+
+<span class="small text-muted">click, form_start, form_submit</span>
+:::
+:::
+::: {.column width="33%"}
+::: {.diagram-box}
+**Key events**
+
+<span class="small">บอกว่าอะไรคือผลลัพธ์ที่ธุรกิจแคร์</span>
+
+<span class="small text-muted">generate_lead, sign_up, purchase</span>
+:::
+:::
+::::
+
+::: {.success-box}
+**สรุป:** UTM อย่างเดียวไม่พอ - มันตอบได้แค่ว่า traffic มาจากไหน แต่ยังไม่ตอบว่า traffic นั้น convert หรือไม่
+:::
+
+<div class="step"><span class="step-num">1</span><div class="step-text"><strong>Banner URL</strong> ต้องติด UTM ให้สม่ำเสมอ</div></div>
+<div class="step"><span class="step-num">2</span><div class="step-text"><strong>Landing flow</strong> ต้องยิง event สำคัญให้ครบ</div></div>
+<div class="step"><span class="step-num">3</span><div class="step-text"><strong>GA4</strong> ต้อง mark success event เป็น key event</div></div>
+
+## ข้อเสนอ UTM Standard สำหรับทีม
+
+<div class="badge-row">
+<span class="tag tag-blue">default medium = banner</span>
+<span class="tag tag-green">lowercase only</span>
+<span class="tag tag-orange">underscore only</span>
+</div>
+
+| Parameter | ใช้แทนอะไร | Format ที่แนะนำ |
+|---|---|---|
+| `utm_source` | ชื่อเว็บไซต์หรือ publisher ที่วาง banner | `example_news`, `partner_a` |
+| `utm_medium` | channel type | `banner` |
+| `utm_campaign` | initiative ทางธุรกิจ | `<year><quarter>_<objective>_<theme>` |
+| `utm_content` | placement + size + variant | `<placement>_<size>_<variant>` |
+| `utm_id` | internal campaign id | `cmp_2026q3_014` (optional) |
+
+<p class="footnote">เหตุผลที่เลือก <code>utm_medium=banner</code>: อ่านง่าย, rollout ง่าย, เหมาะกับ manual placements บน external websites</p>
+
+## ตัวอย่างที่ควรใช้จริง
+
+::: {.card .card-accent-blue}
+### Canonical URL pattern
+```text
+https://www.yourdomain.com/landing-page
+?utm_source=<publisher_name>
+&utm_medium=banner
+&utm_campaign=<year><quarter>_<objective>_<theme>
+&utm_content=<placement>_<size>_<variant>
+```
+:::
+
+:::: {.columns .card-row}
+::: {.column width="50%"}
+::: {.card .card-accent-green}
+### Good examples
+- `utm_source=example_news`
+- `utm_campaign=2026q3_leadgen_crm`
+- `utm_content=homepage_top_728x90_v1`
+:::
+:::
+::: {.column width="50%"}
+::: {.card .card-accent-red}
+### Avoid these
+- `ExampleNews`, `example-news`, `exnews`
+- `summerbannerfinal` ที่ไม่สื่อ objective
+- `new_final_latest` ที่เทียบ creative ไม่ได้
+:::
+:::
+::::
+
+::: {.warning-box}
+หลักคิดง่ายๆ: **source = เว็บที่คนคลิกมา**, **campaign = เป้าหมายธุรกิจ**, **content = banner ตัวไหน**
+:::
+
+## ข้อมูลจะไหลอย่างไรตั้งแต่ banner ถึง report
+
+:::: {.columns}
+::: {.column width="30%"}
+::: {.diagram-box}
+1. Banner
+
+<span class="small">อยู่บนเว็บ partner</span>
+:::
+:::
+::: {.column width="5%"}
+<div class="flow-arrow">→</div>
+:::
+::: {.column width="30%"}
+::: {.diagram-box}
+2. Landing URL
+
+<span class="small">ติด UTM ครบ</span>
+:::
+:::
+::: {.column width="5%"}
+<div class="flow-arrow">→</div>
+:::
+::: {.column width="30%"}
+::: {.diagram-box}
+3. GA4 Session
+
+<span class="small">source / medium / campaign</span>
+:::
+:::
+::::
+
+:::: {.columns .mt-2}
+::: {.column width="30%"}
+::: {.diagram-box}
+4. On-site Event
+
+<span class="small">click_cta / form_start / form_submit</span>
+:::
+:::
+::: {.column width="5%"}
+<div class="flow-arrow">→</div>
+:::
+::: {.column width="30%"}
+::: {.diagram-box}
+5. Key Event
+
+<span class="small">generate_lead หรือ sign_up</span>
+:::
+:::
+::: {.column width="5%"}
+<div class="flow-arrow">→</div>
+:::
+::: {.column width="30%"}
+::: {.diagram-box}
+6. Team Report
+
+<span class="small">เห็น traffic + conversion</span>
+:::
+:::
+::::
+
+::: {.highlight-box}
+สิ่งที่ทีมอยากตอบให้ได้ในที่สุดคือ **banner ไหนบนเว็บไหนพา conversion ที่มีคุณภาพมาได้ดีที่สุด** ไม่ใช่แค่ใครพา click มาเยอะที่สุด
+:::
+
+## Event และ Key Event ที่ควรเริ่มเก็บ
+
+:::: {.columns .card-row}
+::: {.column width="50%"}
+::: {.card .card-accent-blue}
+### Minimum event set
+- `page_view`
+- `click_cta`
+- `form_start`
+- `form_submit`
+- `generate_lead` หรือ success page view
+:::
+:::
+::: {.column width="50%"}
+::: {.card .card-accent-green}
+### ควร mark เป็น key event
+- `generate_lead` ถ้าเป็น lead gen
+- `sign_up` ถ้าเป้าหมายคือสมัครใช้งาน
+- `purchase` ถ้าเป็น ecommerce
+:::
+:::
+::::
+
+::: {.success-box}
+ถ้าเรายังไม่มี event success ที่ชัดเจน การ optimize ads จะติดเพดาน เพราะเรารู้เพียงว่า traffic มา - แต่ไม่รู้ว่าธุรกิจได้ผลลัพธ์จริงหรือไม่
+:::
+
+## Operating Model ที่ทีมควรใช้
+
+1. **Marketing** เป็นเจ้าของ campaign naming
+2. **Partnerships / Media** เป็นเจ้าของ publisher naming
+3. **Analytics** ตรวจ QA ลิงก์และดูว่า data เข้า GA4 ถูกต้อง
+4. **Product / Engineering** ช่วยให้ event success ถูกยิงอย่างเชื่อถือได้
+
+### QA checklist
+
+- URL เปิดได้จริง
+- UTM ครบและเป็น lowercase
+- Realtime เห็น source / medium / campaign
+- success event ยิงจริง
+- report เทียบ content ได้
+
+<p class="footnote">หลักสำคัญ: ไม่ให้ใคร generate UTM แบบ free-form โดยไม่มี dictionary กลาง</p>
+
+## ข้อเสนอ rollout แบบ practical
+
+| Phase 1 - This week | Phase 2 - Next |
+|---|---|
+| - approve UTM convention v1<br>- approve source dictionary<br>- เริ่มใช้ shared generator template | - define success event ที่ใช้ร่วมกัน<br>- mark key event ใน GA4<br>- เริ่มเทียบ placement และ creative |
+
+<p class="footnote"><strong>Definition of done รอบแรก:</strong> ทุก banner link ใหม่ต้องออกจาก template กลาง และทีมต้องตอบได้ว่า source ไหน campaign ไหน content ไหนสร้าง lead ได้ดีที่สุด</p>
+
+## {#discussion-decisions .section-divider}
+
+<p class="discussion-title text-center">Discussion Decisions</p>
+<p class="title-subtitle text-center">1) ใช้ <code>utm_medium=banner</code> เป็นมาตรฐานไหม<br>2) ใครเป็น owner ของ source dictionary<br>3) success event หลักของ banner traffic คืออะไร</p>

@@ -1,0 +1,64 @@
+/*-- scss:defaults --*/
+$body-bg: #0D1117;
+$body-color: #E6EDF3;
+$link-color: #58A6FF;
+$presentation-heading-color: #E6EDF3;
+$presentation-font-size-root: 24px;
+$presentation-h1-font-size: 2.2em;
+$presentation-h2-font-size: 1.35em;
+$presentation-heading-font: "Inter", "Noto Sans Thai", sans-serif;
+$font-family-sans-serif: "Inter", "Noto Sans Thai", sans-serif;
+$code-color: #58A6FF;
+$code-block-bg: #161B22;
+
+/*-- scss:rules --*/
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slide-number {
+  color: #8B949E !important;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  font-weight: 800;
+  text-transform: none;
+}
+
+.reveal h2 {
+  color: #58A6FF;
+}
+
+.reveal p,
+.reveal li,
+.reveal td,
+.reveal th {
+  line-height: 1.45;
+}
+
+.reveal ul {
+  margin-top: 0.5rem;
+}
+
+.reveal .callout {
+  border-radius: 14px;
+  border: 1px solid #30363D;
+}
+
+.reveal .callout.callout-note {
+  background: rgba(88, 166, 255, 0.10);
+}
+
+.reveal .callout.callout-important {
+  background: rgba(240, 136, 0, 0.10);
+}
+
+.reveal table {
+  font-size: 0.78em;
+}
+
+.reveal pre code {
+  font-size: 0.8em;
+}

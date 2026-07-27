@@ -8,12 +8,35 @@ Collection of standalone Reveal.js presentations. No build step — open any `in
 
 ## Creating/Editing Presentations
 
-Always invoke the `revealjs:revealjs` skill before doing any presentation work — it contains the full workflow.
+Prefer **Quarto + RevealJS** for new presentations.
+The Quarto workflow keeps the source in readable Markdown-like `index.qmd`, renders to `index.html`, and is much easier for agents and humans to revise.
+Read `QUARTO.md` first when creating a new deck.
 
-**When creating a new presentation:** after the presentation is complete, add a card for it in `/index.html`. Match the existing card pattern — pick the appropriate tag color (`tag-eng`, `tag-gcp`, `tag-ml`, `tag-data`, `tag-finops`) and write a one-line description.
+Existing hand-authored RevealJS decks can still be edited directly when needed.
 
+**When creating a new presentation:** after the presentation is complete, add a card for it in `/index.html`. Match the existing card pattern - pick the appropriate tag color (`tag-eng`, `tag-gcp`, `tag-ml`, `tag-data`, `tag-finops`) and write a one-line description.
 
-### Common commands
+### Preferred Quarto commands
+
+```bash
+# Create scaffold
+scripts/create-quarto-presentation.sh <slug> "Title"
+
+# Render to index.html
+scripts/render-quarto-presentation.sh <slug>
+
+# Capture screenshots of all slides
+cd <presentation-dir>
+npx decktape reveal "file:///$(pwd)/index.html?export" output.pdf \
+  --size 1600x900 \
+  --pause 400 \
+  --load-pause 1500 \
+  --screenshots \
+  --screenshots-directory "screenshots/$(date +%Y%m%d_%H%M%S)" \
+  --chrome-arg=--no-sandbox
+```
+
+### Legacy RevealJS commands
 
 ```bash
 # Generate HTML scaffold

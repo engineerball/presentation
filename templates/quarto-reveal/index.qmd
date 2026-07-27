@@ -1,0 +1,72 @@
+---
+title: "__TITLE__"
+subtitle: "Discussion deck"
+format:
+  revealjs:
+    theme:
+      - default
+      - theme.scss
+    embed-resources: true
+    slide-number: true
+    progress: true
+    controls: true
+    center: false
+    transition: slide
+    width: 1600
+    height: 900
+    margin: 0.04
+    smaller: false
+    chalkboard: false
+    incremental: false
+---
+
+## Why this talk matters
+
+::: {.callout-note}
+This deck is authored in `index.qmd` and rendered with Quarto + RevealJS.
+Use the source to shape the argument.
+Do not edit the generated HTML by hand unless debugging rendering output.
+:::
+
+- Start with the decision the audience needs to make
+- Keep one core idea per slide
+- Delete before shrinking
+
+## Suggested agenda
+
+:::: {.columns}
+::: {.column width="50%"}
+- Context
+- Problem
+- Proposal
+:::
+::: {.column width="50%"}
+- Tradeoffs
+- Rollout plan
+- Decision points
+:::
+::::
+
+## Main argument
+
+::: {.callout-important}
+Replace this with the single most important claim the deck needs to land.
+:::
+
+- What changed?
+- Why now?
+- Why this approach?
+
+## Comparison
+
+| Option | Upside | Risk |
+|---|---|---|
+| A | Fastest path | Lower flexibility |
+| B | Better long-term structure | More setup |
+| C | Minimal change | Weakest leverage |
+
+## Next steps
+
+1. Finalize the narrative spine
+2. Add real evidence, visuals, and numbers
+3. Render, inspect, and revise

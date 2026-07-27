@@ -2,3 +2,5 @@
 **/screenshots/
 **/shots/
 **/*.pdf
+**/.quarto/
+**/*_files/
