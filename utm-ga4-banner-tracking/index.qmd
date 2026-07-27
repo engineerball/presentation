@@ -28,19 +28,21 @@ format:
 
 ## UTM Tracking for Banner Ads {.section-divider}
 
+```{=html}
 <div class="text-center">
   <p class="eyebrow">Team Discussion Deck</p>
   <h1>UTM Tracking for Banner Ads</h1>
   <p class="title-subtitle">แนวทางวัดผลโฆษณาใน GA4 ให้ข้อมูลสะอาด เทียบกันได้ และต่อยอด optimize ได้จริง</p>
   <p class="title-meta">สำหรับทีม Marketing, Product, Analytics และ Engineering</p>
 </div>
+```
 
 ## ทำไมเราต้องคุยเรื่องนี้ตอนนี้
 
+```{=html}
 <div class="highlight-box">
   <p>ตอนนี้เรามี <strong>GA4 ติดตั้งแล้ว</strong>, เปิด <strong>Enhanced Measurement</strong> แล้ว, และเห็นข้อมูลใน <strong>Realtime</strong> แล้ว - แต่ถ้ายังไม่มี UTM standard กลางของทีม เราจะเทียบ performance ของ banner แต่ละตัวได้ไม่ดีพอ</p>
 </div>
-
 <div class="stats-3col mt-3">
   <div class="stat-box">
     <span class="stat-number text-green">พร้อมแล้ว</span>
@@ -55,7 +57,6 @@ format:
     <span class="stat-label">traffic + conversion visibility</span>
   </div>
 </div>
-
 <div class="card-grid mt-3">
   <div class="card card-accent-red">
     <p class="card-title">ถ้าไม่มีมาตรฐาน</p>
@@ -74,9 +75,11 @@ format:
     </ul>
   </div>
 </div>
+```
 
 ## กรอบความคิดที่ทีมต้องตรงกัน
 
+```{=html}
 <div class="three-col-grid">
   <div class="diagram-box">
     <p class="card-title">UTM</p>
@@ -94,22 +97,23 @@ format:
     <p class="small text-muted">generate_lead, sign_up, purchase</p>
   </div>
 </div>
-
 <div class="success-box mt-3">
   <p><strong>สรุป:</strong> UTM อย่างเดียวไม่พอ - มันตอบได้แค่ว่า traffic มาจากไหน แต่ยังไม่ตอบว่า traffic นั้น convert หรือไม่</p>
 </div>
-
 <div class="step"><span class="step-num">1</span><div class="step-text"><strong>Banner URL</strong> ต้องติด UTM ให้สม่ำเสมอ</div></div>
 <div class="step"><span class="step-num">2</span><div class="step-text"><strong>Landing flow</strong> ต้องยิง event สำคัญให้ครบ</div></div>
 <div class="step"><span class="step-num">3</span><div class="step-text"><strong>GA4</strong> ต้อง mark success event เป็น key event</div></div>
+```
 
 ## ข้อเสนอ UTM Standard สำหรับทีม
 
+```{=html}
 <div class="badge-row">
   <span class="tag tag-blue">default medium = banner</span>
   <span class="tag tag-green">lowercase only</span>
   <span class="tag tag-orange">underscore only</span>
 </div>
+```
 
 | Parameter | ใช้แทนอะไร | Format ที่แนะนำ |
 |---|---|---|
@@ -119,10 +123,13 @@ format:
 | `utm_content` | placement + size + variant | `<placement>_<size>_<variant>` |
 | `utm_id` | internal campaign id | `cmp_2026q3_014` (optional) |
 
+```{=html}
 <p class="footnote">เหตุผลที่เลือก <code>utm_medium=banner</code>: อ่านง่าย, rollout ง่าย, เหมาะกับ manual placements บน external websites</p>
+```
 
 ## ตัวอย่างที่ควรใช้จริง
 
+```{=html}
 <div class="card card-accent-blue">
   <p class="card-title">Canonical URL pattern</p>
   <pre><code>https://www.yourdomain.com/landing-page
@@ -131,7 +138,6 @@ format:
 &amp;utm_campaign=&lt;year&gt;&lt;quarter&gt;_&lt;objective&gt;_&lt;theme&gt;
 &amp;utm_content=&lt;placement&gt;_&lt;size&gt;_&lt;variant&gt;</code></pre>
 </div>
-
 <div class="card-grid mt-3">
   <div class="card card-accent-green">
     <p class="card-title">Good examples</p>
@@ -150,13 +156,14 @@ format:
     </ul>
   </div>
 </div>
-
 <div class="warning-box mt-2">
   <p>หลักคิดง่ายๆ: <strong>source = เว็บที่คนคลิกมา</strong>, <strong>campaign = เป้าหมายธุรกิจ</strong>, <strong>content = banner ตัวไหน</strong></p>
 </div>
+```
 
 ## ข้อมูลจะไหลอย่างไรตั้งแต่ banner ถึง report
 
+```{=html}
 <div class="flow-grid-3">
   <div class="diagram-box">
     <p class="card-title">1. Banner</p>
@@ -173,7 +180,6 @@ format:
     <p class="small">source / medium / campaign</p>
   </div>
 </div>
-
 <div class="flow-grid-3 mt-2">
   <div class="diagram-box">
     <p class="card-title">4. On-site Event</p>
@@ -190,13 +196,14 @@ format:
     <p class="small">เห็น traffic + conversion</p>
   </div>
 </div>
-
 <div class="highlight-box mt-3">
   <p>สิ่งที่ทีมอยากตอบให้ได้ในที่สุดคือ <strong>banner ไหนบนเว็บไหนพา conversion ที่มีคุณภาพมาได้ดีที่สุด</strong> ไม่ใช่แค่ใครพา click มาเยอะที่สุด</p>
 </div>
+```
 
 ## Event และ Key Event ที่ควรเริ่มเก็บ
 
+```{=html}
 <div class="card-grid">
   <div class="card card-accent-blue">
     <p class="card-title">Minimum event set</p>
@@ -217,10 +224,10 @@ format:
     </ul>
   </div>
 </div>
-
 <div class="success-box mt-3">
   <p>ถ้าเรายังไม่มี event success ที่ชัดเจน การ optimize ads จะติดเพดาน เพราะเรารู้เพียงว่า traffic มา - แต่ไม่รู้ว่าธุรกิจได้ผลลัพธ์จริงหรือไม่</p>
 </div>
+```
 
 ## Operating Model ที่ทีมควรใช้
 
@@ -237,7 +244,9 @@ format:
 - success event ยิงจริง
 - report เทียบ content ได้
 
+```{=html}
 <p class="footnote">หลักสำคัญ: ไม่ให้ใคร generate UTM แบบ free-form โดยไม่มี dictionary กลาง</p>
+```
 
 ## ข้อเสนอ rollout แบบ practical
 
@@ -245,13 +254,17 @@ format:
 |---|---|
 | - approve UTM convention v1<br>- approve source dictionary<br>- เริ่มใช้ shared generator template | - define success event ที่ใช้ร่วมกัน<br>- mark key event ใน GA4<br>- เริ่มเทียบ placement และ creative |
 
+```{=html}
 <div class="highlight-box mt-3">
   <p><strong>Definition of done รอบแรก:</strong> ทุก banner link ใหม่ต้องออกจาก template กลาง และทีมต้องตอบได้ว่า source ไหน campaign ไหน content ไหนสร้าง lead ได้ดีที่สุด</p>
 </div>
+```
 
 ## Discussion Decisions {.section-divider}
 
+```{=html}
 <div class="text-center">
   <p class="discussion-title">Discussion Decisions</p>
   <p class="title-subtitle">1) ใช้ <code>utm_medium=banner</code> เป็นมาตรฐานไหม<br>2) ใครเป็น owner ของ source dictionary<br>3) success event หลักของ banner traffic คืออะไร</p>
 </div>
+```
